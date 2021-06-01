@@ -11,6 +11,7 @@ router.use(jwt({ secret: process.env.SECRET,
 
 router.use((err, req, res, next) => {
   if(err.name === 'UnauthorizedError') {
+    console.log(err.message);
     res.status(err.status).send({message:err.message});
     return;
   }

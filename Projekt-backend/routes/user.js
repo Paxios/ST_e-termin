@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
   if (user != null) {
     const isCorrect = security.check_password_with_hash(req.body.geslo, user.geslo)
     if (isCorrect) {
-      const token = security.createJWT(user._id)
+      const token = security.createJWT(user)
       res.set("Authorization",`Bearer ${token}`)
       res.json({ authenticated: isCorrect });
     }

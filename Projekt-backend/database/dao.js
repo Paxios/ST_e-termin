@@ -87,6 +87,7 @@ const register = async (user_details) => {
     const new_user = database.User({
         uporabnisko_ime: user_details.uporabnisko_ime,
         geslo: geslo,
+        id_podjetje: user_details.id_podjetje,
         _id: mongoose.Types.ObjectId()
     });
 

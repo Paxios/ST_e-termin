@@ -12,12 +12,13 @@ const check_password_with_hash = (password, hash) => {
     return bcrypt.compareSync(password,hash)
 }
 
-const createJWT = (user_id) => {
+const createJWT = (user) => {
     return token = jwt.sign(
         { 
             iat: Math.floor(Date.now() / 1000),
             exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-            user_id,
+            user_id: user._id,
+            company_id: user.id_podjetje,
             iss: "ČŽS_e-Termin",
          },
         process.env.SECRET);

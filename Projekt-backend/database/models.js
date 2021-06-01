@@ -27,7 +27,8 @@ const Rezervacija = mongoose.model("Rezervacija", rezervacija_model, "rezervacij
 const user_model = {
     _id: mongoose.Schema.ObjectId,
     uporabnisko_ime: String,
-    geslo: String
+    geslo: String,
+    id_podjetje: String
 }
 const User = mongoose.model("User", user_model, "uporabniki")
 
