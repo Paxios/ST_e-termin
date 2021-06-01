@@ -3,5 +3,6 @@ export const LOGIN_URL = `${BACKEND_URL}/user/login`
 export const REGISTER_URL = `${BACKEND_URL}/user/register`
 export const STORITEV_PREFIX = "/storitev/"
 export const ZASEDENI_TERMINI_URL = "/zasedeni_termini"
-export const RESERVATIONS_URL = `${BACKEND_URL}/rezervacije`
+export const RESERVATIONS_SUFFIX = '/rezervacije'
+export const RESERVATION_SUFFIX = '/rezervacija'
 export const SINGLE_RESERVATION_URL = `${BACKEND_URL}/rezervacija/`

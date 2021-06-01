@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
-import UserService from '../services/UserService'
-import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
-import Dialog from '@material-ui/core/Dialog';
-import TextField from '@material-ui/core/TextField';
-import Collapse from '@material-ui/core/Collapse';
 import { withRouter } from 'react-router-dom'
 import LoginDialogComponent from './LoginDialogComponent'
 
@@ -15,7 +9,7 @@ class HeaderComponent extends Component {
 
         this.state = {
             loginShowing: false,
-            loggedIn: window.sessionStorage.getItem("user_id"),
+            loggedIn: window.sessionStorage.getItem("user"),
             username: "",
             password: ""
         };
@@ -24,6 +18,10 @@ class HeaderComponent extends Component {
 
     handleLoginDialogClickOpen = () => {
         this.setState({ loginShowing: true });
+    };
+
+    handleLoginDialogClickClose = () => {
+        this.setState({ loginShowing: false });
     };
 
     log_in_successful = () => {
@@ -40,12 +38,12 @@ class HeaderComponent extends Component {
     }
 
     navigatePageAfterLogIn() {
-        this.props.history.push("/");
+        this.props.history.push("/overview");
+        window.location.reload()
     }
 
     render() {
         const { loggedIn } = this.state;
-        console.log(loggedIn);
         var initialHref = window.location.href;
         return (
             <div>
@@ -55,7 +53,7 @@ class HeaderComponent extends Component {
                         {loggedIn
                             ? <Button style={{ marginLeft: "10px" }}
                                 onClick={() => {
-                                    window.sessionStorage.removeItem("user_id");
+                                    window.sessionStorage.removeItem("user");
                                     this.setState({ loggedIn: !loggedIn });
                                     window.location = initialHref;
                                 }} variant="contained" color="primary">
@@ -70,7 +68,7 @@ class HeaderComponent extends Component {
                                     this.navigateRegister();
                                 }} variant="contained" color="secondary">Register</Button>
 
-                                <LoginDialogComponent isShowing={this.state.loginShowing} logInSuccessful={this.log_in_successful} />
+                                <LoginDialogComponent handleLoginDialogClickClose={this.handleLoginDialogClickClose} isShowing={this.state.loginShowing} logInSuccessful={this.log_in_successful} />
                             </div>
                         }
 

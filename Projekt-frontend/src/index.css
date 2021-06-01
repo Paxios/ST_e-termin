@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.fab_add_reservation{
+  margin: 0px;
+  top: auto;
+  right: 20px;
+  bottom: 20px;
+  left: auto;
+  z-index: 1;
+  position: absolute !important;
+}
+
+.dialog_add_new_reservation{
+}

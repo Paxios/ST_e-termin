@@ -6,8 +6,6 @@ import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
-import {withRouter} from 'react-router-dom'
-
 
 class LoginDialogComponent extends Component {
     constructor(props) {
@@ -27,7 +25,7 @@ class LoginDialogComponent extends Component {
 
     render() {
         return (
-            <Dialog onClose={this.handleLoginDialogClickClose} open={this.props.isShowing}>
+            <Dialog onClose={this.props.handleLoginDialogClickClose} open={this.props.isShowing}>
             <form >
                 <TextField id="outlined-basic" required label="Username" variant="outlined" style={{ marginTop: "100px", marginLeft: "100px", marginRight: "100px" }}
                     onChange={(e) => { this.setState({ username: e.target.value }) }} /> <br /> <br />
@@ -43,7 +41,13 @@ class LoginDialogComponent extends Component {
                         UserService.login(this.state.username, this.state.password).then((resp) => {
                             this.props.logInSuccessful();
                             const decodedJWT = (UserService.decodeJWT(resp.headers.authorization))
-                            window.sessionStorage.setItem("user_id", decodedJWT.user_id);
+                            window.sessionStorage.setItem("user", JSON.stringify(
+                                {
+                                user_id: decodedJWT.user_id,
+                            company_id: decodedJWT.company_id,
+                            jwt: resp.headers.authorization
+                        }));
+
                         })
                             .catch((err) => {
                                 if (err.response)

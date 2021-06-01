@@ -14,11 +14,13 @@ class UserService {
         return response;
     }
 
-    register(username,password){
+    register(username,password, company_id){
         const body = {}
-        body["uporabnisko_ime"] = username;
-        body["geslo"] = password;
-        const response = client.post(REGISTER_URL, body)
+        body["uporabnisko_ime"] = username + "";
+        body["geslo"] = password + "";
+        body["id_podjetje"] = company_id + "";
+        const response = client.post(REGISTER_URL, body);
+        console.log(response)
         return response;
     }
 
