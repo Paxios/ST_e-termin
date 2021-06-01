@@ -21,8 +21,15 @@ router.post("/register", async (req, res) => {
 });
 
 //GET login
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
+
+  if(!(("uporabnisko_ime" in req.body) || ("geslo" in req.body)) ){
+    res.status(400).json({ status: "ERROR", code: 401, reason: "missing arguments" })
+    return
+  }
+
   const user = await database.getUserByUsername(req.body.uporabnisko_ime)
+
   if (user != null) {
     const isCorrect = security.check_password_with_hash(req.body.geslo, user.geslo)
     if (isCorrect) {

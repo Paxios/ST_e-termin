@@ -3,6 +3,7 @@ var router = express.Router();
 var database = require('../database/dao')
 var verifikacija = require('../verification/verification')
 var jwt = require('express-jwt');
+var cors = require('cors')
 
 router.use(jwt({ secret: process.env.SECRET,
   algorithms: ['HS256']
@@ -15,6 +16,10 @@ router.use((err, req, res, next) => {
   }
 next();
 });
+
+router.use(cors({exposedHeaders:['Authorization']}))
+
+
 
 //GET rezervacija by ID
 router.get("/rezervacija/:id", async (req, res) => {
