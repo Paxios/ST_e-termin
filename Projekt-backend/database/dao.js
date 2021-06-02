@@ -66,6 +66,7 @@ const getSeznamZasedenihTerminov = async (companyId) => {
         end_date = new Date(rezervacija.datum);
         end_date.setMinutes(end_date.getMinutes() + rezervacija.trajanje);
 
+        termin["storitev"] = rezervacija.id_storitev
         termin["start_date"] = date;
         termin["end_date"] = end_date;
         zasedeniTermini.push(termin);

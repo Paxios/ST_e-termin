@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 // import ListCustomerComponent from './components/ListCustomerComponent';
 // import ListCouponComponent from './components/ListCouponComponent';
 import HeaderComponent from './components/HeaderComponent';
-import FooterComponent from './components/FooterComponent';
+// import FooterComponent from './components/FooterComponent';
 // import CreateCustomerComponent from './components/CreateCustomerComponent';
 // import CreateCouponComponent from './components/CreateCouponComponent';
 import RegisterComponent from './components/RegisterComponent';
 import ReservationsOverviewComponent from './components/ReservationsOverviewComponent';
+import TimelineComponent from './components/TimelineComponent';
 
 function App() {
   const loggedIn = JSON.parse(window.sessionStorage.getItem("user"));
@@ -21,6 +22,7 @@ function App() {
             ?
             <Switch>
               <Route path="/overview" render={() => <ReservationsOverviewComponent user={loggedIn}/>}></Route>
+              <Route path="/timeline" component={TimelineComponent}></Route>
               {/* <Route path = "/customers" component = {ListCustomerComponent}></Route>
                       <Route path = "/coupons" component = {ListCouponComponent}></Route>
                       <Route path = "/add-customer/:id" component = {CreateCustomerComponent}></Route>
@@ -33,7 +35,7 @@ function App() {
             </Switch>
           }
         </div>
-        <FooterComponent />
+        {/* <FooterComponent /> */}
       </Router>
     </div>
 

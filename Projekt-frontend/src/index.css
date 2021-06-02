@@ -15,11 +15,45 @@ code {
 .fab_add_reservation{
   margin: 0px;
   top: auto;
-  right: 20px;
+  right: 20px ;
   bottom: 20px;
-  left: auto;
+  left: 60000px;
   z-index: 1;
-  position: absolute !important;
+  position: sticky !important;
+}
+
+.edit-reservation{
+  float:right;
+}
+.delete-reservation{
+  float: right;
+  /* position: sticky !important; */
+}
+
+.header-root{
+  flex-grow: 10;
+  padding-bottom: 5em;
+}
+.menuButton{
+  margin-right: 1em;
+}
+.title{
+  flex-grow: 1;
+}
+
+.head-appbar{
+  position:"sticky" !important;
+}
+
+.drawer-list{
+  width: 20em;
+}
+
+.drawer-list:first-child{
+  padding-top: 5em;
+}
+.drawer-list-element{
+  padding: 1em;
 }
 
 .dialog_add_new_reservation{
