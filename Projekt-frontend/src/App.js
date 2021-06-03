@@ -10,6 +10,7 @@ import HeaderComponent from './components/HeaderComponent';
 import RegisterComponent from './components/RegisterComponent';
 import ReservationsOverviewComponent from './components/ReservationsOverviewComponent';
 import TimelineComponent from './components/TimelineComponent';
+import ServicesOverviewComponent from './components/ServicesOverviewComponent';
 
 function App() {
   const loggedIn = JSON.parse(window.sessionStorage.getItem("user"));
@@ -21,6 +22,7 @@ function App() {
           {loggedIn
             ?
             <Switch>
+              <Route path="/services" render={() => <ServicesOverviewComponent user={loggedIn}/>}></Route>
               <Route path="/overview" render={() => <ReservationsOverviewComponent user={loggedIn}/>}></Route>
               <Route path="/timeline" component={TimelineComponent}></Route>
               {/* <Route path = "/customers" component = {ListCustomerComponent}></Route>

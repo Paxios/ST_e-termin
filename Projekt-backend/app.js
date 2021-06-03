@@ -9,6 +9,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
+var servicesRouter = require('./routes/services');
 var app = express();
 
 
@@ -20,5 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
+app.use('/storitev', servicesRouter);
 
 module.exports = app;

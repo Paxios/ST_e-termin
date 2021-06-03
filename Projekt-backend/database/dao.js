@@ -106,7 +106,11 @@ const getUserByUsername = async (uporabnisko_ime) => {
     return await database.User.findOne({uporabnisko_ime});
 }
 
+const getSeznamStoritev = async () => {
+    return await database.Storitev.find({});
+}
 
+exports.getSeznamStoritev = getSeznamStoritev;
 exports.getRezervacijeByCompanyId = getRezervacijeByCompanyId;
 exports.getRezervacijaById = getRezervacijaById;
 exports.insertNewRezervacija = insertNewRezervacija;

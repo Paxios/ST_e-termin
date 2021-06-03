@@ -32,6 +32,56 @@ const user_model = {
 }
 const User = mongoose.model("User", user_model, "uporabniki")
 
+const storitev_model = {
+    _id: mongoose.Schema.ObjectId,
+    ime: String,
+    naslov: String,
+    tip: String,
+    lokacija: String,
+    opis: String,
+    ponudba: [{
+        cena: String,
+        ime: String,
+        opis: String
+    }],
+    zaposleni: [{
+        naziv: String,
+        telefon: String
+    }],
+    delovniCas: {
+        pon:{
+            zacetek: String,
+            konec: String
+        },
+        tor:{
+            zacetek: String,
+            konec: String
+        },
+        sre:{
+            zacetek: String,
+            konec: String
+        },
+        cet:{
+            zacetek: String,
+            konec: String
+        },
+        pet:{
+            zacetek: String,
+            konec: String
+        },
+        sob:{
+            zacetek: String,
+            konec: String
+        },
+        ned:{
+            zacetek: String,
+            konec: String
+        }
+    }
+};
+const Storitev = mongoose.model("Storitev", storitev_model, "storitve")
+
+module.exports.Storitev = Storitev;
 module.exports.User = User;
 module.exports.Rezervacija = Rezervacija;
 module.exports.Stranka = Stranka;

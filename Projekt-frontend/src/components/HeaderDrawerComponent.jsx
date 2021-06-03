@@ -23,6 +23,11 @@ class HeaderDrawerComponent extends Component {
         this.props.history.push(`/${destination}`);
     }
 
+    navigateServices(destination) {
+        this.props.changeDrawerStatus(false);
+        this.props.history.push(`/${destination}`);
+    }
+
     render() {
         return (
 
@@ -36,6 +41,14 @@ class HeaderDrawerComponent extends Component {
                             onOpen={this.props.toggleDrawer(true)}
                         >
                             <List className="drawer-list">
+                            <ListItem className="drawer-list-element" button key="services" onClick={() => {
+                                    this.navigateServices("services")
+                                }
+                                }>
+                                    <ListItemIcon><ScheduleIcon color="primary" /></ListItemIcon>
+                                    <ListItemText primary="Services" />
+                                </ListItem><Divider />
+
                                 <ListItem className="drawer-list-element" button key="reservations" onClick={() => {
                                     this.navigateReservartions("overview")
                                 }
