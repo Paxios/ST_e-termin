@@ -10,32 +10,51 @@ import ReservationsListComponent from './ReservationsListComponent';
 import EditReservationDialogComponent from './EditReservationDialogComponent';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import { REFRESH_TIME } from '../Constants'
 
-
-
-class FooterComponent extends Component {
+class ReservationsOverviewComponent extends Component {
     constructor(props) {
         super(props)
-        this.loadRezervacije()
         this.state = {
             rezervacije: [],
             isAddReservationShowing: false,
             isEditReservationShowing: false,
             editReservation: {},
-            openSnackbar:false,
-            snackbarMessage:""
+            openSnackbar: false,
+            snackbarMessage: "",
+            isOnline: navigator.onLine
         }
+    }
 
+    povezava = () => {
+        this.setState({ "isOnline": true });
+    }
+
+    niPovezave = () => {
+        this.setState({ "isOnline": false,
+        isAddReservationShowing:false,
+        isEditReservationShowing:false
+     });
     }
 
     loadRezervacije = () => {
-        ReservationService.rezervacije_by_company_id(this.props.user.company_id).then((response) => {
-            this.setState({ rezervacije: response.data })
-            return response;
-        }).catch((error) => {
-            console.log(error)
-            return null;
-        });
+        ReservationService.overview_loadRezervacije(this)
+    }
+
+    componentDidMount() {
+        window.addEventListener("online", this.povezava, false);
+        window.addEventListener("offline", this.niPovezave, false);
+        this.loadRezervacije()
+
+
+        this.interval = setInterval(() => {
+            this.loadRezervacije();
+        }, REFRESH_TIME);
+    }
+    componentWillUnmount() {
+        window.removeEventListener("online", this.povezava, false);
+        window.removeEventListener("offline", this.niPovezave, false);
+        clearInterval(this.interval);
     }
 
     closeAddReservationDialog = () => {
@@ -43,15 +62,15 @@ class FooterComponent extends Component {
     }
 
     changeEditReservationDialogState = () => {
-        if(this.state.isEditReservationShowing === true){
-            this.setState({editReservation: {}})
+        if (this.state.isEditReservationShowing === true) {
+            this.setState({ editReservation: {} })
         }
         this.setState({ isEditReservationShowing: !this.state.isEditReservationShowing })
     }
 
-    changeEditReservationData = (reservation) => {    
+    changeEditReservationData = (reservation) => {
         this.changeEditReservationDialogState();
-        this.setState({editReservation:reservation});
+        this.setState({ editReservation: reservation });
     }
 
     changeSnackBarState = () => {
@@ -68,23 +87,26 @@ class FooterComponent extends Component {
     }
 
     render() {
+        const isOnline = this.state.isOnline;
         return (
             <div>
                 <ReservationsListComponent refreshReservations={this.loadRezervacije} changeEditReservationData={this.changeEditReservationData} reservations={this.state.rezervacije}></ReservationsListComponent>
 
                 {/* FAB */}
-                <Tooltip title="Add reservation" aria-label="add_reservation">
-                    <Fab color="primary" className="fab_add_reservation" onClick={() => {
-                        this.setState({ isAddReservationShowing: true })
-                    }}>
-                        <AddIcon />
-                    </Fab>
-                </Tooltip>
+                {isOnline ?
+                    <Tooltip title="Add reservation" aria-label="add_reservation">
+                        <Fab color="primary" className="fab_add_reservation" onClick={() => {
+                            this.setState({ isAddReservationShowing: true })
+                        }}>
+                            <AddIcon />
+                        </Fab>
+                    </Tooltip>
+                    : <div></div>}
 
                 {/* DIALOGS */}
-                <CreateReservationDialogComponent changeSnackBarState ={this.changeSnackBarMessage} refreshReservations={this.loadRezervacije} user={this.props.user} closeDialog={this.closeAddReservationDialog} isShowing={this.state.isAddReservationShowing} />
+                <CreateReservationDialogComponent changeSnackBarState={this.changeSnackBarMessage} refreshReservations={this.loadRezervacije} user={this.props.user} closeDialog={this.closeAddReservationDialog} isShowing={this.state.isAddReservationShowing} />
                 <EditReservationDialogComponent company_id={this.props.user.company_id} changeSnackBarState={this.changeSnackBarMessage} refreshReservations={this.loadRezervacije} closeEditReservationDialog={this.changeEditReservationDialogState} isEditReservationShowing={this.state.isEditReservationShowing} reservation={this.state.editReservation} />
-                
+
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeSnackBarState} open={this.state.openSnackbar}>
                     <Alert onClose={this.changeSnackBarState} severity="success">
                         {this.state.snackbarMessage}
@@ -95,4 +117,4 @@ class FooterComponent extends Component {
     }
 }
 
-export default withRouter(FooterComponent)
+export default withRouter(ReservationsOverviewComponent)

@@ -11,13 +11,13 @@ import { withRouter } from 'react-router-dom'
 import TimelineIcon from '@material-ui/icons/Timeline';
 
 class HeaderDrawerComponent extends Component {
-    constructor(props) {
-        super(props)
+    // constructor(props) {
+    //     super(props)
 
-        // this.state = {
+    //     // this.state = {
 
-        // }
-    }
+    //     // }
+    // }
     navigateReservartions(destination) {
         this.props.changeDrawerStatus(false);
         this.props.history.push(`/${destination}`);

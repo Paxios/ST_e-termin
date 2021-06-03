@@ -6,3 +6,4 @@ export const ZASEDENI_TERMINI_URL = "/zasedeni_termini"
 export const RESERVATIONS_SUFFIX = '/rezervacije'
 export const RESERVATION_SUFFIX = '/rezervacija'
 export const SINGLE_RESERVATION_URL = `${BACKEND_URL}/rezervacija/`
+export const REFRESH_TIME = 60000

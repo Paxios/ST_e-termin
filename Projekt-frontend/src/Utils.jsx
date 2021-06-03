@@ -86,18 +86,22 @@ export function filterReservations(reservations) {
     dateToCompareTo.setHours(dateToCompareTo.getHours() - 1);
     for (const reservation of reservations) {
         const d = new Date(getUTCDate(reservation.datum));
-        if (d > dateToCompareTo.getUTCDate()) {
-            reservation["status"] = "passed";
+        if (d.getTime() > dateToCompareTo.getTime()) {
             res.push(reservation);
         }
     }
+
+    res.sort(function(a,b){
+        return new Date(a.datum) - new Date(b.datum);
+      });
+
     return res;
 
 }
 
-export function filterReservationsByDate(reservations) {
+export function filterReservationsByDate(reservations, date) {
     const res = []
-    const dateToCompareTo = new Date();
+    const dateToCompareTo = date;
     const yearTCT = dateToCompareTo.getUTCFullYear();
     const monthTCT = dateToCompareTo.getUTCMonth();
     const dayTCT = dateToCompareTo.getUTCDate();
@@ -110,5 +114,10 @@ export function filterReservationsByDate(reservations) {
             res.push(reservation);
         }
     }
+
+    res.sort((a,b) => {
+        return new Date(a.start_date) - new Date(b.start_date);
+      });
+
     return res;
 }

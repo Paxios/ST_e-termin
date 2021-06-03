@@ -9,19 +9,38 @@ import EditIcon from '@material-ui/icons/Edit';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import ReservationService from '../services/ReservationService';
-import { formatDate, filterReservations } from '../Utils'
+import { formatDate } from '../Utils'
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+
+
+var isOnline = navigator.onLine;
+
+const povezava = () => {
+    isOnline = true;
+}
+
+const niPovezave = () => {
+    isOnline = false;
+}
+
+window.addEventListener("online", povezava, false);
+window.addEventListener("offline", niPovezave, false);
 
 class ReservationsListComponent extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            openSnackbar: false
+            openSnackbar: false,
+            snackbarMessage: ""
         }
     }
 
-    changeStateSnackbar = () => {
-        this.setState({ openSnackbar: !this.state.openSnackbar })
+    changeStateSnackbar = (message) => {
+        this.setState({
+            snackbarMessage: message,
+            openSnackbar: !this.state.openSnackbar
+        })
     }
 
     render() {
@@ -30,7 +49,7 @@ class ReservationsListComponent extends Component {
                 <ReservationElements refreshReservations={this.props.refreshReservations} changeEditReservationData={this.props.changeEditReservationData} reservations={this.props.reservations} changeSnackbarState={this.changeStateSnackbar} />
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
                     <Alert onClose={this.changeStateSnackbar} severity="success">
-                        Successfully deleted a reservation.
+                        {this.state.snackbarMessage}
                     </Alert>
                 </Snackbar>
             </div>
@@ -41,14 +60,13 @@ class ReservationsListComponent extends Component {
 
 
 function ReservationElements(props) {
-
-    const res = filterReservations(props.reservations);
+    // const res = filterReservations(props.reservations);
+    const res = props.reservations;
     const forReturn = res.map((reservation) =>
         <ReservationElement key={reservation._id} refreshReservations={props.refreshReservations} changeEditReservationData={props.changeEditReservationData} changeSnackbarState={props.changeSnackbarState} reservation={reservation} />
     )
     return (<ul>{forReturn}</ul>);
 }
-
 
 function ReservationElement(props) {
     const reservation = props.reservation;
@@ -57,24 +75,41 @@ function ReservationElement(props) {
             <Card className="reservation_card_element" >
                 <CardContent>
                     <Typography className="reservation-service" variant="h6" color="textPrimary">{reservation.id_storitev /*TODO ime storitve in ne id storitve*/}
-                        <IconButton className="edit-reservation" aria-label="edit" onClick={() => {
-                            props.changeEditReservationData(reservation)
-                        }
-                        } >
-                            <EditIcon color="primary" /></IconButton>
-                        <IconButton className="delete-reservation" aria-label="delete" onClick={() => {
-                            ReservationService.delete_rezervacija(reservation._id).then((response) => {
-                                console.log(response);
-                                props.refreshReservations();
-                                props.changeSnackbarState();
-                            }).catch(error => {
-                                console.log(error)
-                            })
+                        {isOnline ?
+                        <div>
+                            <IconButton className="complete-reservation" aria-label="complete" onClick={() => {
+                                ReservationService.delete_rezervacija(reservation._id).then((response) => {
+                                    console.log(response);
+                                    props.refreshReservations();
+                                    props.changeSnackbarState("Successfully marked reservation as completed.");
+                                }).catch(error => {
+                                    console.log(error)
+                                })
 
-                        }} ><DeleteIcon color="secondary" /></IconButton>
+                            }}>
+                                <DoneAllIcon className="complete-reservation-icon" />
+                            </IconButton>
+                            <IconButton className="edit-reservation" aria-label="edit" onClick={() => {
+                                props.changeEditReservationData(reservation)
+                            }
+                            } >
+                                <EditIcon color="primary" /></IconButton>
+                            <IconButton className="delete-reservation" aria-label="delete" onClick={() => {
+                                ReservationService.delete_rezervacija(reservation._id).then((response) => {
+                                    console.log(response);
+                                    props.refreshReservations();
+                                    props.changeSnackbarState("Successfully deleted one reservation.");
+                                }).catch(error => {
+                                    console.log(error)
+                                })
+
+                            }} ><DeleteIcon color="secondary" /></IconButton>
+                        </div>
+                        :<div></div>}
+
                     </Typography>
                     <Typography className="reservation-date" variant="h6" color="textSecondary">{formatDate(reservation.datum) /*TODO ime storitve in ne id storitve*/}</Typography>
-                    <Typography className="reservation-name" color="textPrimary">{`${reservation.ime_stranke} ${reservation.priimek_stranke}, ${reservation.tel_st}`}</Typography>
+                    <Typography className="reservation-name" color="textPrimary">{`${reservation.ime_stranke} ${reservation.priimek_stranke},${reservation.tel_st}`}</Typography>
                     <TextField className="reservation-description" multiline InputProps={{ readOnly: false }} value={reservation.delo} variant="outlined" />
 
                 </CardContent>
