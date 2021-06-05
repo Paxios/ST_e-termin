@@ -37,7 +37,10 @@ const storitev_model = {
     ime: String,
     naslov: String,
     tip: String,
-    lokacija: String,
+    lokacija: {
+        x: Number,
+        y: Number
+    },
     opis: String,
     ponudba: [{
         cena: String,
