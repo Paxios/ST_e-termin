@@ -43,6 +43,7 @@ router.get("/storitev/:id", async (req, res) => {
 router.get("/:id/pdf", async (req, res) => {
     console.log("get racuni");
     const receipt = await database.getReceiptById(new mongo.ObjectID(req.params.id));
+    console.log(receipt);
     if (receipt != null) {
         var podjetje = await database.getStoritevById(new mongo.ObjectID(receipt.id_podjetje));
         console.log(podjetje);

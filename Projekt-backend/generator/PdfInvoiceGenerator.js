@@ -1,4 +1,4 @@
-function generatePdfInvoiceData(racun, podjetje, storitev){
+function generatePdfInvoiceData(racun, podjetje, storitev) {
     var data = {
         //"documentTitle": "RECEIPT", //Defaults to INVOICE
         "locale": "sl-SI", //Defaults to en-US, used for number formatting (see docs)
@@ -13,25 +13,26 @@ function generatePdfInvoiceData(racun, podjetje, storitev){
         "sender": {
             "company": podjetje.ime,
             "address": podjetje.naslov,
+            "zip": "2000",
+            "city": "Maribor",
             "country": "Slovenija",
-            "zaposleni": racun.zaposleni.naziv,
-            "telefon": racun.zaposleni.telefon,
+            "custom1": racun.zaposleni.naziv,
+            "custom2": racun.zaposleni.telefon,
         },
         "client": {
-            "ime": racun.ime_stranke,
-            "priimek": racun.priimek_stranke,
-            "country": "Slovenija",
-            //"custom2": "custom value 2",
-            //"custom3": "custom value 3"
+            "company": racun.priimek_stranke,
+            "address": racun.ime_stranke,
+            "zip": "2000",
+            "city": "Maribor",
+            "country": "Slovenija"
         },
         "invoiceId": racun._id,
         "invoiceDate": racun.datum,
         "products": [
             {
                 "quantity": "1",
-                "description": racun.opomba,
+                "description": storitev.ime,
                 "tax": 22,
-                "item": storitev.ime,
                 "price": racun.cena
             }
         ],
