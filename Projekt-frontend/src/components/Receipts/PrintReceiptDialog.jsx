@@ -18,7 +18,8 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    Collapse
+    Collapse,
+    CircularProgress
 } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
@@ -50,6 +51,9 @@ const useStyles = makeStyles(theme => ({
     },
     pdfFile: {
         width: '100%'
+    },
+    progress: {
+        margin: 'auto'
     }
 }));
 
@@ -101,9 +105,15 @@ function PrintReceiptDialog({ isOpen, closeDialog, refreshReceipts, receiptId })
                     </Toolbar>
                 </AppBar>
                 <div>
-                <Document file={`data:application/pdf;base64,${pdfString}`} className={classes.pdfFile}>
-                    <Page pageNumber={1} />
-                </Document>
+                    {pdfString ? (
+                        <Document file={`data:application/pdf;base64,${pdfString}`} className={classes.pdfFile} >
+                            <Page pageNumber={1} />
+                        </Document>
+                    ) : (
+                        <div style={{ textAlign: 'center' }}>
+                            <CircularProgress className={classes.progress} />
+                        </div>
+                    )}
                 </div>
             </Dialog>
         </div>
