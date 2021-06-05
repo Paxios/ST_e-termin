@@ -110,6 +110,10 @@ const getSeznamStoritev = async () => {
     return await database.Storitev.find({});
 }
 
+const getStoritevById = async (id) => {
+    return await database.Storitev.find({ _id: id });
+}
+
 exports.getSeznamStoritev = getSeznamStoritev;
 exports.getRezervacijeByCompanyId = getRezervacijeByCompanyId;
 exports.getRezervacijaById = getRezervacijaById;
@@ -119,3 +123,4 @@ exports.updateRezervacija = updateRezervacija;
 exports.getSeznamZasedenihTerminov = getSeznamZasedenihTerminov;
 exports.register = register;
 exports.getUserByUsername = getUserByUsername;
+exports.getStoritevById = getStoritevById;

@@ -26,7 +26,13 @@ router.use(cors({exposedHeaders:['Authorization']}))
 router.get("/", async (req, res) => {
     const rezultat = await database.getSeznamStoritev()
     res.json({services: rezultat})
-  });
+});
+
+//GET service by id
+router.get("/:storitevId", async (req, res) => {
+  const rezultat = await database.getSeznamStoritev()
+  res.json({services: rezultat})
+});
 
   /* GET list of customers */
 router.get('/stranke/:storitevId', async function(req, res, next) {
