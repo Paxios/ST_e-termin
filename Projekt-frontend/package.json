@@ -15,10 +15,12 @@
     "axios-oauth-1.0a": "^0.2.1",
     "bootstrap": "^4.5.0",
     "date-fns": "^2.0.0-beta.5",
+    "i18next": "^20.3.1",
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.7.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-i18next": "^11.10.0",
     "react-leaflet": "^3.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1"

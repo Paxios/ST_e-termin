@@ -1,0 +1,17 @@
+{
+    "reservations": {
+        "confirmReservationDialog": {
+            "title": "Create receipt from reservation",
+            "confirm": "Confirm",
+            "service": "service",
+            "firstName": "ime",
+            "lastName": "priimek",
+            "note": "opomba",
+            "price": "cena",
+            "customer": "Customer"
+        }
+    },
+    "unauthorizedPage": {
+        "text": "You must be logged in to acces this webpage."
+    }
+}

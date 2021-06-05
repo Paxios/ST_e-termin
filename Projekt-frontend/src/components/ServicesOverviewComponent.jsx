@@ -26,6 +26,7 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 class ServicesOverviewComponent extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
@@ -56,6 +57,7 @@ class ServicesOverviewComponent extends Component {
     }
 
     componentDidMount() {
+
         window.addEventListener("online", this.povezava, false);
         window.addEventListener("offline", this.niPovezave, false);
         this.loadStoritve()

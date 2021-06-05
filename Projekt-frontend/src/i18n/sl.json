@@ -1,0 +1,18 @@
+{
+    "reservations": {
+        "confirmReservationDialog": {
+            "title": "Izdaj račun za rezervacijo",
+            "confirm": "Potrdi",
+            "service": "Storitev",
+            "firstName": "Ime",
+            "lastName": "Priimek",
+            "note": "Opomba",
+            "price": "Cena",
+            "customer": "Stranka",
+            "employee": "Zaposleni"
+        }
+    },
+    "unauthorizedPage": {
+        "text": "Za dostop do te spletne strani se morate prijaviti."
+    }
+}
