@@ -17,7 +17,8 @@ import {
     FormControl,
     InputLabel,
     Select,
-    MenuItem
+    MenuItem,
+    Collapse
 } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
@@ -25,6 +26,8 @@ import AuthContext from "../../context/AuthContext";
 import ServicesService from '../../services/ServicesService';
 import ReceiptsServiceService from '../../services/ReceiptsService';
 import ReceiptsService from '../../services/ReceiptsService';
+import Alert from '@material-ui/lab/Alert';
+import ReservationService from '../../services/ReservationService';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -48,10 +51,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function AddReservationReceiptDialog({ isOpen, closeDialog, reservation }) {
+function AddReservationReceiptDialog({ isOpen, closeDialog, reservation, refreshReservations, changeSnackbarState }) {
     const classes = useStyles();
     const { t } = useTranslation();
     const Auth = useContext(AuthContext);
+
+    const [errorAlertOpen, setErrorAlertOpen] = useState(false);
 
     const [vsiZaposleni, setVsiZaposleni] = useState([]);
     const [storitve, setStoritve] = useState([]);
@@ -100,9 +105,17 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation }) {
             }
         }
     }, [isOpen, reservation]);
-    const createReceipt = () => {
 
+    const deleteReservation = (id) => {
+        ReservationService.delete_rezervacija(reservation._id).then((response) => {
+            console.log(response);
+            refreshReservations();
+            changeSnackbarState("Successfully finished one reservation.");
+        }).catch(error => {
+            console.log(error)
+        })
     }
+
 
     const confirmReservation = () => {
         var id_podjetje = Auth.user.company_id;
@@ -120,9 +133,12 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation }) {
         ReceiptsService.add_new_racun(id_podjetje, racun)
             .then((result) => {
                 console.log(result);
+                closeDialog();
+                deleteReservation(reservation._id);
             })
             .catch((err) => {
                 console.log(err);
+                setErrorAlertOpen(true);
             })
     }
 
@@ -135,6 +151,30 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation }) {
     const handleZaposleniChange = (event) => {
         setIzbraniZaposleni(event.target.value);
     }
+
+    const errorAlert = (
+        <Collapse in={errorAlertOpen}>
+            <Alert
+                action={
+                    <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        className={classes.closeAlertButton}
+                        onClick={() => {
+                            setErrorAlertOpen(false);
+                        }}
+                    >
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+                severity="error"
+                style={{ border: "solid 1px rgb(255, 224, 220)" }}
+            >
+                {t("reservations.confirmReservationDialog.error")}
+            </Alert>
+        </Collapse>
+    );
 
     return (
         <div>
@@ -153,6 +193,7 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation }) {
                     </Toolbar>
                 </AppBar>
                 <FormControl variant="outlined" className={classes.formControl}>
+                    {errorAlert}
                     <Typography>{t("reservations.confirmReservationDialog.service")}</Typography>
                     <Select
                         labelId="demo-simple-select-label"
@@ -210,7 +251,6 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation }) {
                         ))}
                     </Select>
                 </FormControl>
-
             </Dialog>
         </div>
     );

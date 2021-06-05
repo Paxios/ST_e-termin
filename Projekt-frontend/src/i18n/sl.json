@@ -9,7 +9,8 @@
             "note": "Opomba",
             "price": "Cena",
             "customer": "Stranka",
-            "employee": "Zaposleni"
+            "employee": "Zaposleni",
+            "error": "Pri izdaji računa je prišlo do napake"
         }
     },
     "unauthorizedPage": {
