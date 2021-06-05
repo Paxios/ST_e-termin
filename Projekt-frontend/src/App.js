@@ -48,7 +48,9 @@ function App() {
                 <ProtectedRoute path="/timeline">
                   <TimelineComponent user={user} />
                 </ProtectedRoute>
-                <Route path="/serviceInfo" component={ServiceInfoComponent}></Route>
+                <ProtectedRoute path="/serviceInfo">
+                  <ServiceInfoComponent user={user} />
+                </ProtectedRoute>
                 <Route path="/unauthorized" component={UnauthorizedPage}></Route>
                 {/* <Route path = "/customers" component = {ListCustomerComponent}></Route>
                       <Route path = "/coupons" component = {ListCouponComponent}></Route>

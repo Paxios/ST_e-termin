@@ -113,6 +113,10 @@ const getSeznamStoritev = async () => {
 const getStoritevById = async (id) => {
     return await database.Storitev.findOne({ _id: id });
 }
+
+const updateStoritev = async (storitevId, storitev) => {
+    return await database.Storitev.findByIdAndUpdate(storitevId, storitev, { useFindAndModify: false })
+}
  
 const getCustomerList = async (serviceId) => {
     //return await database.Rezervacija.find({ id_storitev: serviceId })
@@ -132,6 +136,7 @@ const getCustomerList = async (serviceId) => {
     });
 }
 
+exports.updateStoritev = updateStoritev;
 exports.getSeznamStoritev = getSeznamStoritev;
 exports.getCustomerList = getCustomerList;
 exports.getRezervacijeByCompanyId = getRezervacijeByCompanyId;
