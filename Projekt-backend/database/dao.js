@@ -132,6 +132,28 @@ const getCustomerList = async (serviceId) => {
     });
 }
 
+const insertNewRacun = async (racun) => {
+    racun["_id"] = mongoose.Types.ObjectId();
+    const new_racun = database.Racun(racun);
+
+    try {
+        await new_racun.save((err) => {
+            if (err != null) {
+                console.log({ status: "error, failed to save rezervacija into database", reason: err })
+                return null;
+            }
+        })
+    }
+    catch (exception) {
+        console.log({
+            status: "ERROR trying to save rezervacija in database. Probably same ID",
+            reason: exception
+        });
+    }
+    return new_racun;
+
+}
+
 exports.getSeznamStoritev = getSeznamStoritev;
 exports.getCustomerList = getCustomerList;
 exports.getRezervacijeByCompanyId = getRezervacijeByCompanyId;
@@ -143,3 +165,4 @@ exports.getSeznamZasedenihTerminov = getSeznamZasedenihTerminov;
 exports.register = register;
 exports.getUserByUsername = getUserByUsername;
 exports.getStoritevById = getStoritevById;
+exports.insertNewRacun = insertNewRacun;

@@ -23,6 +23,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
 import AuthContext from "../../context/AuthContext";
 import ServicesService from '../../services/ServicesService';
+import ReceiptsServiceService from '../../services/ReceiptsService';
+import ReceiptsService from '../../services/ReceiptsService';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -69,26 +71,30 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation }) {
         var podjetjeId = Auth.user.company_id;
         ServicesService.getStoritevById(podjetjeId)
             .then((result) => {
-                var storitev = result.data[0];
-                setStoritve(storitev.ponudba);
-                setVsiZaposleni(storitev.zaposleni);
-                setIzbraniZaposleni(storitev.zaposleni[0]);
-                setStoritevId(storitev.ponudba[0].id);
-                setCena(storitev.ponudba[0].cena);
+                console.log(result);
+                var storitev = result.data;
+                if (storitev !== undefined) {
+                    setStoritve(storitev.ponudba);
+                    setVsiZaposleni(storitev.zaposleni);
+                    setIzbraniZaposleni(storitev.zaposleni[0]);
+                    setStoritevId(storitev.ponudba[0].id);
+                    setCena(storitev.ponudba[0].cena);
+                }
+
             })
             .catch((error) => {
                 console.log(error);
             });
-        if(reservation){
-            if(reservation.stranka !== undefined){
+        if (reservation) {
+            if (reservation.stranka !== undefined) {
                 setImeStranka(reservation.stranka.ime);
                 setPriimekStranka(reservation.stranka.priimek);
             }
-            else{
-                if(reservation.ime_stranke !== undefined){
+            else {
+                if (reservation.ime_stranke !== undefined) {
                     setImeStranka(reservation.ime_stranke);
                 }
-                if(reservation.priimek_stranke !== undefined){
+                if (reservation.priimek_stranke !== undefined) {
                     setPriimekStranka(reservation.priimek_stranke);
                 }
             }
@@ -99,8 +105,8 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation }) {
     }
 
     const confirmReservation = () => {
+        var id_podjetje = Auth.user.company_id;
         var racun = {
-            id_podjetje: Auth.user.company_id,
             id_storitev: storitevId,
             id_rezervacija: reservation._id,
             ime_stranke: imeStranka,
@@ -111,6 +117,13 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation }) {
             cena: cena,
         };
         console.log(racun);
+        ReceiptsService.add_new_racun(id_podjetje, racun)
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     const handleStoritevChange = (event) => {

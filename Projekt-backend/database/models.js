@@ -84,7 +84,22 @@ const storitev_model = {
 };
 const Storitev = mongoose.model("Storitev", storitev_model, "storitve")
 
+const racun_model = {
+    _id: mongoose.Schema.ObjectId,
+    id_podjetje: String,
+    id_storitev: String,
+    id_rezervacija: String,
+    ime_stranke: String,
+    priimek_stranke: String,
+    zaposleni: Object,
+    datum: Date,
+    opomba: String,
+    cena: String
+}
+const Racun = mongoose.model("Racun", racun_model, "racuni")
+
 module.exports.Storitev = Storitev;
 module.exports.User = User;
 module.exports.Rezervacija = Rezervacija;
 module.exports.Stranka = Stranka;
+module.exports.Racun = Racun;
