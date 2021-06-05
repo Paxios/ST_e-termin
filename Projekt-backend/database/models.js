@@ -43,6 +43,7 @@ const storitev_model = {
     },
     opis: String,
     ponudba: [{
+        _id: mongoose.Schema.ObjectId,
         cena: String,
         ime: String,
         opis: String

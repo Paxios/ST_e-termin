@@ -58,6 +58,7 @@ class HeaderComponent extends Component {
 
   render() {
     const { loggedIn } = this.state;
+    var logo = require('../images/etermin3.PNG')
 
     return (
       <div className="header-root">
@@ -73,6 +74,7 @@ class HeaderComponent extends Component {
               >
                 <MenuIcon/>
               </IconButton>
+              <img src={logo} style={{"height":"80px"}} />
               <Typography className="title" variant="h5" noWrap>e-Termin</Typography>
               {!loggedIn ?
                 <div>
