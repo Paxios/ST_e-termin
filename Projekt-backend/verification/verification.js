@@ -44,6 +44,18 @@ const racun_scheme = joi.object({
     cena: joi.number().required()
 });
 
+const storitev_scheme = joi.object({
+    ime: joi.string().min(3).max(100).required(),
+    naslov: joi.string().min(3).max(100).required(),
+    opis: joi.string().min(3).max(250).required(),
+    tip: joi.string().min(3).max(50).required(),
+    lokacija: joi.object({
+        x: joi.number(),
+        y: joi.number()
+    })
+})
+
+exports.storitev_scheme = storitev_scheme;
 exports.uporabnik_scheme = uporabnik_scheme;
 exports.rezervacija_scheme = rezervacija_scheme;
 exports.stranka_scheme = stranka_scheme;

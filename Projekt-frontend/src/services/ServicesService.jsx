@@ -29,9 +29,14 @@ class ServicesService {
         const response = client.get(BACKEND_URL + STORITEV_PREFIX);
         return response;
     }
-    getStoritevById(id){
-        const response = client.get(BACKEND_URL + STORITEV_PREFIX + id);
+
+    storitev_by_company_id(company_id) {
+        const response = client.get(BACKEND_URL + STORITEV_PREFIX + company_id);
         return response;
+    }
+
+    update_storitev(company_id,storitev) {
+        return client.put(BACKEND_URL + STORITEV_PREFIX + company_id, storitev)
     }
 
     overview_loadStoritve(component) {
@@ -56,6 +61,33 @@ class ServicesService {
             if (storitve)
                 component.setState({
                     storitve: storitve
+                })
+
+        }
+    }
+
+    info_loadStoritev(component, podjetjeId) {
+        if (isConnection) {
+            this.storitev_by_company_id(podjetjeId).then((response) => {
+                const storitev = response.data;
+
+                component.setState({
+                    storitev: storitev
+                })
+
+                window.localStorage.setItem("storitev", JSON.stringify(storitev))
+
+                return response;
+            }).catch((error) => {
+                console.log(error)
+                return null;
+            })
+        }
+        else {
+            const storitev = JSON.parse(window.localStorage.getItem("storitev"));
+            if (storitev)
+                component.setState({
+                    storitev: storitev
                 })
 
         }

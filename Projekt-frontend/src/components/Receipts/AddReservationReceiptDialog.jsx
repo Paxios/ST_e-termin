@@ -74,7 +74,7 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation, refresh
 
     useEffect(() => {
         var podjetjeId = Auth.user.company_id;
-        ServicesService.getStoritevById(podjetjeId)
+        ServicesService.storitev_by_company_id(podjetjeId)
             .then((result) => {
                 console.log(result);
                 var storitev = result.data;

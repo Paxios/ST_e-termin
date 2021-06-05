@@ -11,6 +11,8 @@ import RegisterComponent from './components/RegisterComponent';
 import ReservationsOverviewComponent from './components/ReservationsOverviewComponent';
 import TimelineComponent from './components/TimelineComponent';
 import ServicesOverviewComponent from './components/ServicesOverviewComponent';
+import ServiceInfoComponent from './components/ServiceInfoComponent';
+import HomepageComponent from './components/HomepageComponent';
 import AuthContext from "./context/AuthContext";
 import UnauthorizedPage from './components/UnauthorizedPage';
 import ProtectedRoute from './routes/ProtectedRoute';
@@ -50,12 +52,16 @@ function App() {
                 <ProtectedRoute path="/timeline">
                   <TimelineComponent user={user} />
                 </ProtectedRoute>
+                <ProtectedRoute path="/serviceInfo">
+                  <ServiceInfoComponent user={user} />
+                </ProtectedRoute>
                 <Route path="/unauthorized" component={UnauthorizedPage}></Route>
                 {/* <Route path = "/customers" component = {ListCustomerComponent}></Route>
                       <Route path = "/coupons" component = {ListCouponComponent}></Route>
                       <Route path = "/add-customer/:id" component = {CreateCustomerComponent}></Route>
                       <Route path = "/add-coupon/:id" component = {CreateCouponComponent}></Route> */}
                 <Route path="/register" component={RegisterComponent}></Route>
+                <Route path="/" render={() => <HomepageComponent/>}></Route>
               </Switch>
           </div>
           {/* <FooterComponent /> */}
