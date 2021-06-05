@@ -113,8 +113,27 @@ const getSeznamStoritev = async () => {
 const getStoritevById = async (id) => {
     return await database.Storitev.find({ _id: id });
 }
+ 
+const getCustomerList = async (serviceId) => {
+    //return await database.Rezervacija.find({ id_storitev: serviceId })
+    return new Promise((res) => {
+        database.Rezervacija.find({ id_storitev: serviceId })
+            .then((reservations) => {
+                var customers = [];
+                reservations.forEach((reservation) => {
+                    customers.push(reservation.stranka);
+                });
+                res(customers);
+            })
+            .catch((error) => {
+                console.error(error);
+                res("serviceNotFound");
+            });
+    });
+}
 
 exports.getSeznamStoritev = getSeznamStoritev;
+exports.getCustomerList = getCustomerList;
 exports.getRezervacijeByCompanyId = getRezervacijeByCompanyId;
 exports.getRezervacijaById = getRezervacijaById;
 exports.insertNewRezervacija = insertNewRezervacija;

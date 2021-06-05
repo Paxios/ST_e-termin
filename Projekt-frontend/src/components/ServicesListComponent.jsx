@@ -23,6 +23,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
+import { divIcon } from 'leaflet';
 
 var isOnline = navigator.onLine;
 
@@ -75,7 +76,7 @@ function ServiceElements(props) {
     const forReturn = res.map((service) =>
         <ServiceElement key={service._id} refreshServices={props.refreshServices} changeEditServiceData={props.changeEditServiceData} changeSnackbarState={props.changeSnackbarState} service={service} />
     )
-    return (<ul>{forReturn}</ul>);
+    return (<ul style={{ "padding": "0px" }}>{forReturn}</ul>);
 }
 
 const useStyles = makeStyles({
@@ -88,7 +89,8 @@ function ServiceElement(props) {
     const service = props.service;
     const classes = useStyles();
     return (
-        <div>
+        <div id={service._id}>
+            <br />
             <Card className="reservation_card_element" >
                 <CardContent>
                     <Grid container spacing={3}>
@@ -128,7 +130,7 @@ function ServiceElement(props) {
 
                             </Typography>
                             <Typography className="reservation-date" variant="h6" color="textSecondary">{service.tip}</Typography>
-                            <Typography className="reservation-name" color="textPrimary">{`${service.naslov}, ${service.lokacija}`}</Typography>
+                            <Typography className="reservation-name" color="textPrimary">{`${service.naslov}`}</Typography>
                         </Grid>
                         <Grid item xs={6}>
                             <TextField className="reservation-description" multiline InputProps={{ readOnly: false }} value={service.opis} variant="outlined" />
@@ -178,7 +180,7 @@ function ServiceElement(props) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        <TableRow>
+                                        <TableRow key={service._id}>
                                             <TableCell component="th" scope="row">
                                                 {service.delovniCas.pon.zacetek} - {service.delovniCas.pon.konec}
                                             </TableCell>

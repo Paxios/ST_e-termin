@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ScheduleIcon from '@material-ui/icons/Schedule';
+import WorkIcon from '@material-ui/icons/Work';
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 import { withRouter } from 'react-router-dom'
 import TimelineIcon from '@material-ui/icons/Timeline';

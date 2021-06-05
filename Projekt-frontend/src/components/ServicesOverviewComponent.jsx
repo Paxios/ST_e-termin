@@ -1,18 +1,31 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import ServicesService from '../services/ServicesService'
-
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import ServicesListComponent from './ServicesListComponent';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import { REFRESH_TIME } from '../Constants';
-import AuthContext from "../context/AuthContext";
+import { REFRESH_TIME } from '../Constants'
+import L from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import Button from '@material-ui/core/Button';
+import 'leaflet/dist/leaflet.css';
+
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+let DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 class ServicesOverviewComponent extends Component {
-    static contextType = AuthContext;
 
     constructor(props) {
         super(props)
@@ -32,10 +45,11 @@ class ServicesOverviewComponent extends Component {
     }
 
     niPovezave = () => {
-        this.setState({ "isOnline": false,
-        isAddServiceShowing:false,
-        isEditServiceShowing:false
-     });
+        this.setState({
+            "isOnline": false,
+            isAddServiceShowing: false,
+            isEditServiceShowing: false
+        });
     }
 
     loadStoritve = () => {
@@ -43,7 +57,6 @@ class ServicesOverviewComponent extends Component {
     }
 
     componentDidMount() {
-        const user = this.context;
 
         window.addEventListener("online", this.povezava, false);
         window.addEventListener("offline", this.niPovezave, false);
@@ -89,10 +102,42 @@ class ServicesOverviewComponent extends Component {
         this.changeSnackBarState();
     }
 
+    handleOnClickMarker = (x) => {
+        const anchorElement = document.getElementById(x);
+        if (anchorElement) {
+            anchorElement.scrollIntoView({ behavior: "smooth", 
+            block: "center" });
+        }
+    }
+
     render() {
         const isOnline = this.state.isOnline;
         return (
             <div>
+                <Card className="reservation_card_element" >
+                    <CardContent style={{ "padding": "0px" }}>
+                        <MapContainer center={[46.5604847, 15.6346753]} zoom={15} scrollWheelZoom={false} style={{ "height": "400px", "width": "100%" }}>
+                            <TileLayer
+                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            {
+                                this.state.storitve.map(
+                                    service =>
+                                        <Marker position={[service.lokacija.x, service.lokacija.y]}>
+                                            <Popup>
+                                                <h3>{service.ime}</h3>
+                                                <br /> 
+                                                {service.tip}
+                                                <br />
+                                                <Button variant="contained" onClick={() => this.handleOnClickMarker(service._id)}>Več informacij</Button>
+                                            </Popup>
+                                        </Marker>
+                                )
+                            }
+                        </MapContainer>
+                    </CardContent>
+                </Card>
                 <ServicesListComponent refreshServices={this.loadStoritve} changeEditServiceData={this.changeEditServiceData} services={this.state.storitve}></ServicesListComponent>
 
                 {/* FAB */}
