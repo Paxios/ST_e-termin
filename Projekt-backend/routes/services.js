@@ -37,6 +37,13 @@ router.get("/:storitevId", async (req, res) => {
   res.json(rezultat);
 });
 
+//GET ponudba by id
+router.get("/ponudba/:id", async (req, res) => {
+  var ponudbaId = new mongo.ObjectID(req.params.id);
+  const rezultat = await database.getPonudbaById(ponudbaId)
+  res.json(rezultat);
+});
+
 
   /* GET list of customers */
 router.get('/stranke/:storitevId', async function(req, res, next) {
@@ -48,6 +55,7 @@ router.get('/stranke/:storitevId', async function(req, res, next) {
     console.error(error);
   }
 });
+
 
 /* UPDATE working hours of service */
 router.put('/delovnicas/:storitevId', async function(req, res, next) {

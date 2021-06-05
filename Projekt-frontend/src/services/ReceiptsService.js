@@ -26,7 +26,16 @@ window.addEventListener("offline", niPovezave, false);
 class ReceiptsService {
 
     add_new_racun(company_id, racun) {
-        return client.post(BACKEND_URL + RACUNI_PREFIX + company_id, racun)
+        return client.post(BACKEND_URL + RACUNI_PREFIX + "storitev/" + company_id, racun);
+    }
+    get_all_receipts(company_id) {
+        return client.get(BACKEND_URL + RACUNI_PREFIX + "storitev/" + company_id);
+    }
+    get_receipt_by_id(id) {
+        return client.get(BACKEND_URL + RACUNI_PREFIX + id);
+    }
+    get_receipt_pdf(id) {
+        return client.get(BACKEND_URL + RACUNI_PREFIX + id + "/pdf");
     }
 
     getConnectionStatus = () => {

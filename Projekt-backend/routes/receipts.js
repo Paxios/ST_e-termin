@@ -5,49 +5,94 @@ var verifikacija = require('../verification/verification')
 var jwt = require('express-jwt');
 var cors = require('cors')
 var mongo = require('mongodb');
+const { Storitev } = require('../database/models');
+const { generatePdfInvoiceData } = require('../generator/PdfInvoiceGenerator');
+var easyinvoice = require('easyinvoice');
+const base64 = require('base64topdf');
 
-router.use(jwt({ secret: process.env.SECRET,
-  algorithms: ['HS256']
-}).unless({path: ['/user/register',"/user/login"]}));
+router.use(jwt({
+    secret: process.env.SECRET,
+    algorithms: ['HS256']
+}).unless({ path: ['/user/register', "/user/login"] }));
 
 router.use((err, req, res, next) => {
-  if(err.name === 'UnauthorizedError') {
-    console.log(err.message);
-    res.status(err.status).send({message:err.message});
-    return;
-  }
-next();
+    if (err.name === 'UnauthorizedError') {
+        console.log(err.message);
+        res.status(err.status).send({ message: err.message });
+        return;
+    }
+    next();
 });
 
-router.use(cors({exposedHeaders:['Authorization']}))
+router.use(cors({ exposedHeaders: ['Authorization'] }))
 
 
-//GET rezervacija by ID
+//GET racuni by company ID
+router.get("/storitev/:id", async (req, res) => {
+    console.log("get racuni");
+    const receipts = await database.getReceiptsByCompanyId(new mongo.ObjectID(req.params.id));
+    if (receipts == null) {
+        res.status(404).json({ reason: "Company with this id does not exist." })
+    }
+    else {
+        res.json(receipts);
+    }
+});
+
+//GET racun pdf by ID
+router.get("/:id/pdf", async (req, res) => {
+    console.log("get racuni");
+    const receipt = await database.getReceiptById(new mongo.ObjectID(req.params.id));
+    if (receipt != null) {
+        var podjetje = await database.getStoritevById(new mongo.ObjectID(receipt.id_podjetje));
+        console.log(podjetje);
+        var storitev = await database.getPonudbaById(new mongo.ObjectID(receipt.id_storitev));
+        console.log(storitev);
+        var invoice = generatePdfInvoiceData(receipt, podjetje, storitev.ponudba[0]);
+        console.log(invoice);
+        easyinvoice.createInvoice(invoice, function (result) {
+            //The response will contain a base64 encoded PDF file
+            //let decodedBase64 = base64.base64Decode(result, `racun_${receipt._id}.pdf`);
+            //const download = Buffer.from(result.toString('utf-8'), 'base64');
+            //let decodedBase64 = base64.base64Decode(result.pdf, 'file.pdf');
+            //console.log(decodedBase64);
+            res.set('Content-Type', 'text/html');
+            res.send(JSON.stringify(result.pdf));
+        });
+    }
+    else {
+        res.status(404).json({ reason: "receipt with this id does not exist." })
+    }
+});
+
+//GET racun by ID
 router.get("/:id", async (req, res) => {
-  const rezervacija = await database.getRezervacijaById(req.params.id)
-  if (rezervacija == null) {
-    res.status(404).json({ reason: "Receipt with this id does not exist." })
-  }
-  else {
-    res.json(rezervacija);
-  }
+    console.log("get racuni");
+    const receipt = await database.getReceiptById(new mongo.ObjectID(req.params.id));
+    if (receipt == null) {
+        res.status(404).json({ reason: "Receipt with this id does not exist." })
+    }
+    else {
+        res.json(receipt);
+    }
 });
 
-//POST add new receipt
-router.post("/:podjetjeId", async (req, res) => {
+//POST add new racun
+router.post("/storitev/:podjetjeId", async (req, res) => {
+    console.log("post racun");
     try {
-      req.body["id_podjetje"] = req.params.podjetjeId
-      const { error } = verifikacija.racun_scheme.validate(req.body)
-      if (error != null) {
-        res.status(400).json({ status: "error", reason: error })
-        return
-      }
-      const new_racun = await database.insertNewRacun(req.body);
-      res.json(new_racun);
+        req.body["id_podjetje"] = req.params.podjetjeId
+        const { error } = verifikacija.racun_scheme.validate(req.body)
+        if (error != null) {
+            res.status(400).json({ status: "error", reason: error })
+            return
+        }
+        const new_racun = await database.insertNewRacun(req.body);
+        res.json(new_racun);
     }
     catch (exception) {
-      res.status(500).json({ status: "error", reason: exception })
+        res.status(500).json({ status: "error", reason: exception })
     }
-  });
+});
 
 module.exports = router;

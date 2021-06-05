@@ -113,6 +113,10 @@ const getSeznamStoritev = async () => {
 const getStoritevById = async (id) => {
     return await database.Storitev.findOne({ _id: id });
 }
+
+const getPonudbaById = async (id) => {
+    return await database.Storitev.findOne({'ponudba.id': id}, {'ponudba.$' : 1});
+}
  
 const getCustomerList = async (serviceId) => {
     //return await database.Rezervacija.find({ id_storitev: serviceId })
@@ -128,6 +132,32 @@ const getCustomerList = async (serviceId) => {
             .catch((error) => {
                 console.error(error);
                 res("serviceNotFound");
+            });
+    });
+}
+
+const getReceiptsByCompanyId = async (companyId) => {
+    return new Promise((res) => {
+        database.Racun.find({ id_podjetje: companyId })
+            .then((receipts) => {
+                res(receipts);
+            })
+            .catch((error) => {
+                console.error(error);
+                res("serviceNotFound");
+            });
+    });
+}
+
+const getReceiptById = async (id) => {
+    return new Promise((res) => {
+        database.Racun.findOne({ _id: id })
+            .then((receipt) => {
+                res(receipt);
+            })
+            .catch((error) => {
+                console.error(error);
+                res("receiptNotFound");
             });
     });
 }
@@ -166,3 +196,6 @@ exports.register = register;
 exports.getUserByUsername = getUserByUsername;
 exports.getStoritevById = getStoritevById;
 exports.insertNewRacun = insertNewRacun;
+exports.getReceiptsByCompanyId = getReceiptsByCompanyId;
+exports.getReceiptById = getReceiptById;
+exports.getPonudbaById = getPonudbaById;

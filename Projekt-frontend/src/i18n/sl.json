@@ -15,5 +15,8 @@
     },
     "unauthorizedPage": {
         "text": "Za dostop do te spletne strani se morate prijaviti."
+    },
+    "receipts": {
+        "title": "Računi"
     }
 }

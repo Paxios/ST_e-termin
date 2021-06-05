@@ -5,6 +5,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import WorkIcon from '@material-ui/icons/Work';
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
@@ -42,12 +43,19 @@ class HeaderDrawerComponent extends Component {
                             onOpen={this.props.toggleDrawer(true)}
                         >
                             <List className="drawer-list">
-                            <ListItem className="drawer-list-element" button key="services" onClick={() => {
+                                <ListItem className="drawer-list-element" button key="services" onClick={() => {
                                     this.navigateServices("services")
                                 }
                                 }>
                                     <ListItemIcon><ScheduleIcon color="primary" /></ListItemIcon>
                                     <ListItemText primary="Services" />
+                                </ListItem><Divider />
+                                <ListItem className="drawer-list-element" button key="receipts" onClick={() => {
+                                    this.navigateServices("receipts")
+                                }
+                                }>
+                                    <ListItemIcon><ReceiptIcon color="primary" /></ListItemIcon>
+                                    <ListItemText primary="Receipts" />
                                 </ListItem><Divider />
 
                                 <ListItem className="drawer-list-element" button key="reservations" onClick={() => {
