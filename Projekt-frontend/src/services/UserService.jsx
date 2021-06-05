@@ -20,7 +20,6 @@ class UserService {
         body["geslo"] = password + "";
         body["id_podjetje"] = company_id + "";
         const response = client.post(REGISTER_URL, body);
-        console.log(response)
         return response;
     }
 

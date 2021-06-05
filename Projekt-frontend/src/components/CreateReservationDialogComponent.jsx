@@ -91,9 +91,9 @@ class CreateReservationDialogComponent extends Component {
                                 trajanje: this.state.duration,
                                 delo: this.state.workDescription
                             }
-                            console.log(reservation);
                             ReservationService.add_new_rezervacija(this.props.user.company_id, reservation).then( (response) => {
-                                console.log(response);
+                                this.props.refreshReservations();
+                                this.props.changeSnackBarState("Successfully added new reservation");
                                 this.props.closeDialog();
                             }).catch( (err) => {
                                 console.log(err);
