@@ -111,7 +111,7 @@ const getSeznamStoritev = async () => {
 }
 
 const getStoritevById = async (id) => {
-    return await database.Storitev.find({ _id: id });
+    return await database.Storitev.findOne({ _id: id });
 }
  
 const getCustomerList = async (serviceId) => {

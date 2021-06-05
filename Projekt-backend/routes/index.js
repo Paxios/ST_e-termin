@@ -4,6 +4,7 @@ var database = require('../database/dao')
 var verifikacija = require('../verification/verification')
 var jwt = require('express-jwt');
 var cors = require('cors')
+var mongo = require('mongodb');
 
 router.use(jwt({ secret: process.env.SECRET,
   algorithms: ['HS256']

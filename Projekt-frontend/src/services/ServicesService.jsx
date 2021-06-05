@@ -29,6 +29,10 @@ class ServicesService {
         const response = client.get(BACKEND_URL + STORITEV_PREFIX);
         return response;
     }
+    getStoritevById(id){
+        const response = client.get(BACKEND_URL + STORITEV_PREFIX + id);
+        return response;
+    }
 
     overview_loadStoritve(component) {
         if (isConnection) {

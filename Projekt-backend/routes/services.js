@@ -4,6 +4,7 @@ var database = require('../database/dao')
 var verifikacija = require('../verification/verification')
 var jwt = require('express-jwt');
 var cors = require('cors')
+var mongo = require('mongodb')
 
 router.use(jwt({ secret: process.env.SECRET,
   algorithms: ['HS256']
@@ -30,9 +31,12 @@ router.get("/", async (req, res) => {
 
 //GET service by id
 router.get("/:storitevId", async (req, res) => {
-  const rezultat = await database.getSeznamStoritev()
-  res.json({services: rezultat})
+  console.log(req.params.storitevId);
+  var storitevId = new mongo.ObjectID(req.params.storitevId);
+  const rezultat = await database.getStoritevById(storitevId)
+  res.json(rezultat);
 });
+
 
   /* GET list of customers */
 router.get('/stranke/:storitevId', async function(req, res, next) {

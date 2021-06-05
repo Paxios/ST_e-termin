@@ -13,9 +13,9 @@ i18n.use(initReactI18next).init({
             translation: sl,
         },
     },
-    lng: "en",
+    lng: "sl",
     supportedLngs: ["en", "sl"],
-    fallbackLng: "sl",
+    fallbackLng: "en",
 });
 
 export default i18n;
