@@ -1,0 +1,11 @@
+{
+    "reservations": {
+        "confirmReservationDialog": {
+            "title": "Create receipt from reservation",
+            "confirm": "Confirm"
+        }
+    },
+    "unauthorizedPage": {
+        "text": "You must be logged in to acces this webpage."
+    }
+}

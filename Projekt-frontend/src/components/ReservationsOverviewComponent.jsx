@@ -11,8 +11,10 @@ import EditReservationDialogComponent from './EditReservationDialogComponent';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { REFRESH_TIME } from '../Constants'
+import AddReservationReceiptDialog from './Receipts/AddReservationReceiptDialog';
 
 class ReservationsOverviewComponent extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
@@ -22,7 +24,9 @@ class ReservationsOverviewComponent extends Component {
             editReservation: {},
             openSnackbar: false,
             snackbarMessage: "",
-            isOnline: navigator.onLine
+            isOnline: navigator.onLine,
+            isConfirmReservationDialogOpen: false,
+            currentConfirmReservation: null
         }
     }
 
@@ -73,6 +77,19 @@ class ReservationsOverviewComponent extends Component {
         this.setState({ editReservation: reservation });
     }
 
+    openConfirmReservationDialog = (rezervacija) => {
+        this.setState({
+            currentConfirmReservation: rezervacija,
+            isConfirmReservationDialogOpen: true
+        });
+    }
+
+    closeConfirmReservationDialog = () => {
+        this.setState({
+            isConfirmReservationDialogOpen: false
+        });
+    }
+
     changeSnackBarState = () => {
         this.setState({
             openSnackbar: !this.state.openSnackbar,
@@ -90,7 +107,12 @@ class ReservationsOverviewComponent extends Component {
         const isOnline = this.state.isOnline;
         return (
             <div>
-                <ReservationsListComponent refreshReservations={this.loadRezervacije} changeEditReservationData={this.changeEditReservationData} reservations={this.state.rezervacije}></ReservationsListComponent>
+                <ReservationsListComponent 
+                    refreshReservations={this.loadRezervacije} 
+                    changeEditReservationData={this.changeEditReservationData} 
+                    reservations={this.state.rezervacije}
+                    openConfirmReservationDialog={this.openConfirmReservationDialog}
+                />
 
                 {/* FAB */}
                 {isOnline ?
@@ -112,6 +134,11 @@ class ReservationsOverviewComponent extends Component {
                         {this.state.snackbarMessage}
                     </Alert>
                 </Snackbar>
+                <AddReservationReceiptDialog 
+                    isOpen={this.state.isConfirmReservationDialogOpen} 
+                    closeDialog={this.closeConfirmReservationDialog}
+                    reservation={this.state.currentConfirmReservation}
+                />
             </div>
         )
     }

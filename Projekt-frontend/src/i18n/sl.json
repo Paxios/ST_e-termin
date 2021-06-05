@@ -1,0 +1,11 @@
+{
+    "reservations": {
+        "confirmReservationDialog": {
+            "title": "Izdaj račun za rezervacijo",
+            "confirm": "Potrdi"
+        }
+    },
+    "unauthorizedPage": {
+        "text": "Za dostop do te spletne strani se morate prijaviti."
+    }
+}

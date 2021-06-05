@@ -11,6 +11,7 @@ import Alert from '@material-ui/lab/Alert';
 import ReservationService from '../services/ReservationService';
 import { formatDate } from '../Utils'
 import DoneAllIcon from '@material-ui/icons/DoneAll';
+import AddReservationReceiptDialog from './Receipts/AddReservationReceiptDialog';
 
 
 var isOnline = navigator.onLine;
@@ -46,7 +47,7 @@ class ReservationsListComponent extends Component {
     render() {
         return (
             <div>
-                <ReservationElements refreshReservations={this.props.refreshReservations} changeEditReservationData={this.props.changeEditReservationData} reservations={this.props.reservations} changeSnackbarState={this.changeStateSnackbar} />
+                <ReservationElements refreshReservations={this.props.refreshReservations} changeEditReservationData={this.props.changeEditReservationData} reservations={this.props.reservations} changeSnackbarState={this.changeStateSnackbar} openConfirmReservationDialog={this.props.openConfirmReservationDialog}/>
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
                     <Alert onClose={this.changeStateSnackbar} severity="success">
                         {this.state.snackbarMessage}
@@ -63,7 +64,7 @@ function ReservationElements(props) {
     // const res = filterReservations(props.reservations);
     const res = props.reservations;
     const forReturn = res.map((reservation) =>
-        <ReservationElement key={reservation._id} refreshReservations={props.refreshReservations} changeEditReservationData={props.changeEditReservationData} changeSnackbarState={props.changeSnackbarState} reservation={reservation} />
+        <ReservationElement key={reservation._id} refreshReservations={props.refreshReservations} changeEditReservationData={props.changeEditReservationData} changeSnackbarState={props.changeSnackbarState} reservation={reservation} openConfirmReservationDialog={props.openConfirmReservationDialog}/>
     )
     return (<ul>{forReturn}</ul>);
 }
@@ -78,14 +79,7 @@ function ReservationElement(props) {
                         {isOnline ?
                         <div>
                             <IconButton className="complete-reservation" aria-label="complete" onClick={() => {
-                                ReservationService.delete_rezervacija(reservation._id).then((response) => {
-                                    console.log(response);
-                                    props.refreshReservations();
-                                    props.changeSnackbarState("Successfully marked reservation as completed.");
-                                }).catch(error => {
-                                    console.log(error)
-                                })
-
+                                props.openConfirmReservationDialog(reservation);
                             }}>
                                 <DoneAllIcon className="complete-reservation-icon" />
                             </IconButton>

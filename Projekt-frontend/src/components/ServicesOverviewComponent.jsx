@@ -8,9 +8,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import ServicesListComponent from './ServicesListComponent';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import { REFRESH_TIME } from '../Constants'
+import { REFRESH_TIME } from '../Constants';
+import AuthContext from "../context/AuthContext";
 
 class ServicesOverviewComponent extends Component {
+    static contextType = AuthContext;
+
     constructor(props) {
         super(props)
         this.state = {
@@ -40,6 +43,8 @@ class ServicesOverviewComponent extends Component {
     }
 
     componentDidMount() {
+        const user = this.context;
+
         window.addEventListener("online", this.povezava, false);
         window.addEventListener("offline", this.niPovezave, false);
         this.loadStoritve()
