@@ -64,7 +64,9 @@ class ServiceInfoComponent extends Component {
             openSnackbar: false,
             snackbarMessage: "",
             selectedPosition: [0, 0],
-            initialPosition: [0, 0]
+            initialPosition: [0, 0],
+            markers: [[40.7, -74]],
+            data: []
         }
     }
 
@@ -90,12 +92,11 @@ class ServiceInfoComponent extends Component {
         ServicesService.info_loadStoritev(this, podjetjeId);
     }
 
-    handleClick = (event) => {
-        const { lat, lng } = event.latlng
-        console.log(`Clicked at ${lat}, ${lng}`)
-    }
-
-    handleChange = e => this.setState({ item_msg: e.target.value });
+    saveMarkers = (newMarkerCoords) => {
+        console.log(newMarkerCoords)
+        const selectedPosition = newMarkerCoords;
+        this.setState((prevState) => ({ ...prevState, selectedPosition }));
+    };
 
     render() {
         return (
@@ -109,10 +110,10 @@ class ServiceInfoComponent extends Component {
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         {/* <LocationMarker /> */}
-                        <Markers selectedPosition={this.state.selectedPosition} onChange={this.handleChange} />
+                        <MyMarker saveMarkers={this.saveMarkers} initialPosition={this.initialPosition} />
                     </MapContainer>
 
-                    <InfoForm storitev={this.state.storitev} changeSnackbarState={this.changeStateSnackbar} />
+                    <InfoForm storitev={this.state.storitev} pos={this.state.selectedPosition} changeSnackbarState={this.changeStateSnackbar} />
                 </div>
 
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
@@ -160,12 +161,16 @@ function InfoForm(props) {
             size="large"
             onClick={() => {
                 console.log(props.storitev)
+                console.log(props.pos)
                 ServicesService.update_storitev(props.storitev._id, {
                     ime: props.storitev.ime,
                     naslov: props.storitev.naslov,
                     tip: props.storitev.tip,
                     opis: props.storitev.opis,
-                    lokacija: props.storitev.lokacija
+                    lokacija: {
+                        x: props.pos[0],
+                        y: props.pos[1]
+                    }
                 });
                 props.changeSnackbarState("Successfully updated service information.");
             }}
@@ -177,34 +182,34 @@ function InfoForm(props) {
     </form>)
 }
 
-function Markers(props) {
-    var selectedPosition = props.selectedPosition;
-
+function MyMarker({ saveMarkers, initialPosition }) {
     const map = useMapEvents({
-        click(e) {
-            selectedPosition = [e.latlng.lat, e.latlng.lng]
-            console.log(selectedPosition)
-            //props.selectedPosition=selectedPosition
-            console.log(props.selectedPosition)
-            // this.setState({
-            //     selectedPosition: selectedPosition
-            // });
-            //this.selectedPosition=selectedPosition
+        click: (e) => {
+            const { lat, lng } = e.latlng;
+            var i=0
+            map.eachLayer((layer) => {
+                if(i==0)
+                    i++
+                else
+                    layer.remove();
+            });
+            L.marker([lat, lng], { DefaultIcon }).addTo(map);
+            saveMarkers([lat, lng]);
         },
-    })
-
-    return (
-        selectedPosition ?
-            <Marker
-                key={selectedPosition[0]}
-                position={selectedPosition}
-                interactive={false}
-                onChange={props.onChange}
-            >
-            </Marker>
-            : null
-    )
-
+        zoom: (e) => {
+            var i=0
+            map.eachLayer((layer) => {
+                if(i==0)
+                    i++
+                else
+                    layer.remove();
+            });
+            map.flyTo(initialPosition, map.getZoom())
+            L.marker(initialPosition, { DefaultIcon }).addTo(map);
+            saveMarkers(initialPosition);
+        }
+    });
+    return null;
 }
 
 function LocationMarker() {
