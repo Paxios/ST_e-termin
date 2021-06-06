@@ -25,7 +25,8 @@
             "serviceTypeMasseuse": "Maserstvo",
             "serviceTypeMechanic": "Avtomehanika",
             "serviceTypeVulcanizer": "Vulkanizerstvo",
-            "saveButton": "Shrani informacije"
+            "saveButton": "Shrani informacije",
+            "saveWorkingHoursButton": "Shrani delovni čas"
         },
         "serviceOverview": {
             "name": "Naziv",

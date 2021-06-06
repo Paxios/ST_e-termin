@@ -23,7 +23,8 @@
             "serviceTypeMasseuse": "Masseuse",
             "serviceTypeMechanic": "Mechanic",
             "serviceTypeVulcanizer": "Vulcanizer",
-            "saveButton": "Save info"
+            "saveButton": "Save info",
+            "saveWorkingHoursButton": "Save working hours"
         },
         "serviceOverview": {
             "name": "Name",
