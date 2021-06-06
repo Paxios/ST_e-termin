@@ -65,8 +65,7 @@ class ServiceInfoComponent extends Component {
             snackbarMessage: "",
             selectedPosition: [0, 0],
             initialPosition: [0, 0],
-            markers: [[40.7, -74]],
-            data: []
+            currentPosition: [0, 0]
         }
     }
 
@@ -82,18 +81,24 @@ class ServiceInfoComponent extends Component {
 
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords;
-            this.initialPosition = [latitude, longitude];
-
+            this.state.currentPosition = [latitude, longitude];
         });
     }
 
     loadService = () => {
         var podjetjeId = this.context.user.company_id;
         ServicesService.info_loadStoritev(this, podjetjeId);
+        setTimeout(
+            () => {
+                this.state.initialPosition[0] = this.state.storitev.lokacija.x;
+                this.state.initialPosition[1] = this.state.storitev.lokacija.y;
+            },
+            1000
+        );
+        //console.log(this.state)
     }
 
     saveMarkers = (newMarkerCoords) => {
-        console.log(newMarkerCoords)
         const selectedPosition = newMarkerCoords;
         this.setState((prevState) => ({ ...prevState, selectedPosition }));
     };
@@ -109,8 +114,7 @@ class ServiceInfoComponent extends Component {
                             attribution='Simply press on the map to select current location'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        {/* <LocationMarker /> */}
-                        <MyMarker saveMarkers={this.saveMarkers} initialPosition={this.initialPosition} />
+                        <MyMarker saveMarkers={this.saveMarkers} initialPosition={this.state.initialPosition} currentPosition={this.state.currentPosition} selectedPosition={this.state.selectedPosition} />
                     </MapContainer>
 
                     <InfoForm storitev={this.state.storitev} pos={this.state.selectedPosition} changeSnackbarState={this.changeStateSnackbar} />
@@ -182,53 +186,51 @@ function InfoForm(props) {
     </form>)
 }
 
-function MyMarker({ saveMarkers, initialPosition }) {
+function MyMarker(props) {
+    console.log(props)
     const map = useMapEvents({
         click: (e) => {
             const { lat, lng } = e.latlng;
-            var i=0
+            var i = 0
             map.eachLayer((layer) => {
-                if(i==0)
+                if (i == 0)
                     i++
                 else
                     layer.remove();
             });
             L.marker([lat, lng], { DefaultIcon }).addTo(map);
-            saveMarkers([lat, lng]);
+            props.saveMarkers([lat, lng]);
         },
-        zoom: (e) => {
-            var i=0
+        keydown: (e) => {
+            var i = 0
             map.eachLayer((layer) => {
-                if(i==0)
+                if (i == 0)
                     i++
                 else
                     layer.remove();
             });
-            map.flyTo(initialPosition, map.getZoom())
-            L.marker(initialPosition, { DefaultIcon }).addTo(map);
-            saveMarkers(initialPosition);
+            map.flyTo(props.initialPosition, map.getZoom());
+            L.marker(props.initialPosition, { DefaultIcon }).addTo(map);
+            props.saveMarkers(props.initialPosition);
+        },
+        mouseout: (e) => {
+            if(props.selectedPosition[0]!=0&&props.selectedPosition[1]!=0)
+                map.flyTo(props.selectedPosition, map.getZoom());
+        },
+        contextmenu: (e) => {
+            var i = 0
+            map.eachLayer((layer) => {
+                if (i == 0)
+                    i++
+                else
+                    layer.remove();
+            });
+            map.flyTo(props.currentPosition, map.getZoom());
+            L.marker(props.currentPosition, { DefaultIcon }).addTo(map);
+            props.saveMarkers(props.currentPosition);
         }
     });
     return null;
-}
-
-function LocationMarker() {
-    const [position, setPosition] = useState(null)
-    const map = useMapEvents({
-        click() {
-            map.locate()
-        },
-        locationfound(e) {
-            setPosition(e.latlng)
-            map.flyTo(e.latlng, map.getZoom())
-        },
-    })
-
-    return position === null ? null : (
-        <Marker position={position}>
-            <Popup>You are here</Popup>
-        </Marker>
-    )
 }
 
 export default ServiceInfoComponent
