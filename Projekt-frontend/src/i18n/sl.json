@@ -35,5 +35,14 @@
         "pdfReportDialog": {
             "title": "Pregled poslovanja"
         }
+    },
+    "drawerMenuItems": {
+        "services": "Ponundiki storitev",
+        "receipts": "Računi",
+        "reports": "Poročila",
+        "reservations": "Rezervacije",
+        "serviceInfo": "Podatki o podjetju",
+        "timeline": "Časovnica",
+        "firstPage": "Začetna stran"
     }
 }
