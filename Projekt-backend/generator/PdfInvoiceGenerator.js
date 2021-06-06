@@ -1,15 +1,15 @@
 function generatePdfInvoiceData(racun, podjetje, storitev) {
     var data = {
-        //"documentTitle": "RECEIPT", //Defaults to INVOICE
-        "locale": "sl-SI", //Defaults to en-US, used for number formatting (see docs)
-        "currency": "EUR", //See documentation 'Locales and Currency' for more info
-        "taxNotation": "vat", //or gst
+        "documentTitle": "Račun",
+        "locale": "sl-SI",
+        "currency": "EUR",
+        "taxNotation": "ddv",
         "marginTop": 25,
         "marginRight": 25,
         "marginLeft": 25,
         "marginBottom": 25,
-        "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png", //or base64
-        //"background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg", //or base64 //img or pdf
+        "logo": "https://i.imgur.com/CrSu085.png",
+        //"background": "https://image.freepik.com/free-vector/white-abstract-background_23-2148810113.jpg", //or base64 //img or pdf
         "sender": {
             "company": podjetje.ime,
             "address": podjetje.naslov,
@@ -36,17 +36,15 @@ function generatePdfInvoiceData(racun, podjetje, storitev) {
                 "price": racun.cena
             }
         ],
-        //Used for translating the headers to your preferred language
-        //Defaults to English. Below example is translated to Dutch
-        // "translate": { 
-        //     "invoiceNumber": "Factuurnummer",
-        //     "invoiceDate": "Factuurdatum",
-        //     "products": "Producten", 
-        //     "quantity": "Aantal", 
-        //     "price": "Prijs",
-        //     "subtotal": "Subtotaal",
-        //     "total": "Totaal" 
-        // }
+         "translate": {
+             "invoiceNumber": "Številka računa",
+             "invoiceDate": "Datumizdaje",
+             "products": "Izdelki", 
+             "quantity": "Količina", 
+             "price": "Cena",
+             "subtotal": "Cena brez DDV",
+             "total": "Znesek" 
+        }
     };
 
     return data
