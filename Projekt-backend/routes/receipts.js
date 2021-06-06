@@ -10,7 +10,7 @@ const { generatePdfInvoiceData } = require('../generator/PdfInvoiceGenerator');
 var easyinvoice = require('easyinvoice');
 const base64 = require('base64topdf');
 
-/*router.use(jwt({
+router.use(jwt({
     secret: process.env.SECRET,
     algorithms: ['HS256']
 }).unless({ path: ['/user/register', "/user/login"] }));
@@ -22,7 +22,7 @@ router.use((err, req, res, next) => {
         return;
     }
     next();
-});*/
+});
 
 router.use(cors({ exposedHeaders: ['Authorization'] }))
 

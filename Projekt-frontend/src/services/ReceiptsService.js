@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BACKEND_URL, RESERVATIONS_SUFFIX, STORITEV_PREFIX, RESERVATION_SUFFIX, SINGLE_RESERVATION_URL, ZASEDENI_TERMINI_URL, RACUNI_PREFIX } from '../Constants'
+import { BACKEND_URL, RESERVATIONS_SUFFIX, STORITEV_PREFIX, RESERVATION_SUFFIX, SINGLE_RESERVATION_URL, ZASEDENI_TERMINI_URL, RACUNI_PREFIX, REPORT_PREFIX } from '../Constants'
 import { filterReservationsByDate } from '../Utils';
 
 const user = JSON.parse(window.sessionStorage.getItem("user"));
@@ -45,8 +45,13 @@ class ReceiptsService {
         return client.delete(BACKEND_URL + RACUNI_PREFIX + id);
     }
 
+    get_report(id) {
+        return client.get(BACKEND_URL + REPORT_PREFIX + id)
+    }
+
     getConnectionStatus = () => {
         return isConnection;
     }
+
 }
 export default new ReceiptsService()

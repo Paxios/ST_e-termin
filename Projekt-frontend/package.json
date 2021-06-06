@@ -17,6 +17,7 @@
     "axios-oauth-1.0a": "^0.2.1",
     "bootstrap": "^4.5.0",
     "date-fns": "^2.0.0-beta.5",
+    "file-saver": "^2.0.5",
     "i18next": "^20.3.1",
     "invoice-generator": "^0.3.0",
     "jwt-decode": "^3.1.2",

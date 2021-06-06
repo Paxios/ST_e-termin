@@ -60,6 +60,13 @@ class HeaderDrawerComponent extends Component {
                                     <ListItemIcon><ReceiptIcon color="primary" /></ListItemIcon>
                                     <ListItemText primary="Receipts" />
                                 </ListItem><Divider />
+                                <ListItem className="drawer-list-element" button key="reports" onClick={() => {
+                                    this.navigateServices("reports")
+                                }
+                                }>
+                                    <ListItemIcon><ReceiptIcon color="primary" /></ListItemIcon>
+                                    <ListItemText primary="Reports" />
+                                </ListItem><Divider />
 
                                 <ListItem className="drawer-list-element" button key="reservations" onClick={() => {
                                     this.navigateReservartions("overview")

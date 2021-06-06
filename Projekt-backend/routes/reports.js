@@ -8,8 +8,9 @@ var mongo = require('mongodb');
 const { Storitev } = require('../database/models');
 var { generiraj } = require("../generator/ExcelReportGenerator");
 var stream = require('stream');
+const base64 = require('base64topdf');
 
-/*router.use(jwt({
+router.use(jwt({
     secret: process.env.SECRET,
     algorithms: ['HS256']
 }).unless({ path: ['/user/register', "/user/login"] }));
@@ -23,7 +24,7 @@ router.use((err, req, res, next) => {
     next();
 });
 
-router.use(cors({ exposedHeaders: ['Authorization'] }))*/
+router.use(cors({ exposedHeaders: ['Authorization'] }))
 
 /* GET porocilo */
 router.get('/:idPodjetja', async function (req, res) {
@@ -81,6 +82,7 @@ router.get('/:idPodjetja', async function (req, res) {
                 var porocilo = Buffer.from(buffer, "base64");
                 var readStream = new stream.PassThrough();
                 readStream.end(porocilo);
+                
 
                 res.set('Content-disposition', 'attachment; filename=Porocilo_o_poslovanju.xlsx');
                 res.set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

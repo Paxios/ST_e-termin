@@ -6,7 +6,7 @@ var jwt = require('express-jwt');
 var cors = require('cors')
 var mongo = require('mongodb')
 
-/*router.use(jwt({
+router.use(jwt({
     secret: process.env.SECRET,
     algorithms: ['HS256']
 }).unless({ path: ['/user/register', "/user/login"] }));
@@ -20,7 +20,7 @@ router.use((err, req, res, next) => {
     next();
 });
 
-router.use(cors({ exposedHeaders: ['Authorization'] }))*/
+router.use(cors({ exposedHeaders: ['Authorization'] }))
 
 
 
