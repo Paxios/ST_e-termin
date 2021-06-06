@@ -23,7 +23,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
-import { divIcon } from 'leaflet';
+import { useTranslation } from "react-i18next";
 
 var isOnline = navigator.onLine;
 
@@ -88,6 +88,7 @@ const useStyles = makeStyles({
 function ServiceElement(props) {
     const service = props.service;
     const classes = useStyles();
+    const { t } = useTranslation();
     return (
         <div id={service._id}>
             <br />
@@ -140,8 +141,8 @@ function ServiceElement(props) {
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Naziv</TableCell>
-                                    <TableCell align="right">Telefon&nbsp;</TableCell>
+                                    <TableCell>{t("services.serviceOverview.name")}</TableCell>
+                                    <TableCell align="right">{t("services.serviceOverview.phone")}&nbsp;</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -163,20 +164,20 @@ function ServiceElement(props) {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography className={classes.heading}>Delovni čas</Typography>
+                            <Typography className={classes.heading}>{t("services.serviceOverview.workingHours")}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <TableContainer component={Paper}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>Ponedeljek</TableCell>
-                                            <TableCell>Torek&nbsp;</TableCell>
-                                            <TableCell>Sreda&nbsp;</TableCell>
-                                            <TableCell>Četrtek&nbsp;</TableCell>
-                                            <TableCell>Petek&nbsp;</TableCell>
-                                            <TableCell>Sobota&nbsp;</TableCell>
-                                            <TableCell>Nedelja&nbsp;</TableCell>
+                                            <TableCell>{t("services.serviceOverview.monday")}</TableCell>
+                                            <TableCell>{t("services.serviceOverview.tuesday")}&nbsp;</TableCell>
+                                            <TableCell>{t("services.serviceOverview.wednesday")}&nbsp;</TableCell>
+                                            <TableCell>{t("services.serviceOverview.thursday")}&nbsp;</TableCell>
+                                            <TableCell>{t("services.serviceOverview.friday")}&nbsp;</TableCell>
+                                            <TableCell>{t("services.serviceOverview.saturday")}&nbsp;</TableCell>
+                                            <TableCell>{t("services.serviceOverview.sunday")}&nbsp;</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>

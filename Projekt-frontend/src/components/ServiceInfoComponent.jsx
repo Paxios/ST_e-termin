@@ -23,6 +23,7 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import ServicesService from '../services/ServicesService';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import { withTranslation, useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -104,10 +105,11 @@ class ServiceInfoComponent extends Component {
     };
 
     render() {
+        const { t, i18n } = this.props
         return (
             <div>
                 <div className="timeline-datepicker">
-                    <Typography variant="h5">Information about your service</Typography>
+                    <Typography variant="h5">{t("services.serviceInfo.title")}</Typography>
                     <br />
                     <MapContainer center={[46.5604847, 15.6346753]} zoom={15} scrollWheelZoom={true} style={{ "height": "400px", "width": "100%" }}>
                         <TileLayer
@@ -133,13 +135,14 @@ class ServiceInfoComponent extends Component {
 function InfoForm(props) {
     const classes = useStyles();
 
+    const { t } = useTranslation();
     return (<form className={classes.root} noValidate autoComplete="off">
         <br />
-        <TextField id="ime" label="Ime podjetja" variant="outlined" key={`imeStoritve:${props.storitev.ime || ''}`} defaultValue={props.storitev.ime || ''} onChange={(e) => { props.storitev.ime = e.target.value }} />
-        <TextField id="naslov" label="Naslov" variant="outlined" key={`naslovStoritve:${props.storitev.naslov || ''}`} defaultValue={props.storitev.naslov || ''} onChange={(e) => { props.storitev.naslov = e.target.value }} />
+        <TextField id="ime" label={t("services.serviceInfo.serviceName")} variant="outlined" key={`imeStoritve:${props.storitev.ime || ''}`} defaultValue={props.storitev.ime || ''} onChange={(e) => { props.storitev.ime = e.target.value }} />
+        <TextField id="naslov" label={t("services.serviceInfo.serviceAddress")} variant="outlined" key={`naslovStoritve:${props.storitev.naslov || ''}`} defaultValue={props.storitev.naslov || ''} onChange={(e) => { props.storitev.naslov = e.target.value }} />
         <br />
         <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel htmlFor="outlined-type-native-simple">Tip storitve</InputLabel>
+            <InputLabel htmlFor="outlined-type-native-simple">{t("services.serviceInfo.serviceType")}</InputLabel>
             <Select
                 label="Tip storitve" key={`tipStoritve:${props.storitev.tip || ''}`} defaultValue={props.storitev.tip || ''}
                 onChange={(e) => { props.storitev.tip = e.target.value }}
@@ -148,15 +151,15 @@ function InfoForm(props) {
                     id: 'outlined-type-native-simple',
                 }}
             >
-                <MenuItem value={'Frizerstvo'}>Frizerstvo</MenuItem>
-                <MenuItem value={'Maserstvo'}>Maserstvo</MenuItem>
-                <MenuItem value={'Avtomehanika'}>Avtomehanika</MenuItem>
-                <MenuItem value={'Vulkanizerstvo'}>Vulkanizerstvo</MenuItem>
+                <MenuItem value={'Frizerstvo'}>{t("services.serviceInfo.serviceTypeHairdressing")}</MenuItem>
+                <MenuItem value={'Maserstvo'}>{t("services.serviceInfo.serviceTypeMasseuse")}</MenuItem>
+                <MenuItem value={'Avtomehanika'}>{t("services.serviceInfo.serviceTypeMechanic")}</MenuItem>
+                <MenuItem value={'Vulkanizerstvo'}>{t("services.serviceInfo.serviceTypeVulcanizer")}</MenuItem>
             </Select>
-            <FormHelperText>Izberite vašo primarno aktivnost ukvarjanja</FormHelperText>
+            <FormHelperText>{t("services.serviceInfo.serviceTypeHelper")}</FormHelperText>
         </FormControl>
         <br />
-        <TextField id="opis" key={`opisStoritve:${props.storitev.opis || ''}`} defaultValue={props.storitev.opis || ''} onChange={(e) => { props.storitev.opis = e.target.value }} label="Opis dejavnosti" variant="outlined" multiline fullWidth style={{ margin: 8 }} rows="6" />
+        <TextField id="opis" key={`opisStoritve:${props.storitev.opis || ''}`} defaultValue={props.storitev.opis || ''} onChange={(e) => { props.storitev.opis = e.target.value }} label={t("services.serviceInfo.serviceDescription")} variant="outlined" multiline fullWidth style={{ margin: 8 }} rows="6" />
 
         <br />
         <Button
@@ -181,7 +184,7 @@ function InfoForm(props) {
             className={classes.formControl}
             startIcon={<SaveIcon />}
         >
-            Update info
+            {t("services.serviceInfo.saveButton")}
       </Button>
     </form>)
 }
@@ -233,4 +236,4 @@ function MyMarker(props) {
     return null;
 }
 
-export default ServiceInfoComponent
+export default withTranslation()(ServiceInfoComponent)

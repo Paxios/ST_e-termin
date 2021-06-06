@@ -11,6 +11,33 @@
             "customer": "Customer"
         }
     },
+    "services": {
+        "serviceInfo": {
+            "title": "Information about your service",
+            "serviceType": "Service type",
+            "serviceName": "Service name",
+            "serviceAddress": "Service address",
+            "serviceTypeHelper": "Pick your primary business activity",
+            "serviceDescription": "Description",
+            "serviceTypeHairdressing": "Hairdressing",
+            "serviceTypeMasseuse": "Masseuse",
+            "serviceTypeMechanic": "Mechanic",
+            "serviceTypeVulcanizer": "Vulcanizer",
+            "saveButton": "Save info"
+        },
+        "serviceOverview": {
+            "name": "Name",
+            "phone": "Phone number",
+            "workingHours": "Working hours",
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday",
+            "saturday": "Saturday",
+            "sunday": "Sunday"
+        }
+    },
     "unauthorizedPage": {
         "text": "You must be logged in to acces this webpage."
     }

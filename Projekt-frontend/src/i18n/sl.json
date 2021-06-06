@@ -12,6 +12,33 @@
             "employee": "Zaposleni"
         }
     },
+    "services": {
+        "serviceInfo": {
+            "title": "Informacije o vaši storitvi",
+            "serviceType": "Tip storitve",
+            "serviceName": "Ime podjetja",
+            "serviceAddress": "Naslov",
+            "serviceTypeHelper": "Izberite vašo primarno dejavnost ukvarjanja",
+            "serviceDescription": "Opis",
+            "serviceTypeHairdressing": "Frizerstvo",
+            "serviceTypeMasseuse": "Maserstvo",
+            "serviceTypeMechanic": "Avtomehanika",
+            "serviceTypeVulcanizer": "Vulkanizerstvo",
+            "saveButton": "Shrani informacije"
+        },
+        "serviceOverview": {
+            "name": "Naziv",
+            "phone": "Telefonska št.",
+            "workingHours": "Delovni čas",
+            "monday": "Ponedeljek",
+            "tuesday": "Torek",
+            "wednesday": "Sreda",
+            "thursday": "Četrtek",
+            "friday": "Petek",
+            "saturday": "Sobota",
+            "sunday": "Nedelja"
+        }
+    },
     "unauthorizedPage": {
         "text": "Za dostop do te spletne strani se morate prijaviti."
     }
