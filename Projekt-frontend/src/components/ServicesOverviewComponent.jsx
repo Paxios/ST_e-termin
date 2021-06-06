@@ -3,9 +3,6 @@ import { withRouter } from 'react-router-dom'
 import ServicesService from '../services/ServicesService'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
 import ServicesListComponent from './ServicesListComponent';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';

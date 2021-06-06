@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { BACKEND_URL, STORITEV_PREFIX, DELOVNICAS_PREFIX } from '../Constants'
-//import { filterServicesByDate } from '../Utils';
 
 const user = JSON.parse(window.sessionStorage.getItem("user"));
 if (user != null) {

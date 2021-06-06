@@ -75,7 +75,7 @@ function HeaderDrawerComponent(props) {
                                 navigateReservartions("serviceInfo")
                             }
                             }>
-                                <ListItemIcon><InfoIcon color="secondary" /></ListItemIcon>
+                                <ListItemIcon><InfoIcon color="primary" /></ListItemIcon>
                                 <ListItemText primary={t("drawerMenuItems.serviceInfo")} />
                             </ListItem><Divider />
 
@@ -91,7 +91,7 @@ function HeaderDrawerComponent(props) {
                                 navigateReservartions("")
                             }
                             }>
-                                <ListItemIcon><AccessibleForwardIcon color="secondary" /></ListItemIcon>
+                                <ListItemIcon><AccessibleForwardIcon color="primary" /></ListItemIcon>
                                 <ListItemText primary={t("drawerMenuItems.firstPage")} />
                             </ListItem><Divider />
                         </List>
@@ -111,7 +111,7 @@ function HeaderDrawerComponent(props) {
                             navigateServices("services")
                         }
                         }>
-                            <ListItemIcon><WorkOutlineIcon color="secondary" /></ListItemIcon>
+                            <ListItemIcon><WorkOutlineIcon color="primary" /></ListItemIcon>
                             <ListItemText primary={t("drawerMenuItems.services")} />
                         </ListItem><Divider />
                         <List className="drawer-list">

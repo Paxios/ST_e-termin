@@ -38,7 +38,7 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple';
 import moment from "moment";
-import 'moment/lang/sl';
+import 'moment/locale/sl';
 import { saveAs } from 'file-saver';
 import axios from 'axios';
 import GetAppIcon from '@material-ui/icons/GetApp';
