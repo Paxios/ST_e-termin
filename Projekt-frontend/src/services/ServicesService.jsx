@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BACKEND_URL, STORITEV_PREFIX } from '../Constants'
+import { BACKEND_URL, STORITEV_PREFIX, DELOVNICAS_PREFIX } from '../Constants'
 //import { filterServicesByDate } from '../Utils';
 
 const user = JSON.parse(window.sessionStorage.getItem("user"));
@@ -37,6 +37,10 @@ class ServicesService {
 
     update_storitev(company_id,storitev) {
         return client.put(BACKEND_URL + STORITEV_PREFIX + company_id, storitev)
+    }
+
+    update_delovni_cas(company_id,delovni_cas) {
+        return client.put(BACKEND_URL + STORITEV_PREFIX + company_id + DELOVNICAS_PREFIX, delovni_cas)
     }
 
     overview_loadStoritve(component) {

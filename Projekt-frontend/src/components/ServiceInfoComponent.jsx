@@ -64,7 +64,8 @@ class ServiceInfoComponent extends Component {
             openSnackbar: false,
             snackbarMessage: "",
             selectedPosition: [0, 0],
-            initialPosition: [0, 0]
+            initialPosition: [0, 0],
+            currentPosition: [0, 0]
         }
     }
 
@@ -80,22 +81,27 @@ class ServiceInfoComponent extends Component {
 
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords;
-            this.initialPosition = [latitude, longitude];
-
+            this.state.currentPosition = [latitude, longitude];
         });
     }
 
     loadService = () => {
         var podjetjeId = this.context.user.company_id;
         ServicesService.info_loadStoritev(this, podjetjeId);
+        setTimeout(
+            () => {
+                this.state.initialPosition[0] = this.state.storitev.lokacija.x;
+                this.state.initialPosition[1] = this.state.storitev.lokacija.y;
+            },
+            1000
+        );
+        //console.log(this.state)
     }
 
-    handleClick = (event) => {
-        const { lat, lng } = event.latlng
-        console.log(`Clicked at ${lat}, ${lng}`)
-    }
-
-    handleChange = e => this.setState({ item_msg: e.target.value });
+    saveMarkers = (newMarkerCoords) => {
+        const selectedPosition = newMarkerCoords;
+        this.setState((prevState) => ({ ...prevState, selectedPosition }));
+    };
 
     render() {
         return (
@@ -108,11 +114,10 @@ class ServiceInfoComponent extends Component {
                             attribution='Simply press on the map to select current location'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        {/* <LocationMarker /> */}
-                        <Markers selectedPosition={this.state.selectedPosition} onChange={this.handleChange} />
+                        <MyMarker saveMarkers={this.saveMarkers} initialPosition={this.state.initialPosition} currentPosition={this.state.currentPosition} selectedPosition={this.state.selectedPosition} />
                     </MapContainer>
 
-                    <InfoForm storitev={this.state.storitev} changeSnackbarState={this.changeStateSnackbar} />
+                    <InfoForm storitev={this.state.storitev} pos={this.state.selectedPosition} changeSnackbarState={this.changeStateSnackbar} />
                 </div>
 
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
@@ -160,12 +165,16 @@ function InfoForm(props) {
             size="large"
             onClick={() => {
                 console.log(props.storitev)
+                console.log(props.pos)
                 ServicesService.update_storitev(props.storitev._id, {
                     ime: props.storitev.ime,
                     naslov: props.storitev.naslov,
                     tip: props.storitev.tip,
                     opis: props.storitev.opis,
-                    lokacija: props.storitev.lokacija
+                    lokacija: {
+                        x: props.pos[0],
+                        y: props.pos[1]
+                    }
                 });
                 props.changeSnackbarState("Successfully updated service information.");
             }}
@@ -177,53 +186,51 @@ function InfoForm(props) {
     </form>)
 }
 
-function Markers(props) {
-    var selectedPosition = props.selectedPosition;
-
+function MyMarker(props) {
+    console.log(props)
     const map = useMapEvents({
-        click(e) {
-            selectedPosition = [e.latlng.lat, e.latlng.lng]
-            console.log(selectedPosition)
-            //props.selectedPosition=selectedPosition
-            console.log(props.selectedPosition)
-            // this.setState({
-            //     selectedPosition: selectedPosition
-            // });
-            //this.selectedPosition=selectedPosition
+        click: (e) => {
+            const { lat, lng } = e.latlng;
+            var i = 0
+            map.eachLayer((layer) => {
+                if (i == 0)
+                    i++
+                else
+                    layer.remove();
+            });
+            L.marker([lat, lng], { DefaultIcon }).addTo(map);
+            props.saveMarkers([lat, lng]);
         },
-    })
-
-    return (
-        selectedPosition ?
-            <Marker
-                key={selectedPosition[0]}
-                position={selectedPosition}
-                interactive={false}
-                onChange={props.onChange}
-            >
-            </Marker>
-            : null
-    )
-
-}
-
-function LocationMarker() {
-    const [position, setPosition] = useState(null)
-    const map = useMapEvents({
-        click() {
-            map.locate()
+        keydown: (e) => {
+            var i = 0
+            map.eachLayer((layer) => {
+                if (i == 0)
+                    i++
+                else
+                    layer.remove();
+            });
+            map.flyTo(props.initialPosition, map.getZoom());
+            L.marker(props.initialPosition, { DefaultIcon }).addTo(map);
+            props.saveMarkers(props.initialPosition);
         },
-        locationfound(e) {
-            setPosition(e.latlng)
-            map.flyTo(e.latlng, map.getZoom())
+        mouseout: (e) => {
+            if(props.selectedPosition[0]!=0&&props.selectedPosition[1]!=0)
+                map.flyTo(props.selectedPosition, map.getZoom());
         },
-    })
-
-    return position === null ? null : (
-        <Marker position={position}>
-            <Popup>You are here</Popup>
-        </Marker>
-    )
+        contextmenu: (e) => {
+            var i = 0
+            map.eachLayer((layer) => {
+                if (i == 0)
+                    i++
+                else
+                    layer.remove();
+            });
+            map.flyTo(props.currentPosition, map.getZoom());
+            L.marker(props.currentPosition, { DefaultIcon }).addTo(map);
+            props.saveMarkers(props.currentPosition);
+        }
+    });
+    return null;
 }
 
 export default ServiceInfoComponent

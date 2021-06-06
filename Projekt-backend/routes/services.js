@@ -67,6 +67,27 @@ router.get("/ponudba/:id", async (req, res) => {
   res.json(rezultat);
 });
 
+//UPDATE service working hours
+router.put("/:storitevId/delovnicas", async (req, res) => {
+    var storitevId = new mongo.ObjectID(req.params.storitevId);
+    try {
+        const { error } = verifikacija.delovni_cas_scheme.validate(req.body);
+        if (error != null) {
+            res.status(400).json({ status: "error", reason: error });
+            return;
+        }
+        const rezultat = await database.updateDelovniCas(storitevId, req.body);
+        if (rezultat === null) {
+            res.status(404).json({ status: "error", reason: "Service with this id does not exist." });
+        }
+        else {
+            res.json(rezultat);
+        }
+    }
+    catch (exception) {
+        res.status(500).json({ status: "error", reason: exception });
+    }
+});
 
 /* GET list of customers */
 router.get('/stranke/:storitevId', async function (req, res, next) {

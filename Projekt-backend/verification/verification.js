@@ -55,6 +55,39 @@ const storitev_scheme = joi.object({
     })
 })
 
+
+const delovni_cas_scheme = joi.object({
+    ponedeljek: joi.object({
+        zacetek: joi.string().min(4).max(5).required(),
+        konec: joi.string().min(4).max(5).required(),
+    }),
+    torek: joi.object({
+        zacetek: joi.string().min(4).max(5).required(),
+        konec: joi.string().min(4).max(5).required(),
+    }),
+    sreda: joi.object({
+        zacetek: joi.string().min(4).max(5).required(),
+        konec: joi.string().min(4).max(5).required(),
+    }),
+    cetrtek: joi.object({
+        zacetek: joi.string().min(4).max(5).required(),
+        konec: joi.string().min(4).max(5).required(),
+    }),
+    petek: joi.object({
+        zacetek: joi.string().min(4).max(5).required(),
+        konec: joi.string().min(4).max(5).required(),
+    }),
+    sobota: joi.object({
+        zacetek: joi.string().min(4).max(5).required(),
+        konec: joi.string().min(4).max(5).required(),
+    }),
+    nedelja: joi.object({
+        zacetek: joi.string().min(4).max(5).required(),
+        konec: joi.string().min(4).max(5).required(),
+    })
+});
+
+exports.delovni_cas_scheme = delovni_cas_scheme;
 exports.storitev_scheme = storitev_scheme;
 exports.uporabnik_scheme = uporabnik_scheme;
 exports.rezervacija_scheme = rezervacija_scheme;

@@ -6,6 +6,7 @@ export const REPORT_PREFIX = "/porocilo/"
 export const RACUNI_PREFIX = "/racun/"
 export const RACUNI_SUFFIX = "/racuni"
 export const COUNT_SUFFIX = "/count"
+export const DELOVNICAS_PREFIX = "/delovnicas"
 export const ZASEDENI_TERMINI_URL = "/zasedeni_termini"
 export const RESERVATIONS_SUFFIX = '/rezervacije'
 export const RESERVATION_SUFFIX = '/rezervacija'
