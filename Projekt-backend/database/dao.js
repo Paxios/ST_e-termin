@@ -103,7 +103,7 @@ const register = async (user_details) => {
 }
 
 const getUserByUsername = async (uporabnisko_ime) => {
-    return await database.User.findOne({uporabnisko_ime});
+    return await database.User.findOne({ uporabnisko_ime });
 }
 
 const getSeznamStoritev = async () => {
@@ -115,12 +115,12 @@ const getStoritevById = async (id) => {
 }
 
 const getPonudbaById = async (id) => {
-    return await database.Storitev.findOne({'ponudba.id': id}, {'ponudba.$' : 1});
+    return await database.Storitev.findOne({ 'ponudba.id': id }, { 'ponudba.$': 1 });
 }
 const updateStoritev = async (storitevId, storitev) => {
     return await database.Storitev.findByIdAndUpdate(storitevId, storitev, { useFindAndModify: false })
 }
- 
+
 const getCustomerList = async (serviceId) => {
     //return await database.Rezervacija.find({ id_storitev: serviceId })
     return new Promise((res) => {
@@ -199,6 +199,45 @@ const insertNewRacun = async (racun) => {
     return new_racun;
 
 }
+const countServicesInReceipts = async (id) => {
+    return await database.Racun.aggregate([
+        {
+            $match: { id_podjetje: id }
+        },
+        {
+            $group: {
+                _id: '$id_storitev', count: { $sum: 1 }
+            }
+        }
+    ]);
+}
+
+const countReservations = async (id) => {
+    console.log(id);
+    return await database.Rezervacija.aggregate([
+        {
+            $match: { id_podjetje: id }
+        },
+        {
+            $group: {
+                _id: { $dateToString: { format: "%Y-%m-%d", date: "$datum" } },
+                count: {
+                    $sum: 1
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                name: "$_id",
+                count: 1
+            }
+        },
+        { 
+            $sort : { name : 1 } 
+        }
+    ]);
+}
 
 exports.updateStoritev = updateStoritev;
 exports.getSeznamStoritev = getSeznamStoritev;
@@ -217,3 +256,5 @@ exports.getReceiptsByCompanyId = getReceiptsByCompanyId;
 exports.getReceiptById = getReceiptById;
 exports.getPonudbaById = getPonudbaById;
 exports.deleteReceiptById = deleteReceiptById;
+exports.countServicesInReceipts = countServicesInReceipts;
+exports.countReservations = countReservations;

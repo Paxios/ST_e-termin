@@ -12,6 +12,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 import { withRouter } from 'react-router-dom'
 import TimelineIcon from '@material-ui/icons/Timeline';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 
 class HeaderDrawerComponent extends Component {
     // constructor(props) {
@@ -64,7 +65,7 @@ class HeaderDrawerComponent extends Component {
                                     this.navigateServices("reports")
                                 }
                                 }>
-                                    <ListItemIcon><ReceiptIcon color="primary" /></ListItemIcon>
+                                    <ListItemIcon><AssessmentIcon color="primary" /></ListItemIcon>
                                     <ListItemText primary="Reports" />
                                 </ListItem><Divider />
 

@@ -27,5 +27,13 @@
             "print": "Natisni",
             "title": "Tiskanje računa"
         }
+    },
+    "reports": {
+        "countGraph": "Število opravljenih storitev",
+        "priceGraph": "Zaslužek glede na storitve",
+        "reservationsGraph": "Število rezervacij po dnevih",
+        "pdfReportDialog": {
+            "title": "Pregled poslovanja"
+        }
     }
 }
