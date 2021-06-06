@@ -9,7 +9,7 @@ var mongo = require('mongodb')
 router.use(jwt({
     secret: process.env.SECRET,
     algorithms: ['HS256']
-}).unless({ path: ['/user/register', "/user/login"] }));
+}).unless({ path: ['/user/register', "/user/login", "/storitev/"] }));
 
 router.use((err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {
@@ -60,6 +60,13 @@ router.put("/:storitevId", async (req, res) => {
     }
 });
 
+//GET ponudba by id
+router.get("/ponudba/:id", async (req, res) => {
+  var ponudbaId = new mongo.ObjectID(req.params.id);
+  const rezultat = await database.getPonudbaById(ponudbaId)
+  res.json(rezultat);
+});
+
 //UPDATE service working hours
 router.put("/:storitevId/delovnicas", async (req, res) => {
     var storitevId = new mongo.ObjectID(req.params.storitevId);
@@ -92,6 +99,7 @@ router.get('/stranke/:storitevId', async function (req, res, next) {
         console.error(error);
     }
 });
+
 
 /* UPDATE working hours of service */
 router.put('/delovnicas/:storitevId', async function (req, res, next) {

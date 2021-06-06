@@ -16,6 +16,8 @@ import HomepageComponent from './components/HomepageComponent';
 import AuthContext from "./context/AuthContext";
 import UnauthorizedPage from './components/UnauthorizedPage';
 import ProtectedRoute from './routes/ProtectedRoute';
+import ReceiptsOverviewComponent from './components/Receipts/ReceiptsOverviewComponent';
+import ReportsOverviewComponent from './components/Reports/ReportsOverviewComponent';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -39,8 +41,14 @@ function App() {
           <HeaderComponent />
           <div className="container">
               <Switch>
-                <ProtectedRoute path="/services">
+                <Route path="/services">
                   <ServicesOverviewComponent user={user} />
+                </Route>
+                <ProtectedRoute path="/receipts">
+                  <ReceiptsOverviewComponent />
+                </ProtectedRoute>
+                <ProtectedRoute path="/reports">
+                  <ReportsOverviewComponent />
                 </ProtectedRoute>
                 <ProtectedRoute path="/overview">
                   <ReservationsOverviewComponent user={user} />

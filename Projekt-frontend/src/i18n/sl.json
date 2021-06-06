@@ -9,7 +9,8 @@
             "note": "Opomba",
             "price": "Cena",
             "customer": "Stranka",
-            "employee": "Zaposleni"
+            "employee": "Zaposleni",
+            "error": "Pri izdaji računa je prišlo do napake"
         }
     },
     "services": {
@@ -41,5 +42,34 @@
     },
     "unauthorizedPage": {
         "text": "Za dostop do te spletne strani se morate prijaviti."
+    },
+    "receipts": {
+        "title": "Računi",
+        "detailsDialog": {
+            "title": "Pregled računa",
+            "delete": "Storniraj",
+            "add": "dodaj"
+        },
+        "printDialog": {
+            "print": "Natisni",
+            "title": "Tiskanje računa"
+        }
+    },
+    "reports": {
+        "countGraph": "Število opravljenih storitev",
+        "priceGraph": "Zaslužek glede na storitve",
+        "reservationsGraph": "Število rezervacij po dnevih",
+        "pdfReportDialog": {
+            "title": "Pregled poslovanja"
+        }
+    },
+    "drawerMenuItems": {
+        "services": "Ponundiki storitev",
+        "receipts": "Računi",
+        "reports": "Poročila",
+        "reservations": "Rezervacije",
+        "serviceInfo": "Podatki o podjetju",
+        "timeline": "Časovnica",
+        "firstPage": "Začetna stran"
     }
 }

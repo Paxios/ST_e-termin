@@ -35,12 +35,12 @@ const rezervacija_scheme = joi.object({
 const racun_scheme = joi.object({
     id_podjetje: joi.string().required(),
     id_storitev: joi.string().required(),
-    id_rezervacija: joi.string(),
+    id_rezervacija: joi.string().optional(),
     ime_stranke: joi.string().alphanum().required(),
     priimek_stranke: joi.string().alphanum().required(),
     zaposleni: zaposleni_scheme.required(),
     datum: joi.date().required().required(),
-    opomba: joi.string().max(500),
+    opomba: joi.string().max(500).optional(),
     cena: joi.number().required()
 });
 

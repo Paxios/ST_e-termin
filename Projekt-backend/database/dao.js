@@ -103,7 +103,7 @@ const register = async (user_details) => {
 }
 
 const getUserByUsername = async (uporabnisko_ime) => {
-    return await database.User.findOne({uporabnisko_ime});
+    return await database.User.findOne({ uporabnisko_ime });
 }
 
 const getSeznamStoritev = async () => {
@@ -114,6 +114,9 @@ const getStoritevById = async (id) => {
     return await database.Storitev.findOne({ _id: id });
 }
 
+const getPonudbaById = async (id) => {
+    return await database.Storitev.findOne({ 'ponudba.id': id }, { 'ponudba.$': 1 });
+}
 const updateStoritev = async (storitevId, storitev) => {
     return await database.Storitev.findByIdAndUpdate(storitevId, storitev, { useFindAndModify: false })
 }
@@ -142,7 +145,106 @@ const getCustomerList = async (serviceId) => {
     });
 }
 
-exports.updateDelovniCas = updateDelovniCas;
+const getReceiptsByCompanyId = async (companyId) => {
+    return new Promise((res) => {
+        database.Racun.find({ id_podjetje: companyId })
+            .then((receipts) => {
+                res(receipts);
+            })
+            .catch((error) => {
+                console.error(error);
+                res("serviceNotFound");
+            });
+    });
+}
+
+const getReceiptById = async (id) => {
+    return new Promise((res) => {
+        database.Racun.findOne({ _id: id })
+            .then((receipt) => {
+                res(receipt);
+            })
+            .catch((error) => {
+                console.error(error);
+                res("receiptNotFound");
+            });
+    });
+}
+
+const deleteReceiptById = async (id) => {
+    return new Promise((res) => {
+        database.Racun.findByIdAndRemove({ _id: id })
+            .then((result) => {
+                res(result);
+            })
+            .catch((error) => {
+                console.error(error);
+                res("receiptNotFound");
+            });
+    });
+}
+
+const insertNewRacun = async (racun) => {
+    racun["_id"] = mongoose.Types.ObjectId();
+    const new_racun = database.Racun(racun);
+
+    try {
+        await new_racun.save((err) => {
+            if (err != null) {
+                console.log({ status: "error, failed to save rezervacija into database", reason: err })
+                return null;
+            }
+        })
+    }
+    catch (exception) {
+        console.log({
+            status: "ERROR trying to save rezervacija in database. Probably same ID",
+            reason: exception
+        });
+    }
+    return new_racun;
+
+}
+const countServicesInReceipts = async (id) => {
+    return await database.Racun.aggregate([
+        {
+            $match: { id_podjetje: id }
+        },
+        {
+            $group: {
+                _id: '$id_storitev', count: { $sum: 1 }
+            }
+        }
+    ]);
+}
+
+const countReservations = async (id) => {
+    console.log(id);
+    return await database.Rezervacija.aggregate([
+        {
+            $match: { id_podjetje: id }
+        },
+        {
+            $group: {
+                _id: { $dateToString: { format: "%Y-%m-%d", date: "$datum" } },
+                count: {
+                    $sum: 1
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                name: "$_id",
+                count: 1
+            }
+        },
+        { 
+            $sort : { name : 1 } 
+        }
+    ]);
+}
+
 exports.updateStoritev = updateStoritev;
 exports.getSeznamStoritev = getSeznamStoritev;
 exports.getCustomerList = getCustomerList;
@@ -155,3 +257,11 @@ exports.getSeznamZasedenihTerminov = getSeznamZasedenihTerminov;
 exports.register = register;
 exports.getUserByUsername = getUserByUsername;
 exports.getStoritevById = getStoritevById;
+exports.insertNewRacun = insertNewRacun;
+exports.getReceiptsByCompanyId = getReceiptsByCompanyId;
+exports.getReceiptById = getReceiptById;
+exports.getPonudbaById = getPonudbaById;
+exports.deleteReceiptById = deleteReceiptById;
+exports.countServicesInReceipts = countServicesInReceipts;
+exports.countReservations = countReservations;
+exports.updateDelovniCas = updateDelovniCas;

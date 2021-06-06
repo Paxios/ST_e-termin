@@ -138,6 +138,8 @@ class ReservationsOverviewComponent extends Component {
                     isOpen={this.state.isConfirmReservationDialogOpen} 
                     closeDialog={this.closeConfirmReservationDialog}
                     reservation={this.state.currentConfirmReservation}
+                    refreshReservations={this.loadRezervacije}
+                    changeSnackBarState={this.changeSnackBarMessage}
                 />
             </div>
         )
