@@ -10,7 +10,7 @@ const { generatePdfInvoiceData } = require('../generator/PdfInvoiceGenerator');
 var easyinvoice = require('easyinvoice');
 const base64 = require('base64topdf');
 
-router.use(jwt({
+/*router.use(jwt({
     secret: process.env.SECRET,
     algorithms: ['HS256']
 }).unless({ path: ['/user/register', "/user/login"] }));
@@ -22,7 +22,7 @@ router.use((err, req, res, next) => {
         return;
     }
     next();
-});
+});*/
 
 router.use(cors({ exposedHeaders: ['Authorization'] }))
 
@@ -52,11 +52,6 @@ router.get("/:id/pdf", async (req, res) => {
         var invoice = generatePdfInvoiceData(receipt, podjetje, storitev.ponudba[0]);
         console.log(invoice);
         easyinvoice.createInvoice(invoice, function (result) {
-            //The response will contain a base64 encoded PDF file
-            //let decodedBase64 = base64.base64Decode(result, `racun_${receipt._id}.pdf`);
-            //const download = Buffer.from(result.toString('utf-8'), 'base64');
-            //let decodedBase64 = base64.base64Decode(result.pdf, 'file.pdf');
-            //console.log(decodedBase64);
             res.set('Content-Type', 'text/html');
             res.send(JSON.stringify(result.pdf));
         });
@@ -66,10 +61,46 @@ router.get("/:id/pdf", async (req, res) => {
     }
 });
 
+//GET racun and all related objects by id
+router.get("/:id/full", async (req, res) => {
+    var receipt = await database.getReceiptById(new mongo.ObjectID(req.params.id));
+    if (receipt != null) {
+        var podjetje = await database.getStoritevById(new mongo.ObjectID(receipt.id_podjetje));
+        var storitev = await database.getPonudbaById(new mongo.ObjectID(receipt.id_storitev));
+        var result = {
+            _id: receipt._id,
+            storitev: storitev.ponudba[0],
+            podjetje: podjetje,
+            id_rezervacija: receipt.id_rezervacija,
+            ime_stranke: receipt.ime_stranke,
+            priimek_stranke: receipt.priimek_stranke,
+            zaposleni: receipt.zaposleni,
+            datum: receipt.datum,
+            opomba: receipt.opomba,
+            cena: receipt.cena
+        }
+        res.json(result);
+    }
+    else {
+        res.status(404).json({ reason: "receipt with this id does not exist." })
+    }
+
+});
+
 //GET racun by ID
 router.get("/:id", async (req, res) => {
-    console.log("get racuni");
     const receipt = await database.getReceiptById(new mongo.ObjectID(req.params.id));
+    if (receipt == null) {
+        res.status(404).json({ reason: "Receipt with this id does not exist." })
+    }
+    else {
+        res.status(200);
+    }
+});
+
+//DELETE racun by ID
+router.delete("/:id", async (req, res) => {
+    const receipt = await database.deleteReceiptById(new mongo.ObjectID(req.params.id));
     if (receipt == null) {
         res.status(404).json({ reason: "Receipt with this id does not exist." })
     }
@@ -78,9 +109,9 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+
 //POST add new racun
 router.post("/storitev/:podjetjeId", async (req, res) => {
-    console.log("post racun");
     try {
         req.body["id_podjetje"] = req.params.podjetjeId
         const { error } = verifikacija.racun_scheme.validate(req.body)

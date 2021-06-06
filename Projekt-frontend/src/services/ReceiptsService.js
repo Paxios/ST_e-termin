@@ -37,6 +37,13 @@ class ReceiptsService {
     get_receipt_pdf(id) {
         return client.get(BACKEND_URL + RACUNI_PREFIX + id + "/pdf");
     }
+    get_receipt_full(id) {
+        return client.get(BACKEND_URL + RACUNI_PREFIX + id + "/full");
+    }
+
+    delete_receipt_by_id(id) {
+        return client.delete(BACKEND_URL + RACUNI_PREFIX + id);
+    }
 
     getConnectionStatus = () => {
         return isConnection;

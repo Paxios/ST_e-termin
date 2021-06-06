@@ -37,6 +37,10 @@
   }
 }
 
+.MuiInputBase-input {
+  color: #2d2d2d !important;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

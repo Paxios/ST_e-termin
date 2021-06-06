@@ -165,6 +165,19 @@ const getReceiptById = async (id) => {
     });
 }
 
+const deleteReceiptById = async (id) => {
+    return new Promise((res) => {
+        database.Racun.findByIdAndRemove({ _id: id })
+            .then((result) => {
+                res(result);
+            })
+            .catch((error) => {
+                console.error(error);
+                res("receiptNotFound");
+            });
+    });
+}
+
 const insertNewRacun = async (racun) => {
     racun["_id"] = mongoose.Types.ObjectId();
     const new_racun = database.Racun(racun);
@@ -203,3 +216,4 @@ exports.insertNewRacun = insertNewRacun;
 exports.getReceiptsByCompanyId = getReceiptsByCompanyId;
 exports.getReceiptById = getReceiptById;
 exports.getPonudbaById = getPonudbaById;
+exports.deleteReceiptById = deleteReceiptById;

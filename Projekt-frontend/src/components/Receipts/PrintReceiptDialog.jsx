@@ -67,7 +67,6 @@ function PrintReceiptDialog({ isOpen, closeDialog, receiptId }) {
     useEffect(() => {
         ReceiptsService.get_receipt_pdf(receiptId)
             .then((result) => {
-                console.log(result.data);
                 setPdfString(result.data);
             })
             .catch((error) => {
@@ -88,10 +87,10 @@ function PrintReceiptDialog({ isOpen, closeDialog, receiptId }) {
                             <CloseIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            {t("reservations.confirmReservationDialog.title")}
+                            {t("receipts.printDialog.title")}
                         </Typography>
                         <Button autoFocus color="inherit" onClick={addReceipt}>
-                            {t("reservations.confirmReservationDialog.confirm")}
+                            {t("receipts.printDialog.print")}
                         </Button>
                     </Toolbar>
                 </AppBar>

@@ -24,7 +24,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
 import AuthContext from "../../context/AuthContext";
 import ServicesService from '../../services/ServicesService';
-import ReceiptsServiceService from '../../services/ReceiptsService';
 import ReceiptsService from '../../services/ReceiptsService';
 import Alert from '@material-ui/lab/Alert';
 import ReservationService from '../../services/ReservationService';
@@ -51,7 +50,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function AddReceiptDialog({ isOpen, closeDialog, refreshReceipts }) {
+function AddReceiptDialog({ isOpen, closeDialog, dodajRacun, odstraniRacun, receiptId, isNew }) {
     const classes = useStyles();
     const { t } = useTranslation();
     const Auth = useContext(AuthContext);
@@ -67,14 +66,41 @@ function AddReceiptDialog({ isOpen, closeDialog, refreshReceipts }) {
     const [opomba, setOpomba] = useState("");
     const [cena, setCena] = useState("");
     const [izbraniZaposleni, setIzbraniZaposleni] = useState("");
+    const [disabled, setDisabled] = useState(false);
 
     const handleClose = () => {
+        setStoritevId(null);
+        setImeStranka("");
+        setPriimekStranka("");
+        setOpomba("");
+        setIzbraniZaposleni("");
+        setDisabled(false);
         closeDialog();
     };
 
     useEffect(() => {
-        var podjetjeId = Auth.user.company_id;
-        ServicesService.getStoritevById(podjetjeId)
+        if(!isNew){
+            setDisabled(true);
+            ReceiptsService.get_receipt_full(receiptId)
+                .then((result) => {
+                    var receipt = result.data;
+                    setVsiZaposleni(receipt.podjetje.zaposleni);
+                    setStoritve(receipt.podjetje.ponudba);
+                    setStoritevId(receipt.storitev.id);
+                    setImeStranka(receipt.ime_stranke);
+                    setPriimekStranka(receipt.priimek_stranke);
+                    setOpomba(receipt.opomba);
+                    setCena(receipt.cena);
+                    setIzbraniZaposleni(receipt.zaposleni);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+        else{
+            setDisabled(false);
+            var podjetjeId = Auth.user.company_id;
+            ServicesService.storitev_by_company_id(podjetjeId)
             .then((result) => {
                 console.log(result);
                 var storitev = result.data;
@@ -90,6 +116,8 @@ function AddReceiptDialog({ isOpen, closeDialog, refreshReceipts }) {
             .catch((error) => {
                 console.log(error);
             });
+        }
+        
     }, [isOpen]);
 
 
@@ -108,8 +136,8 @@ function AddReceiptDialog({ isOpen, closeDialog, refreshReceipts }) {
         ReceiptsService.add_new_racun(id_podjetje, racun)
             .then((result) => {
                 console.log(result);
+                dodajRacun(result.data);
                 closeDialog();
-                deleteReservation(reservation._id);
             })
             .catch((err) => {
                 console.log(err);
@@ -125,6 +153,16 @@ function AddReceiptDialog({ isOpen, closeDialog, refreshReceipts }) {
 
     const handleZaposleniChange = (event) => {
         setIzbraniZaposleni(event.target.value);
+    }
+    const deleteReceipt = () => {
+        ReceiptsService.delete_receipt_by_id(receiptId)
+            .then((result) => {
+                odstraniRacun(receiptId);
+                closeDialog();
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     const errorAlert = (
@@ -160,28 +198,22 @@ function AddReceiptDialog({ isOpen, closeDialog, refreshReceipts }) {
                             <CloseIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            {t("reservations.confirmReservationDialog.title")}
+                            {t("receipts.detailsDialog.title")}
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={addReceipt}>
-                            {t("reservations.confirmReservationDialog.confirm")}
-                        </Button>
+                        {isNew ? (
+                            <Button autoFocus color="inherit" onClick={addReceipt}>
+                                {t("receipts.detailsDialog.add")}
+                            </Button>
+                        ) : (
+                            <Button autoFocus color="inherit" onClick={deleteReceipt}>
+                                {t("receipts.detailsDialog.delete")}
+                            </Button>
+                        )}
+                        
                     </Toolbar>
                 </AppBar>
                 <FormControl variant="outlined" className={classes.formControl}>
                     {errorAlert}
-                    <Typography>{t("reservations.confirmReservationDialog.service")}</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={storitevId}
-                        onChange={handleStoritevChange}
-                    >
-                        {storitve.map((storitev) => (
-                            <MenuItem key={storitev.id} value={storitev.id}>{storitev.ime}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <FormControl variant="outlined" className={classes.formControl}>
                     <Typography>{t("reservations.confirmReservationDialog.customer")}</Typography>
                     <TextField
                         className={classes.textField}
@@ -189,6 +221,7 @@ function AddReceiptDialog({ isOpen, closeDialog, refreshReceipts }) {
                         variant="outlined"
                         value={imeStranka}
                         onChange={(event) => setImeStranka(event.target.value)}
+                        disabled={disabled}
                     />
                     <TextField
                         className={classes.textField}
@@ -196,13 +229,27 @@ function AddReceiptDialog({ isOpen, closeDialog, refreshReceipts }) {
                         variant="outlined"
                         value={priimekStranka}
                         onChange={(event) => setPriimekStranka(event.target.value)}
+                        disabled={disabled}
                     />
+                    <Typography>{t("reservations.confirmReservationDialog.service")}</Typography>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={storitevId}
+                        onChange={handleStoritevChange}
+                        disabled={disabled}
+                    >
+                        {storitve.map((storitev) => (
+                            <MenuItem key={storitev.id} value={storitev.id}>{storitev.ime}</MenuItem>
+                        ))}
+                    </Select>
                     <TextField
                         className={classes.textField}
                         label={t("reservations.confirmReservationDialog.price")}
                         variant="outlined"
                         value={cena}
                         onChange={(event) => setCena(event.target.value)}
+                        disabled={disabled}
                     />
                     <TextField
                         className={classes.textField}
@@ -212,18 +259,22 @@ function AddReceiptDialog({ isOpen, closeDialog, refreshReceipts }) {
                         rows={3}
                         rowsMax={7}
                         value={opomba}
+                        disabled={disabled}
                         onChange={(event) => setOpomba(event.target.value)}
                     />
+                </FormControl>
+                <FormControl variant="outlined" className={classes.formControl}>                  
                     <Typography>{t("reservations.confirmReservationDialog.employee")}</Typography>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={izbraniZaposleni}
                         onChange={handleZaposleniChange}
+                        disabled={disabled}
                     >
-                        {vsiZaposleni.map((zaposleni) => (
+                        {isNew ? vsiZaposleni.map((zaposleni) => (
                             <MenuItem key={zaposleni.naziv} value={zaposleni}>{zaposleni.naziv}</MenuItem>
-                        ))}
+                        )) : (<MenuItem key={izbraniZaposleni.naziv} value={izbraniZaposleni}>{izbraniZaposleni.naziv}</MenuItem>)}
                     </Select>
                 </FormControl>
             </Dialog>

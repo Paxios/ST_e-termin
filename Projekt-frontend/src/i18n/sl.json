@@ -17,6 +17,15 @@
         "text": "Za dostop do te spletne strani se morate prijaviti."
     },
     "receipts": {
-        "title": "Računi"
+        "title": "Računi",
+        "detailsDialog": {
+            "title": "Pregled računa",
+            "delete": "Storniraj",
+            "add": "dodaj"
+        },
+        "printDialog": {
+            "print": "Natisni",
+            "title": "Tiskanje računa"
+        }
     }
 }

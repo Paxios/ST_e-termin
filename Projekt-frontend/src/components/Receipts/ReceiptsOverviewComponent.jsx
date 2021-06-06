@@ -22,7 +22,8 @@ import {
     Container,
     ListItemAvatar,
     Avatar,
-    ListItemSecondaryAction
+    ListItemSecondaryAction,
+    Fab
 } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
@@ -39,6 +40,8 @@ import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple';
 import moment from "moment";
 import 'moment/lang/sl';
 import PrintReceiptDialog from "./PrintReceiptDialog";
+import AddReceiptDialog from './AddReceiptDialog';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -51,6 +54,11 @@ const useStyles = makeStyles(theme => ({
     title: {
         marginLeft: '10px',
         marginTop: '15px'
+    },
+    fab: {
+        position: 'fixed',
+        bottom: '25px',
+        right: '25px'
     }
 }));
 
@@ -61,6 +69,8 @@ function ReceiptsOverviewComponent({ }) {
 
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);
     const [pdfDialogOpen, setPdfDialogOpen] = useState(false);
+    const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
+    const [isNew, setIsNew] = useState(false);
     const [receiptId, setReceiptId] = useState(null);
     const [receipts, setReceipts] = useState([]);
 
@@ -77,17 +87,38 @@ function ReceiptsOverviewComponent({ }) {
             });
     }, []);
 
-    const handleCellClick = params => {
-        if (params.field === "details") {
-            console.log("details");
-        }
-        else if (params.field === "print") {
-            console.log("print");
-        }
-    };
-    const receiptClick = (id) => {
+    const receiptPrintClick = (id) => {
         setReceiptId(id);
         setPdfDialogOpen(true);
+    }
+
+    const receiptClick = (id) => {
+        console.log("open" + id);
+        setIsNew(false);
+        setReceiptId(id);
+        setDetailsDialogOpen(true);
+    }
+
+    const newReceipt = () => {
+        setIsNew(true);
+        setReceiptId(null);
+        setDetailsDialogOpen(true);
+    }
+
+    const dodajRacun = (racun) => {
+        var racuni = receipts.slice();
+        racuni.push(racun);
+        setReceipts(racuni);
+    }
+
+    const odstraniRacun = (id) => {
+        console.log("odstrani");
+        var racuni = receipts.slice();
+        var index = racuni.findIndex((racun) => racun._id === id);
+        console.log(index);
+        racuni.splice(index, 1);
+        console.log(racuni);
+        setReceipts(racuni);
     }
 
     const errorAlert = (
@@ -114,6 +145,7 @@ function ReceiptsOverviewComponent({ }) {
         </Collapse>
     );
 
+
     return (
         <div>
             <Grid container>
@@ -124,18 +156,18 @@ function ReceiptsOverviewComponent({ }) {
                     <div className={classes.demo}>
                         <List dense={true}>
                             {receipts.map((receipt) => (
-                                <ListItem button>
+                                <ListItem button onClick={() => receiptClick(receipt._id)}>
                                     <ListItemAvatar>
                                         <Avatar>
                                             <ReceiptIcon />
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={receipt.cena}
+                                        primary={receipt.cena + '€'}
                                         secondary={`${receipt.ime_stranke} ${receipt.priimek_stranke} • ${moment(receipt.datum).format('ll')}`}
                                     />
                                     <ListItemSecondaryAction>
-                                        <IconButton edge="end" aria-label="delete" onClick={() => receiptClick(receipt._id)}>
+                                        <IconButton edge="end" aria-label="delete" onClick={() => receiptPrintClick(receipt._id)}>
                                             <ReceiptIcon />
                                         </IconButton>
                                     </ListItemSecondaryAction>
@@ -146,13 +178,31 @@ function ReceiptsOverviewComponent({ }) {
                 </Grid>
             </Grid>
             {receiptId ? (
-                <PrintReceiptDialog
-                    isOpen={pdfDialogOpen}
-                    closeDialog={() => setPdfDialogOpen(false)}
-                    receiptId={receiptId}
-                />
-            ) : ('')}
+                <>
+                    <PrintReceiptDialog
+                        isOpen={pdfDialogOpen}
+                        closeDialog={() => setPdfDialogOpen(false)}
+                        receiptId={receiptId}
+                    />
+                    <AddReceiptDialog
+                        isOpen={detailsDialogOpen}
+                        closeDialog={() => setDetailsDialogOpen(false)}
+                        receiptId={receiptId}
+                        isNew={false}
+                        odstraniRacun={odstraniRacun}
+                    />
+                </>
+            ) : (
+            <AddReceiptDialog
+                isOpen={detailsDialogOpen}
+                closeDialog={() => setDetailsDialogOpen(false)}
+                isNew={true}
+                dodajRacun={dodajRacun}
+            />)}
 
+            <Fab color="primary" aria-label="add" className={classes.fab} onClick={newReceipt}>
+                <AddIcon />
+            </Fab>
         </div >
     );
 }

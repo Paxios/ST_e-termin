@@ -26,7 +26,7 @@ function generatePdfInvoiceData(racun, podjetje, storitev) {
             "city": "Maribor",
             "country": "Slovenija"
         },
-        "invoiceId": racun._id,
+        "invoiceId": racun['_id'],
         "invoiceDate": racun.datum,
         "products": [
             {

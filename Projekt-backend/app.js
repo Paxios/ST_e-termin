@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
 var servicesRouter = require('./routes/services');
 var receiptsRouter = require('./routes/receipts');
+var reportsRouter = require('./routes/reports');
 var app = express();
 
 
@@ -24,5 +25,6 @@ app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/storitev', servicesRouter);
 app.use('/racun', receiptsRouter);
+app.use('/porocilo', reportsRouter);
 
 module.exports = app;
