@@ -41,9 +41,9 @@ function App() {
           <HeaderComponent />
           <div className="container">
               <Switch>
-                <ProtectedRoute path="/services">
+                <Route path="/services">
                   <ServicesOverviewComponent user={user} />
-                </ProtectedRoute>
+                </Route>
                 <ProtectedRoute path="/receipts">
                   <ReceiptsOverviewComponent />
                 </ProtectedRoute>
