@@ -48,6 +48,10 @@ const useStyles = makeStyles(theme => ({
     inline: {
         display: 'inline',
     },
+    title: {
+        marginLeft: '10px',
+        marginTop: '15px'
+    }
 }));
 
 function ReceiptsOverviewComponent({ }) {

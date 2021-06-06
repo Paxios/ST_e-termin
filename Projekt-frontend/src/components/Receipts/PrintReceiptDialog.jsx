@@ -1,37 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react'
 import {
     Dialog,
-    Grid,
     makeStyles,
     Typography,
-    TextField,
     Button,
-    ListItemText,
-    ListItem,
-    List,
-    Divider,
     AppBar,
     Toolbar,
     IconButton,
     Slide,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Collapse,
     CircularProgress
 } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
 import AuthContext from "../../context/AuthContext";
-import ServicesService from '../../services/ServicesService';
-import ReceiptsServiceService from '../../services/ReceiptsService';
 import ReceiptsService from '../../services/ReceiptsService';
-import Alert from '@material-ui/lab/Alert';
-import ReservationService from '../../services/ReservationService';
 import { Document, Page, pdfjs } from "react-pdf";
-//import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
+import { useWindowWidth } from '@wojtekmaj/react-hooks';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -52,6 +38,9 @@ const useStyles = makeStyles(theme => ({
     pdfFile: {
         width: '100%'
     },
+    pdfPage: {
+
+    },
     progress: {
         margin: 'auto'
     }
@@ -61,16 +50,18 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function PrintReceiptDialog({ isOpen, closeDialog, refreshReceipts, receiptId }) {
+function PrintReceiptDialog({ isOpen, closeDialog, receiptId }) {
     const classes = useStyles();
     const { t } = useTranslation();
     const Auth = useContext(AuthContext);
+    const width = useWindowWidth();
 
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);
     const [pdfString, setPdfString] = useState("");
 
     const handleClose = () => {
         closeDialog();
+        setPdfString("");
     };
 
     useEffect(() => {
@@ -104,10 +95,10 @@ function PrintReceiptDialog({ isOpen, closeDialog, refreshReceipts, receiptId })
                         </Button>
                     </Toolbar>
                 </AppBar>
-                <div>
+                <div style={{textALign: 'center'}}>
                     {pdfString ? (
                         <Document file={`data:application/pdf;base64,${pdfString}`} className={classes.pdfFile} >
-                            <Page pageNumber={1} />
+                            <Page pageNumber={1} className={classes.pdfPage} width={Math.min(width * 0.95, 700)}/>
                         </Document>
                     ) : (
                         <div style={{ textAlign: 'center' }}>
