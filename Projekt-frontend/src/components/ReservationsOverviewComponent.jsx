@@ -12,8 +12,12 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { REFRESH_TIME } from '../Constants'
 import AddReservationReceiptDialog from './Receipts/AddReservationReceiptDialog';
+import ServicesService from '../services/ServicesService';
+import AuthContext from "../context/AuthContext";
+
 
 class ReservationsOverviewComponent extends Component {
+    static contextType = AuthContext
 
     constructor(props) {
         super(props)
@@ -26,7 +30,9 @@ class ReservationsOverviewComponent extends Component {
             snackbarMessage: "",
             isOnline: navigator.onLine,
             isConfirmReservationDialogOpen: false,
-            currentConfirmReservation: null
+            currentConfirmReservation: null,
+
+            storitev: {}
         }
     }
 
@@ -49,6 +55,7 @@ class ReservationsOverviewComponent extends Component {
         window.addEventListener("online", this.povezava, false);
         window.addEventListener("offline", this.niPovezave, false);
         this.loadRezervacije()
+        ServicesService.info_loadStoritev(this, this.context.user.company_id)
 
 
         this.interval = setInterval(() => {
@@ -108,6 +115,7 @@ class ReservationsOverviewComponent extends Component {
         return (
             <div>
                 <ReservationsListComponent 
+                    service = {this.state.storitev}
                     refreshReservations={this.loadRezervacije} 
                     changeEditReservationData={this.changeEditReservationData} 
                     reservations={this.state.rezervacije}
@@ -126,8 +134,8 @@ class ReservationsOverviewComponent extends Component {
                     : <div></div>}
 
                 {/* DIALOGS */}
-                <CreateReservationDialogComponent changeSnackBarState={this.changeSnackBarMessage} refreshReservations={this.loadRezervacije} user={this.props.user} closeDialog={this.closeAddReservationDialog} isShowing={this.state.isAddReservationShowing} />
-                <EditReservationDialogComponent company_id={this.props.user.company_id} changeSnackBarState={this.changeSnackBarMessage} refreshReservations={this.loadRezervacije} closeEditReservationDialog={this.changeEditReservationDialogState} isEditReservationShowing={this.state.isEditReservationShowing} reservation={this.state.editReservation} />
+                <CreateReservationDialogComponent storitev={this.state.storitev} changeSnackBarState={this.changeSnackBarMessage} refreshReservations={this.loadRezervacije} user={this.props.user} closeDialog={this.closeAddReservationDialog} isShowing={this.state.isAddReservationShowing} />
+                <EditReservationDialogComponent storitev={this.state.storitev} company_id={this.props.user.company_id} changeSnackBarState={this.changeSnackBarMessage} refreshReservations={this.loadRezervacije} closeEditReservationDialog={this.changeEditReservationDialogState} isEditReservationShowing={this.state.isEditReservationShowing} reservation={this.state.editReservation} />
 
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeSnackBarState} open={this.state.openSnackbar}>
                     <Alert onClose={this.changeSnackBarState} severity="success">

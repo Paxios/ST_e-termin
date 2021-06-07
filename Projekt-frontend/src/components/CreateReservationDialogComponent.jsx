@@ -1,22 +1,31 @@
 import React, { Component } from 'react'
-import Dialog from '@material-ui/core/Dialog';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import ReservationService from '../services/ReservationService';
+import {
+    Dialog,
+    TextField,
+    Button,
+    Select,
+    MenuItem,
+} from "@material-ui/core";
+import AuthContext from '../context/AuthContext';
 
 class CreateReservationDialogComponent extends Component {
+    static contextType = AuthContext
+
     constructor(props) {
         super(props)
 
         this.state = {
             fName: "",
             lName: "",
-            duration: 0,
+            duration: "",
             workDescription: "",
             phoneNumber: "",
             reservation_date: "",
-            service_id: ""
+            service_id: "",
         }
+
+        this.handleDifferentServiceSelected = this.handleDifferentServiceSelected.bind(this)
     }
 
     getCurrentTime() {
@@ -41,7 +50,26 @@ class CreateReservationDialogComponent extends Component {
         return formatted_date;
     }
 
+    handleDifferentServiceSelected(e) {
+        this.setState({
+            service_id: e.target.value,
+            duration: this.props.storitev.ponudba.find(ponudba => ponudba.id === e.target.value).trajanje
+        });
+
+    }
+
     render() {
+        var ponudbe;
+        if (this.props.storitev.ponudba)
+            ponudbe = this.props.storitev.ponudba;
+        else
+            ponudbe = [{
+                "cena": "0.00",
+                "id": "000000000000002d9a78251d",
+                "ime": "Error",
+                "opis": "Error description",
+                "trajanje": 0
+            }]
         return (
             <div>
                 <Dialog className="dialog_add_new_reservation" onClose={this.props.closeDialog} open={this.props.isShowing} >
@@ -59,11 +87,20 @@ class CreateReservationDialogComponent extends Component {
                         (e) => {
                             this.setState({ phoneNumber: e.target.value });
                         }} />
-                    <TextField id="create_reservation_service_id" label="Service ID" variant="outlined" onChange={
+
+                    <Select
+                        id="create_reservation_service_id"
+                        label="Service"
+                        variant="outlined"
+                        value={this.state.service_id}
+                        onChange={this.handleDifferentServiceSelected}>
+                        {ponudbe.map(storitev => (<MenuItem key={storitev.id} value={storitev.id}>{storitev.ime}</MenuItem>))}
+                    </Select>
+                    {/* <TextField id="create_reservation_service_id" label="Service ID" variant="outlined" onChange={
                         (e) => {
                             this.setState({ service_id: e.target.value });
-                        }} />
-                    <TextField id="create_reservation_duration" label="Duration" variant="outlined" type="number" onChange={
+                        }} /> */}
+                    <TextField id="create_reservation_duration" value={this.state.duration} label="Duration" variant="outlined" type="number" onChange={
                         (e) => {
                             this.setState({ duration: parseInt(e.target.value) });
                         }} />
@@ -86,16 +123,16 @@ class CreateReservationDialogComponent extends Component {
                                 tel_st: this.state.phoneNumber,
 
                                 id_storitev: this.state.service_id,
-                                id_podjetje: this.props.user.company_id,
+                                id_podjetje: this.context.user.company_id,
                                 datum: this.state.reservation_date,
                                 trajanje: this.state.duration,
                                 delo: this.state.workDescription
                             }
-                            ReservationService.add_new_rezervacija(this.props.user.company_id, reservation).then( (response) => {
+                            ReservationService.add_new_rezervacija(this.context.user.company_id, reservation).then((response) => {
                                 this.props.refreshReservations();
                                 this.props.changeSnackBarState("Successfully added new reservation");
                                 this.props.closeDialog();
-                            }).catch( (err) => {
+                            }).catch((err) => {
                                 console.log(err);
                             });
                         }} >Add</Button>

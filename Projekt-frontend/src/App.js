@@ -18,10 +18,12 @@ import UnauthorizedPage from './components/UnauthorizedPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import ReceiptsOverviewComponent from './components/Receipts/ReceiptsOverviewComponent';
 import ReportsOverviewComponent from './components/Reports/ReportsOverviewComponent';
+// import ServicesService from './services/ServicesService';
 
 function App() {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [service, setService] = useState(null)
 
   useEffect(() => {
     const user = JSON.parse(window.sessionStorage.getItem("user"));

@@ -54,6 +54,7 @@ class ReservationService {
                     return new Date(a.datum) - new Date(b.datum);
                 });
 
+                console.log(rezervacije)
                 component.setState({
                     rezervacije: rezervacije
                 })
