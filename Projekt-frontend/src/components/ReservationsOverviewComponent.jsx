@@ -41,10 +41,11 @@ class ReservationsOverviewComponent extends Component {
     }
 
     niPovezave = () => {
-        this.setState({ "isOnline": false,
-        isAddReservationShowing:false,
-        isEditReservationShowing:false
-     });
+        this.setState({
+            "isOnline": false,
+            isAddReservationShowing: false,
+            isEditReservationShowing: false
+        });
     }
 
     loadRezervacije = () => {
@@ -142,13 +143,16 @@ class ReservationsOverviewComponent extends Component {
                         {this.state.snackbarMessage}
                     </Alert>
                 </Snackbar>
-                <AddReservationReceiptDialog 
-                    isOpen={this.state.isConfirmReservationDialogOpen} 
-                    closeDialog={this.closeConfirmReservationDialog}
-                    reservation={this.state.currentConfirmReservation}
-                    refreshReservations={this.loadRezervacije}
-                    changeSnackBarState={this.changeSnackBarMessage}
-                />
+                {this.state.currentConfirmReservation ? (
+                    <AddReservationReceiptDialog
+                        isOpen={this.state.isConfirmReservationDialogOpen}
+                        closeDialog={this.closeConfirmReservationDialog}
+                        reservation={this.state.currentConfirmReservation}
+                        refreshReservations={this.loadRezervacije}
+                        changeSnackBarState={this.changeSnackBarMessage}
+                    />
+                ) : ('')}
+
             </div>
         )
     }

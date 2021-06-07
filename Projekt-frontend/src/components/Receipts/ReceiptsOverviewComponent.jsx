@@ -38,7 +38,6 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple';
 import moment from "moment";
-import 'moment/locale/sl';
 import PrintReceiptDialog from "./PrintReceiptDialog";
 import AddReceiptDialog from './AddReceiptDialog';
 import AddIcon from '@material-ui/icons/Add';
