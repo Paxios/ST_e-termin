@@ -51,9 +51,7 @@ class ReceiptsService {
                 }
     
             }
-        })
-        
-        return client.get(BACKEND_URL + RACUNI_PREFIX + "storitev/" + company_id);
+        });
     }
     get_receipt_by_id(id) {
         return client.get(BACKEND_URL + RACUNI_PREFIX + id);
@@ -62,7 +60,47 @@ class ReceiptsService {
         return client.get(BACKEND_URL + RACUNI_PREFIX + id + "/pdf");
     }
     get_receipt_full(id) {
-        return client.get(BACKEND_URL + RACUNI_PREFIX + id + "/full");
+        return new Promise((res, rej) => {
+            if (this.isOnline) {
+                client.get(BACKEND_URL + RACUNI_PREFIX + id + "/full")
+                .then((response) => {
+                    res(response);
+                })
+                .catch((err) => {
+                    rej(err);
+                })
+            }
+            else {
+                console.log("no internet fetching offline");
+                const racuni = JSON.parse(window.localStorage.getItem("racuni"));
+                if(racuni){
+                    var racun = racuni.find(racun => racun._id === id);
+                    if(racun){
+                        const podjetje = JSON.parse(window.localStorage.getItem("storitev"));
+                        var storitev = podjetje.ponudba.find(ponudba => ponudba.id === racun.id_storitev);
+                        var result = {
+                            _id: racun._id,
+                            storitev: storitev,
+                            podjetje: podjetje,
+                            id_rezervacija: racun.id_rezervacija,
+                            ime_stranke: racun.ime_stranke,
+                            priimek_stranke: racun.priimek_stranke,
+                            zaposleni: racun.zaposleni,
+                            datum: racun.datum,
+                            opomba: racun.opomba,
+                            cena: racun.cena
+                        }
+                        res({data: result});
+                    }
+                    else{
+                        rej("not found");
+                    }
+                }
+                else{
+                    rej("not found");
+                }
+            }
+        });
     }
 
     delete_receipt_by_id(id) {
