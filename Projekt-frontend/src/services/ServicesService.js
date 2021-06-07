@@ -8,21 +8,9 @@ if (user != null) {
 }
 
 const client = axios.create();
-var isConnection = navigator.onLine;
-
-const povezava = () => {
-    isConnection = true;
-}
-
-const niPovezave = () => {
-    isConnection = false;
-}
-
-
-window.addEventListener("online", povezava, false);
-window.addEventListener("offline", niPovezave, false);
 
 class ServicesService {
+    isOnline = true;
 
     storitve() {
         const response = client.get(BACKEND_URL + STORITEV_PREFIX);
@@ -43,7 +31,7 @@ class ServicesService {
     }
 
     overview_loadStoritve(component) {
-        if (isConnection) {
+        if (this.isOnline) {
             this.storitve().then((response) => {
                 const storitve = response.data.services;
 
@@ -60,6 +48,7 @@ class ServicesService {
             })
         }
         else {
+            console.log("no internet using storage");
             const storitve = JSON.parse(window.localStorage.getItem("storitve"));
             if (storitve)
                 component.setState({
@@ -70,7 +59,7 @@ class ServicesService {
     }
 
     info_loadStoritev(component, podjetjeId) {
-        if (isConnection) {
+        if (this.isOnline) {
             this.storitev_by_company_id(podjetjeId).then((response) => {
                 const storitev = response.data;
 
@@ -96,8 +85,11 @@ class ServicesService {
         }
     }
 
-    getConnectionStatus = () => {
-        return isConnection;
+    setIsOnline = (state) => {
+        console.log(state);
+        this.isOnline = state;
     }
 }
-export default new ServicesService()
+const instance = new ServicesService();
+Object.seal(instance);
+export default instance;
