@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
-import Dialog from '@material-ui/core/Dialog';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import {
+    Dialog,
+    TextField,
+    Button,
+    Select,
+    MenuItem
+} from "@material-ui/core";
 import ReservationService from '../services/ReservationService';
-import {formatDateForDatePicker} from '../Utils'
+import { formatDateForDatePicker } from '../Utils'
 
 class EditReservationDialogComponent extends Component {
     constructor(props) {
@@ -15,27 +19,48 @@ class EditReservationDialogComponent extends Component {
             _id: "",
             fName: "",
             lName: "",
-            duration: 0,
+            duration: "",
             workDescription: "",
             phoneNumber: "",
             reservation_date: "",
             service_id: ""
         }
 
+        this.handleDifferentServiceSelected = this.handleDifferentServiceSelected.bind(this)
     }
 
+    handleDifferentServiceSelected(e) {
+        this.setState({
+            service_id: e.target.value,
+            duration: this.props.storitev.ponudba.find(ponudba => ponudba.id === e.target.value).trajanje
+        });
+    }
+
+
     render() {
+        var ponudbe;
+        if (this.props.storitev.ponudba)
+            ponudbe = this.props.storitev.ponudba;
+        else
+            ponudbe = [{
+                "cena": "0.00",
+                "id": "000000000000002d9a78251d",
+                "ime": "Error",
+                "opis": "Error description",
+                "trajanje": 0
+            }]
+
         return (
             <div>
                 <Dialog className="dialog_edit_reservation" onClose={this.props.closeEditReservationDialog} open={this.props.isEditReservationShowing} onEnter={() => {
                     this.setState({
-                        fName:this.props.reservation.ime_stranke,
+                        fName: this.props.reservation.ime_stranke,
                         lName: this.props.reservation.priimek_stranke,
-                        duration:this.props.reservation.trajanje,
-                        workDescription:this.props.reservation.delo,
-                        phoneNumber:this.props.reservation.tel_st,
-                        reservation_date:this.props.reservation.datum,
-                        service_id:this.props.reservation.id_storitev
+                        duration: this.props.reservation.trajanje,
+                        workDescription: this.props.reservation.delo,
+                        phoneNumber: this.props.reservation.tel_st,
+                        reservation_date: this.props.reservation.datum,
+                        service_id: this.props.reservation.id_storitev
                     })
                 }}>
                     <TextField id="create_reservation_fname" defaultValue={this.props.reservation.ime_stranke || ''} label="First name" variant="outlined" onChange={
@@ -50,11 +75,19 @@ class EditReservationDialogComponent extends Component {
                         (e) => {
                             this.setState({ phoneNumber: e.target.value });
                         }} />
-                    <TextField id="create_reservation_service_id" label="Service ID" defaultValue={this.props.reservation.id_storitev || ''} variant="outlined" onChange={
+                    <Select
+                        id="create_reservation_service_id"
+                        label="Service"
+                        variant="outlined"
+                        value={this.state.service_id}
+                        onChange={this.handleDifferentServiceSelected}>
+                        {ponudbe.map(storitev => (<MenuItem key={storitev.id} value={storitev.id}>{storitev.ime}</MenuItem>))}
+                    </Select>
+                    {/* <TextField id="create_reservation_service_id" label="Service ID" defaultValue={this.props.reservation.id_storitev || ''} variant="outlined" onChange={
                         (e) => {
                             this.setState({ service_id: e.target.value });
-                        }} />
-                    <TextField id="create_reservation_duration" label="Duration" variant="outlined" defaultValue={this.props.reservation.trajanje || ''} type="number" onChange={
+                        }} /> */}
+                    <TextField id="create_reservation_duration" label="Duration" variant="outlined" value={this.state.duration || ''} type="number" onChange={
                         (e) => {
                             this.setState({ duration: parseInt(e.target.value) });
                         }} />
@@ -63,14 +96,14 @@ class EditReservationDialogComponent extends Component {
                             this.setState({ workDescription: e.target.value });
                         }} />
 
-                    <TextField id="create_reservation_date" required label="Time" defaultValue={formatDateForDatePicker(this.props.reservation.datum) } type="datetime-local" variant="outlined"
+                    <TextField id="create_reservation_date" required label="Time" defaultValue={formatDateForDatePicker(this.props.reservation.datum)} type="datetime-local" variant="outlined"
                         InputLabelProps={{ shrink: true, }} onChange={
                             (e) => {
                                 this.setState({ reservation_date: e.target.value });
                             }} />
 
                     <Button variant="contained" color="primary"
-                        onClick={() => {                           
+                        onClick={() => {
 
                             const reservation = {
                                 ime_stranke: this.state.fName,
@@ -83,8 +116,7 @@ class EditReservationDialogComponent extends Component {
                                 trajanje: this.state.duration,
                                 delo: this.state.workDescription
                             }
-                            ReservationService.update_rezervacija(this.props.company_id,this.props.reservation._id, reservation).then((response) => {
-                                console.log(response);
+                            ReservationService.update_rezervacija(this.props.company_id, this.props.reservation._id, reservation).then((response) => {
                                 this.props.refreshReservations();
                                 this.props.changeSnackBarState("Successfully updated reservation");
                                 this.props.closeEditReservationDialog();

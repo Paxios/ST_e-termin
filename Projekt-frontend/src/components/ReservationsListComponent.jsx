@@ -11,7 +11,6 @@ import Alert from '@material-ui/lab/Alert';
 import ReservationService from '../services/ReservationService';
 import { formatDate } from '../Utils'
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-import AddReservationReceiptDialog from './Receipts/AddReservationReceiptDialog';
 
 
 var isOnline = navigator.onLine;
@@ -47,7 +46,7 @@ class ReservationsListComponent extends Component {
     render() {
         return (
             <div>
-                <ReservationElements refreshReservations={this.props.refreshReservations} changeEditReservationData={this.props.changeEditReservationData} reservations={this.props.reservations} changeSnackbarState={this.changeStateSnackbar} openConfirmReservationDialog={this.props.openConfirmReservationDialog}/>
+                <ReservationElements service = {this.props.service} refreshReservations={this.props.refreshReservations} changeEditReservationData={this.props.changeEditReservationData} reservations={this.props.reservations} changeSnackbarState={this.changeStateSnackbar} openConfirmReservationDialog={this.props.openConfirmReservationDialog}/>
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
                     <Alert onClose={this.changeStateSnackbar} severity="success">
                         {this.state.snackbarMessage}
@@ -64,18 +63,26 @@ function ReservationElements(props) {
     // const res = filterReservations(props.reservations);
     const res = props.reservations;
     const forReturn = res.map((reservation) =>
-        <ReservationElement key={reservation._id} refreshReservations={props.refreshReservations} changeEditReservationData={props.changeEditReservationData} changeSnackbarState={props.changeSnackbarState} reservation={reservation} openConfirmReservationDialog={props.openConfirmReservationDialog}/>
+        <ReservationElement service={props.service} key={reservation._id} refreshReservations={props.refreshReservations} changeEditReservationData={props.changeEditReservationData} changeSnackbarState={props.changeSnackbarState} reservation={reservation} openConfirmReservationDialog={props.openConfirmReservationDialog}/>
     )
     return (<ul>{forReturn}</ul>);
 }
 
 function ReservationElement(props) {
     const reservation = props.reservation;
+    var ponudbe = [];
+    var ime_ponudbe = props.reservation.id_storitev;
+    if(props.service.ponudba){
+        ponudbe = props.service.ponudba;
+        var ponudba  = ponudbe.find(ponudba => props.reservation.id_storitev === ponudba.id)
+        if(ponudba)
+            ime_ponudbe = ponudba.ime;
+    }
     return (
         <div>
             <Card className="reservation_card_element" >
                 <CardContent>
-                    <Typography className="reservation-service" variant="h6" color="textPrimary">{reservation.id_storitev /*TODO ime storitve in ne id storitve*/}
+                    <Typography className="reservation-service" variant="h6" color="textPrimary">{ ime_ponudbe}
                         {isOnline ?
                         <div>
                             <IconButton className="complete-reservation" aria-label="complete" onClick={() => {
@@ -90,7 +97,6 @@ function ReservationElement(props) {
                                 <EditIcon color="primary" /></IconButton>
                             <IconButton className="delete-reservation" aria-label="delete" onClick={() => {
                                 ReservationService.delete_rezervacija(reservation._id).then((response) => {
-                                    console.log(response);
                                     props.refreshReservations();
                                     props.changeSnackbarState("Successfully deleted one reservation.");
                                 }).catch(error => {
