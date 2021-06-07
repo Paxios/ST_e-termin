@@ -142,7 +142,9 @@ function ServiceElement(props) {
                             </TableHead>
                             <TableBody>
                                 {service.zaposleni.map((row) => (
-                                    <TableRow key={row.name}>
+                                    <TableRow onClick={() => {
+                                        document.location.href = `tel:${row.telefon}`
+                                    }} key={row.name}>
                                         <TableCell component="th" scope="row">
                                             {row.naziv}
                                         </TableCell>

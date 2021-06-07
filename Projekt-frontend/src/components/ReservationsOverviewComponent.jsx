@@ -15,7 +15,6 @@ import AddReservationReceiptDialog from './Receipts/AddReservationReceiptDialog'
 import ServicesService from '../services/ServicesService';
 import AuthContext from "../context/AuthContext";
 
-
 class ReservationsOverviewComponent extends Component {
     static contextType = AuthContext
 

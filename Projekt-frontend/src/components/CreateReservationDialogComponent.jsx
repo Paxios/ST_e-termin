@@ -8,6 +8,7 @@ import {
     MenuItem,
 } from "@material-ui/core";
 import AuthContext from '../context/AuthContext';
+import { withTranslation } from 'react-i18next';
 
 class CreateReservationDialogComponent extends Component {
     static contextType = AuthContext
@@ -73,17 +74,17 @@ class CreateReservationDialogComponent extends Component {
         return (
             <div>
                 <Dialog className="dialog_add_new_reservation" onClose={this.props.closeDialog} open={this.props.isShowing} >
-                    <TextField id="create_reservation_fname" label="First name" variant="outlined" onChange={
+                    <TextField id="create_reservation_fname" label={this.props.t("reservations.newReservation.firstName")} variant="outlined" onChange={
                         (e) => {
                             this.setState({ fName: e.target.value });
                         }
 
                     } />
-                    <TextField id="create_reservation_lname" required label="Last name" variant="outlined" onChange={
+                    <TextField id="create_reservation_lname" required label={this.props.t("reservations.newReservation.lastName")} variant="outlined" onChange={
                         (e) => {
                             this.setState({ lName: e.target.value });
                         }} />
-                    <TextField id="create_reservation_phone_number" label="Phone number" variant="outlined" onChange={
+                    <TextField id="create_reservation_phone_number" label={this.props.t("reservations.newReservation.phoneNumber")} variant="outlined" onChange={
                         (e) => {
                             this.setState({ phoneNumber: e.target.value });
                         }} />
@@ -100,16 +101,16 @@ class CreateReservationDialogComponent extends Component {
                         (e) => {
                             this.setState({ service_id: e.target.value });
                         }} /> */}
-                    <TextField id="create_reservation_duration" value={this.state.duration} label="Duration" variant="outlined" type="number" onChange={
+                    <TextField id="create_reservation_duration" value={this.state.duration} label={this.props.t("reservations.newReservation.duration")} variant="outlined" type="number" onChange={
                         (e) => {
                             this.setState({ duration: parseInt(e.target.value) });
                         }} />
-                    <TextField id="create_reservation_description" multiline rows={3} label="Description" variant="outlined" onChange={
+                    <TextField id="create_reservation_description" multiline rows={3} label={this.props.t("reservations.newReservation.description")} variant="outlined" onChange={
                         (e) => {
                             this.setState({ workDescription: e.target.value });
                         }} />
 
-                    <TextField id="create_reservation_date" required label="Time" type="datetime-local" variant="outlined"
+                    <TextField id="create_reservation_date" required label={this.props.t("reservations.newReservation.time")} type="datetime-local" variant="outlined"
                         InputLabelProps={{ shrink: true, }} defaultValue={this.getCurrentTime()} onChange={
                             (e) => {
                                 this.setState({ reservation_date: e.target.value });
@@ -130,12 +131,12 @@ class CreateReservationDialogComponent extends Component {
                             }
                             ReservationService.add_new_rezervacija(this.context.user.company_id, reservation).then((response) => {
                                 this.props.refreshReservations();
-                                this.props.changeSnackBarState("Successfully added new reservation");
+                                this.props.changeSnackBarState(this.props.t("reservations.newReservation.addNewReservationSuccess"));
                                 this.props.closeDialog();
                             }).catch((err) => {
                                 console.log(err);
                             });
-                        }} >Add</Button>
+                        }} >{this.props.t("reservations.newReservation.add")}</Button>
 
                 </Dialog>
             </div>
@@ -143,4 +144,4 @@ class CreateReservationDialogComponent extends Component {
     }
 }
 
-export default CreateReservationDialogComponent
+export default withTranslation()(CreateReservationDialogComponent)

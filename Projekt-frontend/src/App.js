@@ -21,6 +21,7 @@ import ReportsOverviewComponent from './components/Reports/ReportsOverviewCompon
 import ConnectionContext from "./context/ConnectionContext";
 import ServicesService from "./services/ServicesService";
 import ReceiptsService from "./services/ReceiptsService";
+import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState(null);

@@ -98,7 +98,7 @@ function ReservationElement(props) {
                             <IconButton className="delete-reservation" aria-label="delete" onClick={() => {
                                 ReservationService.delete_rezervacija(reservation._id).then((response) => {
                                     props.refreshReservations();
-                                    props.changeSnackbarState("Successfully deleted one reservation.");
+                                    props.changeSnackbarState("");
                                 }).catch(error => {
                                     console.log(error)
                                 })

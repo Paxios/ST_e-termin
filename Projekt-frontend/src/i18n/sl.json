@@ -11,6 +11,36 @@
             "customer": "Stranka",
             "employee": "Zaposleni",
             "error": "Pri izdaji računa je prišlo do napake"
+
+        },
+        "newReservation":{
+            "firstName":"Ime",
+            "lastName": "Priimek",
+            "phoneNumber": "Telefonska številka",
+            "duration": "Trajanje",
+            "description": "Opis",
+            "service":"Storitev",
+            "time": "Čas",
+            "addNewReservationSuccess":"Uspešna dodaja nove rezervacije",
+            "updateReservationSuccess":"Uspešna posodobitev rezervacije",
+            "deleteReservationSuccess":"Uspešen izbri ene rezervacije",
+            "add":"Dodaj",
+            "update":"Posodobi",
+            "delete":"Odstrani"
+        },
+        "timeline":{
+            "checkWorkflow":"Preverite potek dela za izbran dan",
+            "selectDate":"Izberite datum",
+            "noReservationsYetPrefix":"Za ta dan še",
+            "noReservationsYetStrong":" ni napovedanih ",
+            "noReservationsYetSuffix":"rezervacij",
+            "sleepLongerPrefix":"Lahko",
+            "sleepLongerStrong":" spite malo ",
+            "sleepLongerSuffix":"dalj",
+            "eatAndDrinkSuffix":"jesti in piti",
+            "eatAndDrinkStrong":"Ne pozabite ",
+            "mostImportantlyPrefix":"Najbolj pomembno:",
+            "mostImportantlyStrong":"Ostanite pozitivni"
         }
     },
     "services": {
@@ -72,5 +102,10 @@
         "serviceInfo": "Podatki o podjetju",
         "timeline": "Časovnica",
         "firstPage": "Začetna stran"
+    },
+    "userManagement": {
+        "logIn": "Prijava",
+        "register": "Registracija",
+        "logOut": "Odjava"
     }
 }
