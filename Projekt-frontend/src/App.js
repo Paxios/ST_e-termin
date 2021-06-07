@@ -20,11 +20,24 @@ import ReceiptsOverviewComponent from './components/Receipts/ReceiptsOverviewCom
 import ReportsOverviewComponent from './components/Reports/ReportsOverviewComponent';
 import ConnectionContext from "./context/ConnectionContext";
 import ServicesService from "./services/ServicesService";
+import ReceiptsService from "./services/ReceiptsService";
 
 function App() {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  const online = () => {
+    setIsOnline(true);
+    ServicesService.setIsOnline(true);
+    ReceiptsService.setIsOnline(true);
+  }
+
+  const offline = () => {
+    setIsOnline(false);
+    ServicesService.setIsOnline(false);
+    ReceiptsService.setIsOnline(false);
+  }
 
   useEffect(() => {
     const user = JSON.parse(window.sessionStorage.getItem("user"));
@@ -36,20 +49,14 @@ function App() {
       setIsLoggedIn(false);
     }
 
-    window.addEventListener('online', () => {
-      setIsOnline(true); console.log('online');
-      ServicesService.setIsOnline(true);
-    });
-    window.addEventListener('offline', () => {
-      setIsOnline(false); console.log('offline');
-      ServicesService.setIsOnline(false);
-    });
+    window.addEventListener('online', online);
+    window.addEventListener('offline', offline);
 
     return () => {
-      window.removeEventListener('online');
-      window.removeEventListener('offline');
+      window.removeEventListener('online', online);
+      window.removeEventListener('offline', offline);
     }
-    
+
   }, []);
 
 

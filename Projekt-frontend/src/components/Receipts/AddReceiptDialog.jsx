@@ -102,7 +102,6 @@ function AddReceiptDialog({ isOpen, closeDialog, dodajRacun, odstraniRacun, rece
             var podjetjeId = Auth.user.company_id;
             ServicesService.storitev_by_company_id(podjetjeId)
             .then((result) => {
-                console.log(result);
                 var storitev = result.data;
                 if (storitev !== undefined) {
                     setStoritve(storitev.ponudba);

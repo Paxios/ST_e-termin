@@ -28,6 +28,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
 import AuthContext from "../../context/AuthContext";
+import ConnectionContext from "../../context/ConnectionContext";
 import ServicesService from '../../services/ServicesService';
 import ReceiptsServiceService from '../../services/ReceiptsService';
 import ReceiptsService from '../../services/ReceiptsService';
@@ -65,6 +66,7 @@ function ReceiptsOverviewComponent({ }) {
     const classes = useStyles();
     const { t } = useTranslation();
     const Auth = useContext(AuthContext);
+    const Connection = useContext(ConnectionContext);
 
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);
     const [pdfDialogOpen, setPdfDialogOpen] = useState(false);
@@ -78,7 +80,6 @@ function ReceiptsOverviewComponent({ }) {
         var podjetjeId = Auth.user.company_id;
         ReceiptsService.get_all_receipts(podjetjeId)
             .then((result) => {
-                console.log(result);
                 setReceipts(result.data);
             })
             .catch((error) => {
@@ -155,7 +156,7 @@ function ReceiptsOverviewComponent({ }) {
                     <div className={classes.demo}>
                         <List dense={true}>
                             {receipts.map((receipt) => (
-                                <ListItem button onClick={() => receiptClick(receipt._id)}>
+                                <ListItem button onClick={() => receiptClick(receipt._id)} key={receipt._id}>
                                     <ListItemAvatar>
                                         <Avatar>
                                             <ReceiptIcon />
@@ -165,11 +166,14 @@ function ReceiptsOverviewComponent({ }) {
                                         primary={receipt.cena + '€'}
                                         secondary={`${receipt.ime_stranke} ${receipt.priimek_stranke} • ${moment(receipt.datum).format('ll')}`}
                                     />
-                                    <ListItemSecondaryAction>
-                                        <IconButton edge="end" aria-label="delete" onClick={() => receiptPrintClick(receipt._id)}>
-                                            <ReceiptIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
+                                    {Connection.isOnline ? (
+                                        <ListItemSecondaryAction>
+                                            <IconButton edge="end" aria-label="delete" onClick={() => receiptPrintClick(receipt._id)}>
+                                                <ReceiptIcon />
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    ) : ('')}
+
                                 </ListItem>
                             ))}
                         </List>
@@ -192,12 +196,12 @@ function ReceiptsOverviewComponent({ }) {
                     />
                 </>
             ) : (
-            <AddReceiptDialog
-                isOpen={detailsDialogOpen}
-                closeDialog={() => setDetailsDialogOpen(false)}
-                isNew={true}
-                dodajRacun={dodajRacun}
-            />)}
+                <AddReceiptDialog
+                    isOpen={detailsDialogOpen}
+                    closeDialog={() => setDetailsDialogOpen(false)}
+                    isNew={true}
+                    dodajRacun={dodajRacun}
+                />)}
 
             <Fab color="primary" aria-label="add" className={classes.fab} onClick={newReceipt}>
                 <AddIcon />

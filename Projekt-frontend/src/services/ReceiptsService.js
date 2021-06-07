@@ -24,11 +24,35 @@ window.addEventListener("online", povezava, false);
 window.addEventListener("offline", niPovezave, false);
 
 class ReceiptsService {
+    isOnline = true;
 
     add_new_racun(company_id, racun) {
         return client.post(BACKEND_URL + RACUNI_PREFIX + "storitev/" + company_id, racun);
     }
     get_all_receipts(company_id) {
+        return new Promise((res, rej) => {
+            if (this.isOnline) {
+                client.get(BACKEND_URL + RACUNI_PREFIX + "storitev/" + company_id)
+                    .then((result) => {
+                        window.localStorage.setItem("racuni", JSON.stringify(result.data));
+                        res(result);
+                    })
+                    .catch((err) => {
+                        rej(err);
+                    })
+            }
+            else {
+                const racuni = JSON.parse(window.localStorage.getItem("racuni"));
+                if (racuni){
+                    res({data: racuni});
+                }
+                else{
+                    rej("No racuni found");
+                }
+    
+            }
+        })
+        
         return client.get(BACKEND_URL + RACUNI_PREFIX + "storitev/" + company_id);
     }
     get_receipt_by_id(id) {
@@ -53,5 +77,12 @@ class ReceiptsService {
         return isConnection;
     }
 
+    setIsOnline = (state) => {
+        console.log(state);
+        this.isOnline = state;
+    }
+
 }
-export default new ReceiptsService()
+const instance = new ReceiptsService();
+Object.seal(instance);
+export default instance;
