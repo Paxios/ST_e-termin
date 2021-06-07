@@ -12,6 +12,7 @@ const client = axios.create();
 var isConnection = navigator.onLine;
 
 const povezava = () => {
+    console.log("povezava");
     isConnection = true;
 }
 
@@ -96,4 +97,6 @@ class ReservationService {
         return isConnection;
     }
 }
-export default new ReservationService()
+const instance = new ReservationService();
+Object.freeze(instance);
+export default instance;
