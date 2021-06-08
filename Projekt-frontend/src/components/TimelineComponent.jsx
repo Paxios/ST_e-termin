@@ -69,9 +69,9 @@ class TimelineComponent extends Component {
         if (this.state.reservations.length !== 0)
             isThereWork = true;
         return (
-            <div>
+            <div style={{flexGrow:1}}>
+                <Typography align="center" variant="h5">{this.props.t("reservations.timeline.checkWorkflow")}</Typography>
                 <div className="timeline-datepicker">
-                    <Typography variant="h5">{this.props.t("reservations.timeline.checkWorkflow")}</Typography>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
 
@@ -92,7 +92,7 @@ class TimelineComponent extends Component {
                     {isThereWork
                         ?
                         this.state.reservations.map((reservation, index) =>
-                            <TimelineElement storitev = {this.state.storitev} key={"timeline_reservation_" + index} reservation={reservation} index={index} num_elements={this.state.reservations.length} />
+                            <TimelineElement storitev={this.state.storitev} key={"timeline_reservation_" + index} reservation={reservation} index={index} num_elements={this.state.reservations.length} />
                         )
                         :
                         <div>
@@ -112,11 +112,11 @@ function TimelineElement(props) {
     const dtc = new Date();
 
     var ponudbe = []
-    if(props.storitev.ponudba){
+    if (props.storitev.ponudba) {
         ponudbe = props.storitev.ponudba
     }
-    var service_name ="";
-    if(ponudbe.length > 0)
+    var service_name = "";
+    if (ponudbe.length > 0)
         service_name = ponudbe.find(ponudba => ponudba.id === props.reservation.storitev).ime
 
     if ((new Date(props.reservation.start_date)).getTime() < dtc.getTime()) {
@@ -161,7 +161,7 @@ function TimelineElement(props) {
 
 function NoTimelineElements(props) {
     const { t } = useTranslation()
-        
+
     return (
         <div>
             <TimelineItem>
@@ -174,10 +174,10 @@ function NoTimelineElements(props) {
                 <TimelineContent>
                     <Paper className="timeline-paper" elevation={3}>
                         <Typography>
-                        {t("reservations.timeline.noReservationsYetPrefix")}
-                        <strong>{t("reservations.timeline.noReservationsYetStrong")}</strong>
-                        {t("reservations.timeline.noReservationsYetSuffix")}
-                                        </Typography>
+                            {t("reservations.timeline.noReservationsYetPrefix")}
+                            <strong>{t("reservations.timeline.noReservationsYetStrong")}</strong>
+                            {t("reservations.timeline.noReservationsYetSuffix")}
+                        </Typography>
                     </Paper>
                 </TimelineContent>
             </TimelineItem>
@@ -191,10 +191,10 @@ function NoTimelineElements(props) {
                 <TimelineContent>
                     <Paper className="timeline-paper" elevation={3}>
                         <Typography >
-                        {t("reservations.timeline.sleepLongerPrefix")}
-                        <strong>{t("reservations.timeline.sleepLongerStrong")}</strong>
-                        {t("reservations.timeline.sleepLongerSuffix")}
-                                        </Typography>
+                            {t("reservations.timeline.sleepLongerPrefix")}
+                            <strong>{t("reservations.timeline.sleepLongerStrong")}</strong>
+                            {t("reservations.timeline.sleepLongerSuffix")}
+                        </Typography>
                     </Paper>
                 </TimelineContent>
             </TimelineItem>
@@ -209,7 +209,7 @@ function NoTimelineElements(props) {
                     <Paper className="timeline-paper" elevation={3}>
                         <Typography>
                             <strong>{t("reservations.timeline.eatAndDrinkStrong")}</strong>
-                        {t("reservations.timeline.eatAndDrinkSuffix")}
+                            {t("reservations.timeline.eatAndDrinkSuffix")}
                         </Typography>
                     </Paper>
                 </TimelineContent>
@@ -223,7 +223,7 @@ function NoTimelineElements(props) {
                 <TimelineContent>
                     <Paper className="timeline-paper" elevation={3}>
                         <Typography>
-                        {t("reservations.timeline.mostImportantlyPrefix")}<br /><strong>{t("reservations.timeline.mostImportantlyStrong")}</strong>
+                            {t("reservations.timeline.mostImportantlyPrefix")}<br /><strong>{t("reservations.timeline.mostImportantlyStrong")}</strong>
                         </Typography>
                     </Paper>
                 </TimelineContent>

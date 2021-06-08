@@ -82,8 +82,8 @@ function ReservationElement(props) {
             ime_ponudbe = ponudba.ime;
     }
     return (
-        <div style={{ margin: '15px' }}>
-            <Card className="reservation_card_element" elevation={4} >
+        <div style={{ margin: '15px'}}>
+            <Card elevation={4} >
                 <CardActionArea>
                     <CardContent>
                         <Typography className="reservation-service" variant="h6" color="textPrimary">{ime_ponudbe}
