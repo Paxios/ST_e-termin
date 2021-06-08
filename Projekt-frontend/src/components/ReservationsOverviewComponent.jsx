@@ -14,6 +14,7 @@ import { REFRESH_TIME } from '../Constants'
 import AddReservationReceiptDialog from './Receipts/AddReservationReceiptDialog';
 import ServicesService from '../services/ServicesService';
 import AuthContext from "../context/AuthContext";
+import { Grid } from "@material-ui/core";
 
 class ReservationsOverviewComponent extends Component {
     static contextType = AuthContext
@@ -115,14 +116,17 @@ class ReservationsOverviewComponent extends Component {
     render() {
         const isOnline = this.state.isOnline;
         return (
-            <div>
-                <ReservationsListComponent 
-                    service = {this.state.storitev}
-                    refreshReservations={this.loadRezervacije} 
-                    changeEditReservationData={this.changeEditReservationData} 
-                    reservations={this.state.rezervacije}
-                    openConfirmReservationDialog={this.openConfirmReservationDialog}
-                />
+            <Grid container style={{backgroundColor: '#F4F5F7'}}>
+                <Grid item xs={12} lg={8}>
+                    <ReservationsListComponent
+                        service={this.state.storitev}
+                        refreshReservations={this.loadRezervacije}
+                        changeEditReservationData={this.changeEditReservationData}
+                        reservations={this.state.rezervacije}
+                        openConfirmReservationDialog={this.openConfirmReservationDialog}
+                    />
+                </Grid>
+
 
                 {/* FAB */}
                 {isOnline ?
@@ -154,7 +158,7 @@ class ReservationsOverviewComponent extends Component {
                     />
                 ) : ('')}
 
-            </div>
+            </Grid>
         )
     }
 }

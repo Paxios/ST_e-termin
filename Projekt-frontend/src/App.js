@@ -21,7 +21,7 @@ import ReportsOverviewComponent from './components/Reports/ReportsOverviewCompon
 import ConnectionContext from "./context/ConnectionContext";
 import ServicesService from "./services/ServicesService";
 import ReceiptsService from "./services/ReceiptsService";
-import axios from 'axios';
+import { Grid } from '@material-ui/core';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -67,7 +67,7 @@ function App() {
         <AuthContext.Provider value={{ isLoggedIn, user }} >
           <ConnectionContext.Provider value={{ isOnline }}>
             <HeaderComponent />
-            <div className="container">
+            <Grid container maxWidth="lg" style={{width: '100%'}}>
               <Switch>
                 <Route path="/services">
                   <ServicesOverviewComponent user={user} />
@@ -95,7 +95,7 @@ function App() {
                 <Route path="/register" component={RegisterComponent}></Route>
                 <Route path="/" render={() => <HomepageComponent />}></Route>
               </Switch>
-            </div>
+            </Grid>
             {/* <FooterComponent /> */}
           </ConnectionContext.Provider>
         </AuthContext.Provider>
