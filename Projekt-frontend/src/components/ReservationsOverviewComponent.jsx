@@ -16,7 +16,6 @@ import ServicesService from '../services/ServicesService';
 import AuthContext from "../context/AuthContext";
 import { Grid } from "@material-ui/core";
 
-
 class ReservationsOverviewComponent extends Component {
     static contextType = AuthContext
 

@@ -17,20 +17,29 @@ import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { REFRESH_TIME } from '../Constants'
+import ServicesService from '../services/ServicesService';
+import AuthContext from '../context/AuthContext';
+import { useTranslation, withTranslation } from 'react-i18next';
 
 class TimelineComponent extends Component {
+    static contextType = AuthContext
+
     constructor(props) {
         super(props)
 
         this.state = {
             selectedDate: new Date(),
             reservations: [],
-            user: JSON.parse(sessionStorage.getItem("user"))
+            user: JSON.parse(sessionStorage.getItem("user")),
+
+            storitev: {}
         }
 
     }
 
     componentDidMount() {
+        ServicesService.info_loadStoritev(this, this.context.user.company_id)
+
         this.loadRezervacije(this.state.selectedDate);
 
         this.interval = setInterval(() => {
@@ -62,13 +71,13 @@ class TimelineComponent extends Component {
         return (
             <div>
                 <div className="timeline-datepicker">
-                    <Typography variant="h5">Check the workflow for selected day</Typography>
+                    <Typography variant="h5">{this.props.t("reservations.timeline.checkWorkflow")}</Typography>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
 
                             margin="normal"
                             id="date-picker-dialog"
-                            label="Pick the date"
+                            label={this.props.t("reservations.timeline.selectDate")}
                             format="MM/dd/yyyy"
                             value={this.state.selectedDate}
                             onChange={this.handleDateChange}
@@ -83,7 +92,7 @@ class TimelineComponent extends Component {
                     {isThereWork
                         ?
                         this.state.reservations.map((reservation, index) =>
-                            <TimelineElement key={"timeline_reservatin_" + index} reservation={reservation} index={index} num_elements={this.state.reservations.length} />
+                            <TimelineElement storitev = {this.state.storitev} key={"timeline_reservation_" + index} reservation={reservation} index={index} num_elements={this.state.reservations.length} />
                         )
                         :
                         <div>
@@ -101,7 +110,13 @@ function TimelineElement(props) {
     var color = "primary";
     var variant = "default";
     const dtc = new Date();
-    // dtc.setMinutes(dtc.getMinutes+30)
+
+    var ponudbe = []
+    if(props.storitev.ponudba){
+        ponudbe = props.storitev.ponudba
+    }
+    const service_name = ponudbe.find(ponudba => ponudba.id === props.reservation.storitev).ime
+
     if ((new Date(props.reservation.start_date)).getTime() < dtc.getTime()) {
         color = "secondary";
     }
@@ -134,7 +149,7 @@ function TimelineElement(props) {
             <TimelineContent>
                 <Paper className="timeline-paper" elevation={3}>
                     <Typography variant="h6" component="h1" >
-                        {props.reservation.storitev}
+                        {service_name}
                     </Typography>
                 </Paper>
             </TimelineContent>
@@ -143,6 +158,8 @@ function TimelineElement(props) {
 }
 
 function NoTimelineElements(props) {
+    const { t } = useTranslation()
+        
     return (
         <div>
             <TimelineItem>
@@ -154,8 +171,10 @@ function NoTimelineElements(props) {
                 </TimelineSeparator>
                 <TimelineContent>
                     <Paper className="timeline-paper" elevation={3}>
-                        <Typography >
-                            There's <strong>no reservations</strong> for this day yet
+                        <Typography>
+                        {t("reservations.timeline.noReservationsYetPrefix")}
+                        <strong>{t("reservations.timeline.noReservationsYetStrong")}</strong>
+                        {t("reservations.timeline.noReservationsYetSuffix")}
                                         </Typography>
                     </Paper>
                 </TimelineContent>
@@ -170,7 +189,9 @@ function NoTimelineElements(props) {
                 <TimelineContent>
                     <Paper className="timeline-paper" elevation={3}>
                         <Typography >
-                            You can <strong>sleep a little bit</strong> longer
+                        {t("reservations.timeline.sleepLongerPrefix")}
+                        <strong>{t("reservations.timeline.sleepLongerStrong")}</strong>
+                        {t("reservations.timeline.sleepLongerSuffix")}
                                         </Typography>
                     </Paper>
                 </TimelineContent>
@@ -184,9 +205,10 @@ function NoTimelineElements(props) {
                 </TimelineSeparator>
                 <TimelineContent>
                     <Paper className="timeline-paper" elevation={3}>
-                        <Typography  >
-                            <strong>Do not</strong> forget to eat and drink
-                                        </Typography>
+                        <Typography>
+                            <strong>{t("reservations.timeline.eatAndDrinkStrong")}</strong>
+                        {t("reservations.timeline.eatAndDrinkSuffix")}
+                        </Typography>
                     </Paper>
                 </TimelineContent>
             </TimelineItem>
@@ -199,7 +221,7 @@ function NoTimelineElements(props) {
                 <TimelineContent>
                     <Paper className="timeline-paper" elevation={3}>
                         <Typography>
-                            Most importantly: <br /><strong>Stay positive</strong>
+                        {t("reservations.timeline.mostImportantlyPrefix")}<br /><strong>{t("reservations.timeline.mostImportantlyStrong")}</strong>
                         </Typography>
                     </Paper>
                 </TimelineContent>
@@ -209,4 +231,4 @@ function NoTimelineElements(props) {
 
 }
 
-export default TimelineComponent
+export default withTranslation()(TimelineComponent);

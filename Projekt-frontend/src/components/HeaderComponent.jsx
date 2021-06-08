@@ -9,8 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import HeaderDrawerComponent from './HeaderDrawerComponent';
+import { withTranslation } from 'react-i18next';  
 
 class HeaderComponent extends Component {
+
   constructor(props) {
     super(props)
     this.state = {
@@ -19,6 +21,7 @@ class HeaderComponent extends Component {
       isDrawerOpen:false
     };
   }
+
   handleLoginDialogClickOpen = () => {
       this.setState({ loginShowing: true });
   };
@@ -80,10 +83,10 @@ class HeaderComponent extends Component {
                 <div>
                   <Button color="inherit" onClick={( ) => {
                     this.handleLoginDialogClickOpen()
-                  }}>Login</Button>
+                  }}>{this.props.t("userManagement.logIn")}</Button>
                   <Button color="inherit" onClick={() => {
                     this.navigateRegister();
-                  }}>Register</Button>
+                  }}>{this.props.t("userManagement.register")}</Button>
                 </div>
                 :
                 <div>
@@ -92,11 +95,9 @@ class HeaderComponent extends Component {
                     // this.setState({ loggedIn: !loggedIn });
                     window.location = "/"
                     // window.location = initialHref;
-                  }}>Log out</Button>
+                  }}>{this.props.t("userManagement.logOut")}</Button>
                 </div>
-              }                        {/* <IconButton aria-label="display more actions" edge="end" color="inherit">
-            <PersonIcon />
-          </IconButton> */}
+              }
             </Toolbar>
           </AppBar>
         </header>
@@ -140,4 +141,4 @@ class HeaderComponent extends Component {
   }
 }
 
-export default withRouter(HeaderComponent)
+export default withRouter(withTranslation()(HeaderComponent))

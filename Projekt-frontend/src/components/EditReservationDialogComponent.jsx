@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import ReservationService from '../services/ReservationService';
 import { formatDateForDatePicker } from '../Utils'
+import { withTranslation } from 'react-i18next';
 
 class EditReservationDialogComponent extends Component {
     constructor(props) {
@@ -63,15 +64,15 @@ class EditReservationDialogComponent extends Component {
                         service_id: this.props.reservation.id_storitev
                     })
                 }}>
-                    <TextField id="create_reservation_fname" defaultValue={this.props.reservation.ime_stranke || ''} label="First name" variant="outlined" onChange={
+                    <TextField id="create_reservation_fname" defaultValue={this.props.reservation.ime_stranke || ''} label={this.props.t("reservations.newReservation.firstName")} variant="outlined" onChange={
                         (e) => {
                             this.setState({ fName: e.target.value });
                         }} />
-                    <TextField id="create_reservation_lname" defaultValue={this.props.reservation.priimek_stranke || ''} label="Last name" variant="outlined" onChange={
+                    <TextField id="create_reservation_lname" defaultValue={this.props.reservation.priimek_stranke || ''} label={this.props.t("reservations.newReservation.lastName")} variant="outlined" onChange={
                         (e) => {
                             this.setState({ lName: e.target.value });
                         }} />
-                    <TextField id="create_reservation_phone_number" defaultValue={this.props.reservation.tel_st || ''} label="Phone number" variant="outlined" onChange={
+                    <TextField id="create_reservation_phone_number" defaultValue={this.props.reservation.tel_st || ''} label={this.props.t("reservations.newReservation.phoneNumber")} variant="outlined" onChange={
                         (e) => {
                             this.setState({ phoneNumber: e.target.value });
                         }} />
@@ -87,16 +88,16 @@ class EditReservationDialogComponent extends Component {
                         (e) => {
                             this.setState({ service_id: e.target.value });
                         }} /> */}
-                    <TextField id="create_reservation_duration" label="Duration" variant="outlined" value={this.state.duration || ''} type="number" onChange={
+                    <TextField id="create_reservation_duration" label={this.props.t("reservations.newReservation.duration")} variant="outlined" value={this.state.duration || ''} type="number" onChange={
                         (e) => {
                             this.setState({ duration: parseInt(e.target.value) });
                         }} />
-                    <TextField id="create_reservation_description" multiline rows={3} label="Description" defaultValue={this.props.reservation.delo || ''} variant="outlined" onChange={
+                    <TextField id="create_reservation_description" multiline rows={3} label={this.props.t("reservations.newReservation.description")} defaultValue={this.props.reservation.delo || ''} variant="outlined" onChange={
                         (e) => {
                             this.setState({ workDescription: e.target.value });
                         }} />
 
-                    <TextField id="create_reservation_date" required label="Time" defaultValue={formatDateForDatePicker(this.props.reservation.datum)} type="datetime-local" variant="outlined"
+                    <TextField id="create_reservation_date" required label={this.props.t("reservations.newReservation.time")} defaultValue={formatDateForDatePicker(this.props.reservation.datum)} type="datetime-local" variant="outlined"
                         InputLabelProps={{ shrink: true, }} onChange={
                             (e) => {
                                 this.setState({ reservation_date: e.target.value });
@@ -118,12 +119,12 @@ class EditReservationDialogComponent extends Component {
                             }
                             ReservationService.update_rezervacija(this.props.company_id, this.props.reservation._id, reservation).then((response) => {
                                 this.props.refreshReservations();
-                                this.props.changeSnackBarState("Successfully updated reservation");
+                                this.props.changeSnackBarState(this.props.t("reservations.newReservation.updateReservationSuccess"));
                                 this.props.closeEditReservationDialog();
                             }).catch((err, body) => {
                                 console.log(err);
                             });
-                        }} >Update</Button>
+                        }} >{this.props.t("reservations.newReservation.update")}</Button>
 
                 </Dialog>
             </div>
@@ -131,4 +132,4 @@ class EditReservationDialogComponent extends Component {
     }
 }
 
-export default EditReservationDialogComponent
+export default withTranslation()(EditReservationDialogComponent)

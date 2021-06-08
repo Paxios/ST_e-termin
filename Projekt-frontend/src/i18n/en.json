@@ -4,11 +4,40 @@
             "title": "Create receipt from reservation",
             "confirm": "Confirm",
             "service": "service",
-            "firstName": "ime",
-            "lastName": "priimek",
+            "firstName": "first name",
+            "lastName": "last name",
             "note": "opomba",
-            "price": "cena",
+            "price": "price",
             "customer": "Customer"
+        },
+        "newReservation":{
+            "firstName":"First name",
+            "lastName": "Last name",
+            "phoneNumber": "Phone number",
+            "duration": "Duration",
+            "description": "Description",
+            "time": "Time",
+            "service":"service",
+            "addNewReservationSuccess":"Successfully added new reservation",
+            "updateReservationSuccess":"Successfully updated reservation",
+            "deleteReservationSuccess":"Successfully deleted one reservation",
+            "add":"Add",
+            "update":"Update",
+            "delete":"Delete"
+        },
+        "timeline":{
+            "checkWorkflow":"Check the workflow for selected day",
+            "selectDate":"Select the date",
+            "noReservationsYetPrefix":"There's",
+            "noReservationsYetStrong":" no reservations ",
+            "noReservationsYetSuffix":"for this day yet",
+            "sleepLongerPrefix":"You can",
+            "sleepLongerStrong":" sleep a little bit ",
+            "sleepLongerSuffix":"longer",
+            "eatAndDrinkSuffix":"forget to eat and drink",
+            "eatAndDrinkStrong":"Do not ",
+            "mostImportantlyPrefix":"Most importantly:",
+            "mostImportantlyStrong":"Stay positive"
         }
     },
     "services": {
@@ -41,5 +70,10 @@
     },
     "unauthorizedPage": {
         "text": "You must be logged in to acces this webpage."
+    },
+    "userManagement": {
+        "logIn": "Log in",
+        "register": "Register",
+        "logOut": "Log out"
     }
 }

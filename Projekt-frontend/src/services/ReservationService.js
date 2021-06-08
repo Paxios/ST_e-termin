@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 import { BACKEND_URL, RESERVATIONS_SUFFIX, STORITEV_PREFIX, RESERVATION_SUFFIX, SINGLE_RESERVATION_URL, ZASEDENI_TERMINI_URL } from '../Constants'
 import { filterReservationsByDate } from '../Utils';
 
@@ -8,11 +9,27 @@ if (user != null) {
     axios.defaults.headers.common["Authorization"] = token;
 }
 
+
 const client = axios.create();
 var isConnection = navigator.onLine;
 
+
+//TODO: this should be global call and not only on reservation.
+client.interceptors.request.use((config) => {
+    const decodedToken = jwtDecode(config.headers.common.Authorization)
+    const expiration = new Date(decodedToken.exp * 1000)
+    const now = new Date()
+    if (now > expiration) {
+        window.location = "/";
+        window.sessionStorage.removeItem("user");
+        //TODO: could show a toast that session expired
+    }
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+})
+
 const povezava = () => {
-    console.log("povezava");
     isConnection = true;
 }
 
@@ -55,7 +72,6 @@ class ReservationService {
                     return new Date(a.datum) - new Date(b.datum);
                 });
 
-                console.log(rezervacije)
                 component.setState({
                     rezervacije: rezervacije
                 })
@@ -98,6 +114,4 @@ class ReservationService {
         return isConnection;
     }
 }
-const instance = new ReservationService();
-Object.freeze(instance);
-export default instance;
+export default new ReservationService()
