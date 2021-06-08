@@ -15,7 +15,7 @@ const zaposleni_scheme = joi.object({
 const uporabnik_scheme = joi.object({
     uporabnisko_ime: joi.string().min(3).max(100).required(),
     geslo: joi.string().min(3).max(250).required(),
-    inviteCode: joi.string()
+    inviteCode: joi.string().allow('')
 })
 
 const rezervacija_scheme = joi.object({

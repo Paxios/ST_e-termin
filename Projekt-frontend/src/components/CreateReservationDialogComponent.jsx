@@ -145,7 +145,7 @@ class CreateReservationDialogComponent extends Component {
                         </Toolbar>
                     </AppBar>
                     <FormControl className="createReservation-formControl" variant="outlined">
-                    <TextField id="create_reservation_fname" className="createReservation-textField" label={this.props.t("reservations.newReservation.firstName")} variant="outlined" onChange={
+                    <TextField required id="create_reservation_fname" className="createReservation-textField" label={this.props.t("reservations.newReservation.firstName")} variant="outlined" onChange={
                         (e) => {
                             this.setState({ fName: e.target.value });
                         }
@@ -154,7 +154,7 @@ class CreateReservationDialogComponent extends Component {
                         (e) => {
                             this.setState({ lName: e.target.value });
                         }} />
-                    <TextField id="create_reservation_phone_number" className="createReservation-textField" label={this.props.t("reservations.newReservation.phoneNumber")} variant="outlined" onChange={
+                    <TextField required id="create_reservation_phone_number" className="createReservation-textField" label={this.props.t("reservations.newReservation.phoneNumber")} variant="outlined" onChange={
                         (e) => {
                             this.setState({ phoneNumber: e.target.value });
                         }} />
@@ -172,7 +172,7 @@ class CreateReservationDialogComponent extends Component {
                         (e) => {
                             this.setState({ service_id: e.target.value });
                         }} /> */}
-                    <TextField className="createReservation-textField" id="create_reservation_duration" value={this.state.duration} label={this.props.t("reservations.newReservation.duration")} variant="outlined" type="number" onChange={
+                    <TextField required className="createReservation-textField" id="create_reservation_duration" value={this.state.duration} label={this.props.t("reservations.newReservation.duration")} variant="outlined" type="number" onChange={
                         (e) => {
                             this.setState({ duration: parseInt(e.target.value) });
                         }} />
