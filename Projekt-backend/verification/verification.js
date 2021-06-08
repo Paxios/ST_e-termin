@@ -15,7 +15,7 @@ const zaposleni_scheme = joi.object({
 const uporabnik_scheme = joi.object({
     uporabnisko_ime: joi.string().min(3).max(100).required(),
     geslo: joi.string().min(3).max(250).required(),
-    id_podjetje: joi.string()
+    inviteCode: joi.string().allow('')
 })
 
 const rezervacija_scheme = joi.object({
@@ -23,10 +23,10 @@ const rezervacija_scheme = joi.object({
     id_podjetje: joi.string().required(),
     datum: joi.date().required(),
     trajanje: joi.number().max(1440).required(),
-    delo: joi.string().max(500).required(),
+    delo: joi.string().max(500),
 
-    ime_stranke: joi.string().alphanum(),
-    priimek_stranke: joi.string().alphanum(),
+    ime_stranke: joi.string(),
+    priimek_stranke: joi.string(),
     tel_st: joi.string().min(9).max(12),
     stranka: stranka_scheme,
 

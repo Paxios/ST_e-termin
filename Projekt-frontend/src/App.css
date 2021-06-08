@@ -41,6 +41,31 @@
   color: #2d2d2d !important;
 }
 
+.createReservation-toolbar{
+  position: relative !important;
+  margin-bottom: 25px !important;
+}
+
+.createReservation-add-btn{
+  flex:1;
+  margin-left: 50px !important;
+
+}
+
+
+.createReservation-textField{
+  margin-top: 10px !important;
+}
+
+.createReservation-formControl{
+  margin: 8px !important;
+}
+
+.reservation_card_element{
+  min-width: 80% !important;
+  max-width: 80% !important;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

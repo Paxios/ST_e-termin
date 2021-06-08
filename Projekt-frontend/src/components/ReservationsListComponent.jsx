@@ -11,6 +11,7 @@ import Alert from '@material-ui/lab/Alert';
 import ReservationService from '../services/ReservationService';
 import { formatDate } from '../Utils'
 import DoneAllIcon from '@material-ui/icons/DoneAll';
+import { useTranslation } from 'react-i18next';
 import { CardActionArea, CardActions } from '@material-ui/core';
 
 
@@ -72,6 +73,8 @@ function ReservationElement(props) {
     const reservation = props.reservation;
     var ponudbe = [];
     var ime_ponudbe = props.reservation.id_storitev;
+    const { t } = useTranslation();
+
     if (props.service.ponudba) {
         ponudbe = props.service.ponudba;
         var ponudba = ponudbe.find(ponudba => props.reservation.id_storitev === ponudba.id)
@@ -79,8 +82,8 @@ function ReservationElement(props) {
             ime_ponudbe = ponudba.ime;
     }
     return (
-        <div style={{ margin: '15px' }}>
-            <Card className="reservation_card_element" >
+        <div style={{ margin: '15px'}}>
+            <Card elevation={4} >
                 <CardActionArea>
                     <CardContent>
                         <Typography className="reservation-service" variant="h6" color="textPrimary">{ime_ponudbe}
@@ -109,7 +112,7 @@ function ReservationElement(props) {
                         <IconButton className="delete-reservation" aria-label="delete" onClick={() => {
                             ReservationService.delete_rezervacija(reservation._id).then((response) => {
                                 props.refreshReservations();
-                                props.changeSnackbarState("Successfully deleted one reservation.");
+                                props.changeSnackbarState(t("reservations.newReservation.deleteReservationSuccess"), "success");
                             }).catch(error => {
                                 console.log(error)
                             })

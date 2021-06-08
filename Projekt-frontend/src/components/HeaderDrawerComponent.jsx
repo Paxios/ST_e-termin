@@ -34,7 +34,7 @@ function HeaderDrawerComponent(props) {
         props.history.push(`/${destination}`);
     }
 
-    var logo = require('../images/etermin1.PNG')
+    var logo = require('../images/etermin3.PNG')
     return (
 
         <div>
@@ -107,14 +107,15 @@ function HeaderDrawerComponent(props) {
                         onClose={props.toggleDrawer(false)}
                         onOpen={props.toggleDrawer(true)}
                     >
-                        <ListItem className="drawer-list-element" button key="services" onClick={() => {
-                            navigateServices("services")
-                        }
-                        }>
-                            <ListItemIcon><WorkOutlineIcon color="primary" /></ListItemIcon>
-                            <ListItemText primary={t("drawerMenuItems.services")} />
-                        </ListItem><Divider />
+                        <img src={logo} style={{ alignSelf: 'center', height: '120px', width: '120px' }} />
                         <List className="drawer-list">
+                            <ListItem className="drawer-list-element" button key="services" onClick={() => {
+                                navigateServices("services")
+                            }
+                            }>
+                                <ListItemIcon><WorkOutlineIcon color="primary" /></ListItemIcon>
+                                <ListItemText primary={t("drawerMenuItems.services")} />
+                            </ListItem><Divider />
                             <ListItem className="drawer-list-element" button key="not_loggedin_first_page" onClick={() => { navigateReservartions("") }
                             }><ListItemIcon><AccessibleForwardIcon /></ListItemIcon><ListItemText primary="First page" /></ListItem>
                             <Divider />

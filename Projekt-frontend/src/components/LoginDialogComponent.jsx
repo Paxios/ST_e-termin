@@ -6,6 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
+import { withTranslation } from 'react-i18next';
 
 class LoginDialogComponent extends Component {
     constructor(props) {
@@ -27,9 +28,9 @@ class LoginDialogComponent extends Component {
         return (
             <Dialog onClose={this.props.handleLoginDialogClickClose} open={this.props.isShowing}>
             <form >
-                <TextField id="outlined-basic" required label="Username" variant="outlined" style={{ marginTop: "100px", marginLeft: "100px", marginRight: "100px" }}
+                <TextField id="outlined-basic" required label={this.props.t("userManagement.username")} variant="outlined" style={{ marginTop: "100px", marginLeft: "100px", marginRight: "100px" }}
                     onChange={(e) => { this.setState({ username: e.target.value }) }} /> <br /> <br />
-                <TextField id="outlined-basic" required type="password" label="Password" variant="outlined" style={{ marginTop: "10px", marginBottom: "10px", marginLeft: "100px", marginRight: "100px" }}
+                <TextField id="outlined-basic" required type="password" label={this.props.t("userManagement.password")} variant="outlined" style={{ marginTop: "10px", marginBottom: "10px", marginLeft: "100px", marginRight: "100px" }}
                     onChange={(e) => { this.setState({ password: e.target.value }) }} /><br /> <br />
                 <Button style={{ marginBottom: "20px", marginLeft: "100px", marginRight: "100px" }} variant="contained" color="primary"
                     onClick={() => {
@@ -71,4 +72,4 @@ class LoginDialogComponent extends Component {
     }
 }
 
-export default LoginDialogComponent
+export default withTranslation()(LoginDialogComponent)

@@ -11,6 +11,8 @@
             "customer": "Customer"
         },
         "newReservation":{
+            "title":"Add reservation",
+            "title-update":"Update reservation",
             "firstName":"First name",
             "lastName": "Last name",
             "phoneNumber": "Phone number",
@@ -19,11 +21,14 @@
             "time": "Time",
             "service":"service",
             "addNewReservationSuccess":"Successfully added new reservation",
+            "addNewReservationError":"Error when adding new reservation, please fill out all required fields",
             "updateReservationSuccess":"Successfully updated reservation",
+            "updateReservationError":"Error updating this reservation, please fill out all required fields",
             "deleteReservationSuccess":"Successfully deleted one reservation",
             "add":"Add",
             "update":"Update",
-            "delete":"Delete"
+            "delete":"Delete",
+            "selectType":"Select type*"
         },
         "timeline":{
             "checkWorkflow":"Check the workflow for selected day",
@@ -53,7 +58,9 @@
             "serviceTypeMechanic": "Mechanic",
             "serviceTypeVulcanizer": "Vulcanizer",
             "saveButton": "Save info",
-            "saveWorkingHoursButton": "Save working hours"
+            "saveWorkingHoursButton": "Save working hours",
+            "inviteCode": "Invite code for co-workers",
+            "mapInfo": "By pressing right-click you can insert your current location"
         },
         "serviceOverview": {
             "name": "Name",
@@ -74,6 +81,10 @@
     "userManagement": {
         "logIn": "Log in",
         "register": "Register",
-        "logOut": "Log out"
+        "logOut": "Log out",
+        "username":"Username",
+        "password":"Password",
+        "inviteCode":"Invite code",
+        "inviteCodeHint":"To join an existing company profile you must insert your co-worker's invite code here"
     }
 }

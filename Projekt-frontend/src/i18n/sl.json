@@ -14,6 +14,7 @@
 
         },
         "newReservation":{
+            "title":"Dodaj rezervacijo",
             "firstName":"Ime",
             "lastName": "Priimek",
             "phoneNumber": "Telefonska številka",
@@ -22,11 +23,14 @@
             "service":"Storitev",
             "time": "Čas",
             "addNewReservationSuccess":"Uspešna dodaja nove rezervacije",
+            "addNewReservationError":"Napaka pri dodajanju nove rezervacije, prosim izpolnite vsa polja",
             "updateReservationSuccess":"Uspešna posodobitev rezervacije",
-            "deleteReservationSuccess":"Uspešen izbri ene rezervacije",
+            "updateReservationError":"Napaka pri posodabljanje te rezervacije, prosim izpolnite vsa polja",
+            "deleteReservationSuccess":"Uspešen izbris ene rezervacije",
             "add":"Dodaj",
             "update":"Posodobi",
-            "delete":"Odstrani"
+            "delete":"Odstrani",
+            "selectType":"Izberite tip*"
         },
         "timeline":{
             "checkWorkflow":"Preverite potek dela za izbran dan",
@@ -56,7 +60,9 @@
             "serviceTypeMechanic": "Avtomehanika",
             "serviceTypeVulcanizer": "Vulkanizerstvo",
             "saveButton": "Shrani informacije",
-            "saveWorkingHoursButton": "Shrani delovni čas"
+            "saveWorkingHoursButton": "Shrani delovni čas",
+            "inviteCode": "Koda za povabilo sodelavcev",
+            "mapInfo": "S pritiskom na desni klik lahko vnesete vašo trenutno lokacijo"
         },
         "serviceOverview": {
             "name": "Naziv",
@@ -106,6 +112,10 @@
     "userManagement": {
         "logIn": "Prijava",
         "register": "Registracija",
-        "logOut": "Odjava"
+        "logOut": "Odjava",
+        "username":"Uporabniško ime",
+        "password":"Geslo",
+        "inviteCode":"Koda za povabilo",
+        "inviteCodeHint":"Za pridružitev obstoječemu profilu podjetja, morate tu vnesti kodo za povabilo od vašega sodelavca"
     }
 }

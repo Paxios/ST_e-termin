@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//GET login
+//POST login
 router.post("/login", async (req, res) => {
 
   if(!(("uporabnisko_ime" in req.body) || ("geslo" in req.body)) ){
