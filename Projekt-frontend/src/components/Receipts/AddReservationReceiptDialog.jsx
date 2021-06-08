@@ -85,6 +85,7 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation, refresh
                     setStoritevId(storitev.ponudba[0].id);
                     setCena(storitev.ponudba[0].cena);
                     setOpomba(reservation.delo);
+                    storitevId(reservation.id_storitev);
                 }
 
             })

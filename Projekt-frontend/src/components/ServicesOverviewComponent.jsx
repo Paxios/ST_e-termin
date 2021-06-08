@@ -9,7 +9,7 @@ import Alert from '@material-ui/lab/Alert';
 import { REFRESH_TIME } from '../Constants'
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import Button from '@material-ui/core/Button';
+import { Button, Grid } from '@material-ui/core';
 import 'leaflet/dist/leaflet.css';
 
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -102,40 +102,47 @@ class ServicesOverviewComponent extends Component {
     handleOnClickMarker = (x) => {
         const anchorElement = document.getElementById(x);
         if (anchorElement) {
-            anchorElement.scrollIntoView({ behavior: "smooth", 
-            block: "center" });
+            anchorElement.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
         }
     }
 
     render() {
         const isOnline = this.state.isOnline;
         return (
-            <div>
-                <Card className="reservation_card_element" >
-                    <CardContent style={{ "padding": "0px" }}>
-                        <MapContainer center={[46.5604847, 15.6346753]} zoom={15} scrollWheelZoom={false} style={{ "height": "400px", "width": "100%" }}>
-                            <TileLayer
-                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            {
-                                this.state.storitve.map(
-                                    service =>
-                                        <Marker position={[service.lokacija.x, service.lokacija.y]}>
-                                            <Popup>
-                                                <h3>{service.ime}</h3>
-                                                <br /> 
-                                                {service.tip}
-                                                <br />
-                                                <Button variant="contained" onClick={() => this.handleOnClickMarker(service._id)}>Več informacij</Button>
-                                            </Popup>
-                                        </Marker>
-                                )
-                            }
-                        </MapContainer>
-                    </CardContent>
-                </Card>
-                <ServicesListComponent refreshServices={this.loadStoritve} changeEditServiceData={this.changeEditServiceData} services={this.state.storitve}></ServicesListComponent>
+            <Grid container style={{backgroundColor: '#f4f5f7', paddingTop: '25px'}}>
+                <Grid item xs={12} style={{paddingLeft: '18px', paddingRight: '18px'}}>
+                    <Card >
+                        <CardContent style={{ "padding": "0px" }}>
+                            <MapContainer center={[46.5604847, 15.6346753]} zoom={15} scrollWheelZoom={false} style={{ "height": "400px", "width": "100%" }}>
+                                <TileLayer
+                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
+                                {
+                                    this.state.storitve.map(
+                                        service =>
+                                            <Marker position={[service.lokacija.x, service.lokacija.y]}>
+                                                <Popup>
+                                                    <h3>{service.ime}</h3>
+                                                    <br />
+                                                    {service.tip}
+                                                    <br />
+                                                    <Button variant="contained" onClick={() => this.handleOnClickMarker(service._id)}>Več informacij</Button>
+                                                </Popup>
+                                            </Marker>
+                                    )
+                                }
+                            </MapContainer>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={12}>
+                    <ServicesListComponent refreshServices={this.loadStoritve} changeEditServiceData={this.changeEditServiceData} services={this.state.storitve}></ServicesListComponent>
+                </Grid>
+
 
                 {/* FAB */}
                 {/* {isOnline ?
@@ -157,7 +164,7 @@ class ServicesOverviewComponent extends Component {
                         {this.state.snackbarMessage}
                     </Alert>
                 </Snackbar>
-            </div>
+            </Grid>
         )
     }
 }

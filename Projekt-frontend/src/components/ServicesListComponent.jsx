@@ -85,9 +85,9 @@ function ServiceElement(props) {
     const classes = useStyles();
     const { t } = useTranslation();
     return (
-        <div id={service._id}>
+        <div id={service._id} style={{paddingLeft: '18px', paddingRight: '18px'}}>
             <br />
-            <Card className="reservation_card_element" >
+            <Card>
                 <CardContent>
                     <Grid container spacing={3}>
                         <Grid item xs={6}>
