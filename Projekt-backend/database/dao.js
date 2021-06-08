@@ -85,10 +85,21 @@ const register = async (user_details) => {
     let geslo = user_details.geslo;
     geslo = security.hash_password(geslo);
 
+    var userCompany;
+    if (user_details.inviteCode === "") {
+        userCompany = await generateNewCompany();
+    }
+    else {
+        userCompany = await database.Storitev.findOne({ inviteCode: user_details.inviteCode })
+        if (userCompany == null) {
+            const err = { status: "ERROR", code: 400, reason: "Your invite code is invalid" };
+            return err;
+        }
+    }
     const new_user = database.User({
         uporabnisko_ime: user_details.uporabnisko_ime,
         geslo: geslo,
-        id_podjetje: user_details.id_podjetje,
+        id_podjetje: userCompany._id,
         _id: mongoose.Types.ObjectId()
     });
 
@@ -100,6 +111,68 @@ const register = async (user_details) => {
             return error;
         })
     return user;
+}
+
+async function generateNewCompany(){
+    const new_company = database.Storitev({
+        ime: "",
+        naslov: "",
+        tip: "",
+        lokacija: [0,0],
+        opis: "",
+        ponudba: [],
+        zaposleni: [],
+        delovniCas: {
+            pon:{
+                zacetek:"00:00",
+                konec:"00:00"
+            },
+            tor:{
+                zacetek:"00:00",
+                konec:"00:00"
+            },
+            sre:{
+                zacetek:"00:00",
+                konec:"00:00"
+            },
+            cet:{
+                zacetek:"00:00",
+                konec:"00:00"
+            },
+            pet:{
+                zacetek:"00:00",
+                konec:"00:00"
+            },
+            sob:{
+                zacetek:"00:00",
+                konec:"00:00"
+            },
+            ned:{
+                zacetek:"00:00",
+                konec:"00:00"
+            }
+        },
+        inviteCode: getRandomString(),
+        _id: mongoose.Types.ObjectId()
+    });
+
+    var company = await new_company.save().then((data) => {
+        return data;
+    })
+        .catch((err) => {
+            const error = { status: "ERROR", code: 500, reason: err };
+            return error;
+        })
+    return company;
+}
+
+function getRandomString() {
+    var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    for ( var i = 0; i < 32; i++ ) {
+        result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+    }
+    return result;
 }
 
 const getUserByUsername = async (uporabnisko_ime) => {
@@ -126,7 +199,7 @@ const updateDelovniCas = async (storitevId, delovniCas) => {
     storitev.delovniCas = delovniCas;
     return await database.Storitev.findByIdAndUpdate(storitevId, storitev, { useFindAndModify: false })
 }
- 
+
 const getCustomerList = async (serviceId) => {
     //return await database.Rezervacija.find({ id_storitev: serviceId })
     return new Promise((res) => {
@@ -239,8 +312,8 @@ const countReservations = async (id) => {
                 count: 1
             }
         },
-        { 
-            $sort : { name : 1 } 
+        {
+            $sort: { name: 1 }
         }
     ]);
 }

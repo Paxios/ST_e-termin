@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Typography from '@material-ui/core/Typography';
 
 class HomepageComponent extends Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class HomepageComponent extends Component {
         var logo = require('../images/etermin1.PNG')
         return (
             <div>
-              <img src={logo} style={{ width:"100%" ,alignSelf: 'center' }} />
+              <img src={logo} style={{ width:"60%" ,alignSelf: 'center' }} />
+              <Typography className="title" variant="h4" noWrap>e-Termin</Typography>
+              <Typography className="title" variant="h5" noWrap>Se spominjate vaše stare 'Katrce'? Ne skrbite! Naše storitve so zanesljivejše.</Typography>
             </div>
         )
     }

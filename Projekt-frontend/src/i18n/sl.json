@@ -60,7 +60,9 @@
             "serviceTypeMechanic": "Avtomehanika",
             "serviceTypeVulcanizer": "Vulkanizerstvo",
             "saveButton": "Shrani informacije",
-            "saveWorkingHoursButton": "Shrani delovni čas"
+            "saveWorkingHoursButton": "Shrani delovni čas",
+            "inviteCode": "Koda za povabilo sodelavcev",
+            "mapInfo": "S pritiskom na desni klik lahko vnesete vašo trenutno lokacijo"
         },
         "serviceOverview": {
             "name": "Naziv",
@@ -112,6 +114,8 @@
         "register": "Registracija",
         "logOut": "Odjava",
         "username":"Uporabniško ime",
-        "password":"Geslo"
+        "password":"Geslo",
+        "inviteCode":"Koda za povabilo",
+        "inviteCodeHint":"Za pridružitev obstoječemu profilu podjetja, morate tu vnesti kodo za povabilo od vašega sodelavca"
     }
 }

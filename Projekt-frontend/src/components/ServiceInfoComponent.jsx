@@ -7,6 +7,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import SaveIcon from '@material-ui/icons/Save';
 import L from 'leaflet';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet'
@@ -106,8 +108,8 @@ class ServiceInfoComponent extends Component {
         ServicesService.info_loadStoritev(this, podjetjeId);
         setTimeout(
             () => {
-                this.state.initialPosition[0] = this.state.storitev.lokacija.x;
-                this.state.initialPosition[1] = this.state.storitev.lokacija.y;
+                this.state.initialPosition[0] = this.state.storitev.lokacija?.x;
+                this.state.initialPosition[1] = this.state.storitev.lokacija?.y;
             },
             1000
         );
@@ -129,16 +131,21 @@ class ServiceInfoComponent extends Component {
                     <br />
                     <Typography variant="h5">{t("services.serviceInfo.title")}</Typography>
                     <br />
-                    <MapContainer center={[46.5604847, 15.6346753]} zoom={15} scrollWheelZoom={true} style={{ "height": "400px", "width": "100%" }}>
+                    <MapContainer center={[46.5604847, 15.6346753]} zoom={14} scrollWheelZoom={true} style={{ "height": "400px", "width": "100%" }}>
                         <TileLayer
-                            attribution='Simply press on the map to select current location'
+                            attribution={t("services.serviceInfo.mapInfo")}
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         <MyMarker saveMarkers={this.saveMarkers} initialPosition={this.state.initialPosition} currentPosition={this.state.currentPosition} selectedPosition={this.state.selectedPosition} />
                     </MapContainer>
-
+                    <br />
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h5" className={classes.heading}>{t("services.serviceInfo.inviteCode")}</Typography>
+                            {service.inviteCode}
+                        </CardContent>
+                    </Card>
                     <InfoForm storitev={this.state.storitev} pos={this.state.selectedPosition} changeSnackbarState={this.changeStateSnackbar} />
-
                     <Accordion>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -321,7 +328,6 @@ function InfoForm(props) {
 }
 
 function MyMarker(props) {
-    console.log(props)
     const map = useMapEvents({
         click: (e) => {
             const { lat, lng } = e.latlng;
@@ -364,6 +370,15 @@ function MyMarker(props) {
             props.saveMarkers(props.currentPosition);
         }
     });
+    if(props.initialPosition[0]==0 && props.initialPosition[1]==0){
+        setTimeout(
+            () => {
+                map.flyTo(props.initialPosition, map.getZoom());
+                L.marker(props.initialPosition, { DefaultIcon }).addTo(map);
+            },
+            1000
+        );
+    }
     return null;
 }
 
