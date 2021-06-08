@@ -41,16 +41,11 @@ router.get("/storitev/:id", async (req, res) => {
 
 //GET racun pdf by ID
 router.get("/:id/pdf", async (req, res) => {
-    console.log("get racuni");
     const receipt = await database.getReceiptById(new mongo.ObjectID(req.params.id));
-    console.log(receipt);
     if (receipt != null) {
         var podjetje = await database.getStoritevById(new mongo.ObjectID(receipt.id_podjetje));
-        console.log(podjetje);
         var storitev = await database.getPonudbaById(new mongo.ObjectID(receipt.id_storitev));
-        console.log(storitev);
         var invoice = generatePdfInvoiceData(receipt, podjetje, storitev.ponudba[0]);
-        console.log(invoice);
         easyinvoice.createInvoice(invoice, function (result) {
             res.set('Content-Type', 'text/html');
             res.send(JSON.stringify(result.pdf));

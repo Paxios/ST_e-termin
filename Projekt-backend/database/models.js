@@ -43,7 +43,7 @@ const storitev_model = {
     },
     opis: String,
     ponudba: [{
-        _id: mongoose.Schema.ObjectId,
+        id: mongoose.Schema.ObjectId,
         cena: String,
         ime: String,
         opis: String
@@ -52,6 +52,7 @@ const storitev_model = {
         naziv: String,
         telefon: String
     }],
+    inviteCode: String,
     delovniCas: {
         pon:{
             zacetek: String,

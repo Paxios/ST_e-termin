@@ -33,6 +33,7 @@ import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import Input from '@material-ui/core/Input';
 import { withTranslation, useTranslation } from "react-i18next";
+import { Card, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -81,7 +82,16 @@ class ServiceInfoComponent extends Component {
             snackbarMessage: "",
             selectedPosition: [0, 0],
             initialPosition: [0, 0],
-            currentPosition: [0, 0]
+            currentPosition: [0, 0],
+            workingHours: {
+                mon: "",
+                tue: "",
+                wed: "",
+                thu: "",
+                fri: "",
+                sat: "",
+                sun: "",
+            }
         }
     }
 
@@ -118,14 +128,55 @@ class ServiceInfoComponent extends Component {
         const selectedPosition = newMarkerCoords;
         this.setState((prevState) => ({ ...prevState, selectedPosition }));
     };
+    updateWorkingHours = (e) => {
+        e.preventDefault();
+        var ure = {
+            pon:{
+                zacetek: e.target.ponZacetek.value,
+                konec: e.target.ponKonec.value
+            },
+            tor:{
+                zacetek: e.target.torZacetek.value,
+                konec: e.target.torKonec.value
+            },
+            sre:{
+                zacetek: e.target.sreZacetek.value,
+                konec: e.target.sreKonec.value
+            },
+            cet:{
+                zacetek: e.target.cetZacetek.value,
+                konec: e.target.cetKonec.value
+            },
+            pet:{
+                zacetek: e.target.petZacetek.value,
+                konec: e.target.petKonec.value
+            },
+            sob:{
+                zacetek: e.target.sobZacetek.value,
+                konec: e.target.sobKonec.value
+            },
+            ned:{
+                zacetek: e.target.nedZacetek.value,
+                konec: e.target.nedKonec.value
+            },
+        };
+        console.log(ure);
+        ServicesService.update_delovni_cas(this.context.user.company_id, ure)
+            .then((response) => {
+
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     render() {
         const { t, i18n } = this.props
         var service = this.state.storitev
         const { classes } = this.props;
         return (
-            <div>
-                <div className="timeline-datepicker">
+            <Grid container>
+                <Grid item xs={12} lg={8} className="timeline-datepicker">
                     <br />
                     <Typography variant="h5">{t("services.serviceInfo.title")}</Typography>
                     <br />
@@ -136,7 +187,6 @@ class ServiceInfoComponent extends Component {
                         />
                         <MyMarker saveMarkers={this.saveMarkers} initialPosition={this.state.initialPosition} currentPosition={this.state.currentPosition} selectedPosition={this.state.selectedPosition} />
                     </MapContainer>
-
                     <InfoForm storitev={this.state.storitev} pos={this.state.selectedPosition} changeSnackbarState={this.changeStateSnackbar} />
 
                     <Accordion>
@@ -149,96 +199,129 @@ class ServiceInfoComponent extends Component {
                         </AccordionSummary>
                         <AccordionDetails>
                             <div>
-                                <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>{t("services.serviceOverview.monday")}</TableCell>
-                                                <TableCell>{t("services.serviceOverview.tuesday")}&nbsp;</TableCell>
-                                                <TableCell>{t("services.serviceOverview.wednesday")}&nbsp;</TableCell>
-                                                <TableCell>{t("services.serviceOverview.thursday")}&nbsp;</TableCell>
-                                                <TableCell>{t("services.serviceOverview.friday")}&nbsp;</TableCell>
-                                                <TableCell>{t("services.serviceOverview.saturday")}&nbsp;</TableCell>
-                                                <TableCell>{t("services.serviceOverview.sunday")}&nbsp;</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            <TableRow key={service._id}>
-                                                <TableCell component="th" scope="row">
-                                                    <Input id="ponZacetek" inputComponent={TextMaskHour} key={`ponZacetek:${service.delovniCas?.pon?.zacetek || ''}`} defaultValue={service.delovniCas?.pon?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
-                                                    <Input id="ponKonec" inputComponent={TextMaskHour} key={`ponKonec:${service.delovniCas?.pon?.konec || ''}`} defaultValue={service.delovniCas?.pon?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                <form onSubmit={this.updateWorkingHours}>
+                                    <TableContainer component={Paper}>
+                                        <Table className={classes.table} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Dan</TableCell>
+                                                    <TableCell>Od</TableCell>
+                                                    <TableCell>Do</TableCell>
 
-                                                    {/* {service.delovniCas?.pon?.zacetek} - {service.delovniCas?.pon?.konec} */}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    <Input id="torZacetek" inputComponent={TextMaskHour} key={`torZacetek:${service.delovniCas?.tor?.zacetek || ''}`} defaultValue={service.delovniCas?.tor?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
-                                                    <Input id="torKonec" inputComponent={TextMaskHour} key={`torKonec:${service.delovniCas?.tor?.konec || ''}`} defaultValue={service.delovniCas?.tor?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
-
-                                                    {/* {service.delovniCas?.tor?.zacetek} - {service.delovniCas?.tor?.konec} */}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    <Input id="sreZacetek" inputComponent={TextMaskHour} key={`sreZacetek:${service.delovniCas?.sre?.zacetek || ''}`} defaultValue={service.delovniCas?.sre?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
-                                                    <Input id="sreKonec" inputComponent={TextMaskHour} key={`sreKonec:${service.delovniCas?.sre?.konec || ''}`} defaultValue={service.delovniCas?.sre?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
-
-                                                    {/* {service.delovniCas?.sre?.zacetek} - {service.delovniCas?.sre?.konec} */}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    <Input id="cetZacetek" inputComponent={TextMaskHour} key={`cetZacetek:${service.delovniCas?.cet?.zacetek || ''}`} defaultValue={service.delovniCas?.cet?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
-                                                    <Input id="cetKonec" inputComponent={TextMaskHour} key={`cetKonec:${service.delovniCas?.cet?.konec || ''}`} defaultValue={service.delovniCas?.cet?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
-
-                                                    {/* {service.delovniCas?.cet?.zacetek} - {service.delovniCas?.cet?.konec} */}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    <Input id="petZacetek" inputComponent={TextMaskHour} key={`petZacetek:${service.delovniCas?.pet?.zacetek || ''}`} defaultValue={service.delovniCas?.pet?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
-                                                    <Input id="petKonec" inputComponent={TextMaskHour} key={`petKonec:${service.delovniCas?.pet?.konec || ''}`} defaultValue={service.delovniCas?.pet?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
-
-                                                    {/* {service.delovniCas?.pet?.zacetek} - {service.delovniCas?.pet?.konec} */}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    <Input id="sobZacetek" inputComponent={TextMaskHour} key={`sobZacetek:${service.delovniCas?.sob?.zacetek || ''}`} defaultValue={service.delovniCas?.sob?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
-                                                    <Input id="sobKonec" inputComponent={TextMaskHour} key={`sobKonec:${service.delovniCas?.sob?.konec || ''}`} defaultValue={service.delovniCas?.sob?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
-
-                                                    {/* {service.delovniCas?.sob?.zacetek} - {service.delovniCas?.sob?.konec} */}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    <Input id="nedZacetek" inputComponent={TextMaskHour} key={`nedZacetek:${service.delovniCas?.ned?.zacetek || ''}`} defaultValue={service.delovniCas?.ned?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
-                                                    <Input id="nedKonec" inputComponent={TextMaskHour} key={`nedKonec:${service.delovniCas?.ned?.konec || ''}`} defaultValue={service.delovniCas?.ned?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
-
-                                                    {/* {service.delovniCas?.ned?.zacetek} - {service.delovniCas?.ned?.konec} */}
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </div>
-                            <div>
-                                <br />
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    size="large"
-                                    onClick={() => {
-                                        //console.log(props.storitev)
-
-                                        //props.changeSnackbarState("Successfully updated service information.");
-                                    }}
-                                    className={classes.formControl}
-                                    startIcon={<SaveIcon />}
-                                >
-                                    {t("services.serviceInfo.saveWorkingHoursButton")}
-                                </Button>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                <TableRow key={service._id}>
+                                                    <TableCell component="th" scope="row">
+                                                        {t("services.serviceOverview.monday")}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="ponZacetek" inputComponent={TextMaskHour} key={`ponZacetek:${service.delovniCas?.pon?.zacetek || ''}`} defaultValue={service.delovniCas?.pon?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                        {/* {service.delovniCas?.pon?.zacetek} - {service.delovniCas?.pon?.konec} */}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="ponKonec" inputComponent={TextMaskHour} key={`ponKonec:${service.delovniCas?.pon?.konec || ''}`} defaultValue={service.delovniCas?.pon?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                    </TableCell>
+                                                </TableRow>
+                                                <TableRow key={service._id}>
+                                                    <TableCell component="th" scope="row">
+                                                        {t("services.serviceOverview.tuesday")}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="torZacetek" inputComponent={TextMaskHour} key={`torZacetek:${service.delovniCas?.tor?.zacetek || ''}`} defaultValue={service.delovniCas?.tor?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                        {/* {service.delovniCas?.pon?.zacetek} - {service.delovniCas?.pon?.konec} */}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="torKonec" inputComponent={TextMaskHour} key={`torKonec:${service.delovniCas?.tor?.konec || ''}`} defaultValue={service.delovniCas?.tor?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                    </TableCell>
+                                                </TableRow>
+                                                <TableRow key={service._id}>
+                                                    <TableCell component="th" scope="row">
+                                                        {t("services.serviceOverview.wednesday")}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="sreZacetek" inputComponent={TextMaskHour} key={`sreZacetek:${service.delovniCas?.sre?.zacetek || ''}`} defaultValue={service.delovniCas?.sre?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                        {/* {service.delovniCas?.pon?.zacetek} - {service.delovniCas?.pon?.konec} */}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="sreKonec" inputComponent={TextMaskHour} key={`sreKonec:${service.delovniCas?.sre?.konec || ''}`} defaultValue={service.delovniCas?.sre?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                    </TableCell>
+                                                </TableRow>
+                                                <TableRow key={service._id}>
+                                                    <TableCell component="th" scope="row">
+                                                        {t("services.serviceOverview.thursday")}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="cetZacetek" inputComponent={TextMaskHour} key={`cetZacetek:${service.delovniCas?.cet?.zacetek || ''}`} defaultValue={service.delovniCas?.cet?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                        {/* {service.delovniCas?.pon?.zacetek} - {service.delovniCas?.pon?.konec} */}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="cetKonec" inputComponent={TextMaskHour} key={`cetKonec:${service.delovniCas?.cet?.konec || ''}`} defaultValue={service.delovniCas?.cet?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                    </TableCell>
+                                                </TableRow>
+                                                <TableRow key={service._id}>
+                                                    <TableCell component="th" scope="row">
+                                                        {t("services.serviceOverview.friday")}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="petZacetek" inputComponent={TextMaskHour} key={`petZacetek:${service.delovniCas?.pet?.zacetek || ''}`} defaultValue={service.delovniCas?.pet?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                        {/* {service.delovniCas?.pon?.zacetek} - {service.delovniCas?.pon?.konec} */}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="petKonec" inputComponent={TextMaskHour} key={`petKonec:${service.delovniCas?.pet?.konec || ''}`} defaultValue={service.delovniCas?.pet?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                    </TableCell>
+                                                </TableRow>
+                                                <TableRow key={service._id}>
+                                                    <TableCell component="th" scope="row">
+                                                        {t("services.serviceOverview.saturday")}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="sobZacetek" inputComponent={TextMaskHour} key={`sobZacetek:${service.delovniCas?.sob?.zacetek || ''}`} defaultValue={service.delovniCas?.sob?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                        {/* {service.delovniCas?.pon?.zacetek} - {service.delovniCas?.pon?.konec} */}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="sobKonec" inputComponent={TextMaskHour} key={`sobKonec:${service.delovniCas?.sob?.konec || ''}`} defaultValue={service.delovniCas?.sob?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                    </TableCell>
+                                                </TableRow>
+                                                <TableRow key={service._id}>
+                                                    <TableCell component="th" scope="row">
+                                                        {t("services.serviceOverview.sunday")}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="nedZacetek" inputComponent={TextMaskHour} key={`nedZacetek:${service.delovniCas?.ned?.zacetek || ''}`} defaultValue={service.delovniCas?.ned?.zacetek || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                        {/* {service.delovniCas?.pon?.zacetek} - {service.delovniCas?.pon?.konec} */}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Input id="nedKonec" inputComponent={TextMaskHour} key={`nedKonec:${service.delovniCas?.ned?.konec || ''}`} defaultValue={service.delovniCas?.ned?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                    <br />
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        size="large"
+                                        className={classes.formControl}
+                                        startIcon={<SaveIcon />}
+                                    >
+                                        {t("services.serviceInfo.saveWorkingHoursButton")}
+                                    </Button>
+                                </form>
                             </div>
                         </AccordionDetails>
                     </Accordion>
                     <br />
-                </div>
+                </Grid>
 
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
                     <Alert onClose={this.changeStateSnackbar} severity="success">
                         {this.state.snackbarMessage}
                     </Alert>
                 </Snackbar>
-            </div>
+            </Grid>
         )
     }
 }

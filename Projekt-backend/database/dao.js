@@ -115,6 +115,8 @@ const getStoritevById = async (id) => {
 }
 
 const getPonudbaById = async (id) => {
+    console.log(id);
+    //iz nekega razloga ne dela več
     return await database.Storitev.findOne({ 'ponudba.id': id }, { 'ponudba.$': 1 });
 }
 const updateStoritev = async (storitevId, storitev) => {
@@ -122,9 +124,12 @@ const updateStoritev = async (storitevId, storitev) => {
 }
 
 const updateDelovniCas = async (storitevId, delovniCas) => {
-    var storitev = await database.Storitev.findOne({ _id: id });
-    storitev.delovniCas = delovniCas;
-    return await database.Storitev.findByIdAndUpdate(storitevId, storitev, { useFindAndModify: false })
+    var storitev = await database.Storitev.findOne({ _id: storitevId });
+    var novaStoritev = JSON.parse(JSON.stringify(storitev));
+    novaStoritev.delovniCas = delovniCas;
+    console.log(novaStoritev);
+    return updateStoritev(storitevId, novaStoritev);
+    //return await database.Storitev.findByIdAndUpdate(storitevId, novaStoritev, { useFindAndModify: false });
 }
  
 const getCustomerList = async (serviceId) => {
@@ -219,7 +224,7 @@ const countServicesInReceipts = async (id) => {
 }
 
 const countReservations = async (id) => {
-    console.log(id);
+    console.log("DB"+id);
     return await database.Rezervacija.aggregate([
         {
             $match: { id_podjetje: id }

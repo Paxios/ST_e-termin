@@ -82,6 +82,7 @@ router.get("/:idPodjetja/racuni/count", async function (req, res) {
                 result.forEach((service, index, array) => {
                     database.getPonudbaById(new mongo.ObjectID(service._id))
                         .then((storitev) => {
+                            console.log(storitev);
                             var storitevItem = {
                                 name: storitev.ponudba[0].ime,
                                 znesek: storitev.ponudba[0].cena * service.count,

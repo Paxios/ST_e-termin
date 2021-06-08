@@ -147,7 +147,7 @@ function ReceiptsOverviewComponent({ }) {
 
 
     return (
-        <div>
+        <div className="container">
             <Grid container>
                 <Grid item xs={12} >
                     <Typography variant="h6" className={classes.title}>

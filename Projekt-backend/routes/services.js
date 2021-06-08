@@ -70,6 +70,7 @@ router.get("/ponudba/:id", async (req, res) => {
 //UPDATE service working hours
 router.put("/:storitevId/delovnicas", async (req, res) => {
     var storitevId = new mongo.ObjectID(req.params.storitevId);
+    console.log(req.body);
     try {
         const { error } = verifikacija.delovni_cas_scheme.validate(req.body);
         if (error != null) {
