@@ -58,7 +58,9 @@
             "serviceTypeMechanic": "Mechanic",
             "serviceTypeVulcanizer": "Vulcanizer",
             "saveButton": "Save info",
-            "saveWorkingHoursButton": "Save working hours"
+            "saveWorkingHoursButton": "Save working hours",
+            "inviteCode": "Invite code for co-workers",
+            "mapInfo": "By pressing right-click you can insert your current location"
         },
         "serviceOverview": {
             "name": "Name",
@@ -81,6 +83,8 @@
         "register": "Register",
         "logOut": "Log out",
         "username":"Username",
-        "password":"Password"
+        "password":"Password",
+        "inviteCode":"Invite code",
+        "inviteCodeHint":"To join an existing company profile you must insert your co-worker's invite code here"
     }
 }

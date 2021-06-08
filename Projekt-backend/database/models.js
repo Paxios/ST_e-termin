@@ -42,6 +42,7 @@ const storitev_model = {
         y: Number
     },
     opis: String,
+    inviteCode: String,
     ponudba: [{
         _id: mongoose.Schema.ObjectId,
         cena: String,
