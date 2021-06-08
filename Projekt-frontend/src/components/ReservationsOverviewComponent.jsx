@@ -27,6 +27,7 @@ class ReservationsOverviewComponent extends Component {
             editReservation: {},
             openSnackbar: false,
             snackbarMessage: "",
+            snackbarSeverity: "",
             isOnline: navigator.onLine,
             isConfirmReservationDialogOpen: false,
             currentConfirmReservation: null,
@@ -103,9 +104,10 @@ class ReservationsOverviewComponent extends Component {
         });
     }
 
-    changeSnackBarMessage = message => {
+    changeSnackBarMessage = (message, severity) => {
         this.setState({
-            snackbarMessage: message
+            snackbarMessage: message,
+            snackbarSeverity: severity
         })
         this.changeSnackBarState();
     }
@@ -138,7 +140,7 @@ class ReservationsOverviewComponent extends Component {
                 <EditReservationDialogComponent storitev={this.state.storitev} company_id={this.props.user.company_id} changeSnackBarState={this.changeSnackBarMessage} refreshReservations={this.loadRezervacije} closeEditReservationDialog={this.changeEditReservationDialogState} isEditReservationShowing={this.state.isEditReservationShowing} reservation={this.state.editReservation} />
 
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeSnackBarState} open={this.state.openSnackbar}>
-                    <Alert onClose={this.changeSnackBarState} severity="success">
+                    <Alert onClose={this.changeSnackBarState} severity={this.state.snackbarSeverity}>
                         {this.state.snackbarMessage}
                     </Alert>
                 </Snackbar>

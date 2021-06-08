@@ -111,7 +111,7 @@ function AddReservationReceiptDialog({ isOpen, closeDialog, reservation, refresh
         ReservationService.delete_rezervacija(reservation._id).then((response) => {
             console.log(response);
             refreshReservations();
-            changeSnackbarState("Successfully finished one reservation.");
+            changeSnackbarState("Successfully finished one reservation.","success");
         }).catch(error => {
             console.log(error)
         })

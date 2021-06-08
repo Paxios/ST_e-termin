@@ -77,8 +77,8 @@ class HeaderComponent extends Component {
               >
                 <MenuIcon/>
               </IconButton>
-              <img src={logo} style={{"height":"80px"}} />
-              <Typography className="title" variant="h5" noWrap>e-Termin</Typography>
+              <img src={logo} style={{"height":"60px"}} />
+              <Typography className="title" variant="h5" noWrap/>
               {!loggedIn ?
                 <div>
                   <Button color="inherit" onClick={( ) => {

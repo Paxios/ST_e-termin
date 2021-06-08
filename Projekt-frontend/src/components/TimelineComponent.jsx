@@ -115,7 +115,9 @@ function TimelineElement(props) {
     if(props.storitev.ponudba){
         ponudbe = props.storitev.ponudba
     }
-    const service_name = ponudbe.find(ponudba => ponudba.id === props.reservation.storitev).ime
+    var service_name ="";
+    if(ponudbe.length > 0)
+        service_name = ponudbe.find(ponudba => ponudba.id === props.reservation.storitev).ime
 
     if ((new Date(props.reservation.start_date)).getTime() < dtc.getTime()) {
         color = "secondary";

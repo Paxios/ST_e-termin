@@ -13,7 +13,7 @@ class HomepageComponent extends Component {
         var logo = require('../images/etermin1.PNG')
         return (
             <div>
-              <img src={logo} style={{ alignSelf: 'center' }} />
+              <img src={logo} style={{ width:"100%" ,alignSelf: 'center' }} />
             </div>
         )
     }
