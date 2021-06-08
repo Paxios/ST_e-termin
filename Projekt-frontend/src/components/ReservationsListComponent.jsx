@@ -11,6 +11,7 @@ import Alert from '@material-ui/lab/Alert';
 import ReservationService from '../services/ReservationService';
 import { formatDate } from '../Utils'
 import DoneAllIcon from '@material-ui/icons/DoneAll';
+import { CardActionArea, CardActions } from '@material-ui/core';
 
 
 var isOnline = navigator.onLine;
@@ -45,8 +46,8 @@ class ReservationsListComponent extends Component {
 
     render() {
         return (
-            <div>
-                <ReservationElements service = {this.props.service} refreshReservations={this.props.refreshReservations} changeEditReservationData={this.props.changeEditReservationData} reservations={this.props.reservations} changeSnackbarState={this.changeStateSnackbar} openConfirmReservationDialog={this.props.openConfirmReservationDialog}/>
+            <div style={{ paddingTop: '15px' }}>
+                <ReservationElements service={this.props.service} refreshReservations={this.props.refreshReservations} changeEditReservationData={this.props.changeEditReservationData} reservations={this.props.reservations} changeSnackbarState={this.changeStateSnackbar} openConfirmReservationDialog={this.props.openConfirmReservationDialog} />
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
                     <Alert onClose={this.changeStateSnackbar} severity="success">
                         {this.state.snackbarMessage}
@@ -60,59 +61,63 @@ class ReservationsListComponent extends Component {
 
 
 function ReservationElements(props) {
-    // const res = filterReservations(props.reservations);
-    const res = props.reservations;
-    const forReturn = res.map((reservation) =>
-        <ReservationElement service={props.service} key={reservation._id} refreshReservations={props.refreshReservations} changeEditReservationData={props.changeEditReservationData} changeSnackbarState={props.changeSnackbarState} reservation={reservation} openConfirmReservationDialog={props.openConfirmReservationDialog}/>
-    )
-    return (<ul>{forReturn}</ul>);
+    return (
+        props.reservations.map((reservation) =>
+            <ReservationElement service={props.service} key={reservation._id} refreshReservations={props.refreshReservations} changeEditReservationData={props.changeEditReservationData} changeSnackbarState={props.changeSnackbarState} reservation={reservation} openConfirmReservationDialog={props.openConfirmReservationDialog} />
+        )
+    );
 }
 
 function ReservationElement(props) {
     const reservation = props.reservation;
     var ponudbe = [];
     var ime_ponudbe = props.reservation.id_storitev;
-    if(props.service.ponudba){
+    if (props.service.ponudba) {
         ponudbe = props.service.ponudba;
-        var ponudba  = ponudbe.find(ponudba => props.reservation.id_storitev === ponudba.id)
-        if(ponudba)
+        var ponudba = ponudbe.find(ponudba => props.reservation.id_storitev === ponudba.id)
+        if (ponudba)
             ime_ponudbe = ponudba.ime;
     }
     return (
-        <div>
+        <div style={{ margin: '15px' }}>
             <Card className="reservation_card_element" >
-                <CardContent>
-                    <Typography className="reservation-service" variant="h6" color="textPrimary">{ ime_ponudbe}
-                        {isOnline ?
-                        <div>
-                            <IconButton className="complete-reservation" aria-label="complete" onClick={() => {
-                                props.openConfirmReservationDialog(reservation);
-                            }}>
-                                <DoneAllIcon className="complete-reservation-icon" />
-                            </IconButton>
-                            <IconButton className="edit-reservation" aria-label="edit" onClick={() => {
-                                props.changeEditReservationData(reservation)
-                            }
-                            } >
-                                <EditIcon color="primary" /></IconButton>
-                            <IconButton className="delete-reservation" aria-label="delete" onClick={() => {
-                                ReservationService.delete_rezervacija(reservation._id).then((response) => {
-                                    props.refreshReservations();
-                                    props.changeSnackbarState("Successfully deleted one reservation.");
-                                }).catch(error => {
-                                    console.log(error)
-                                })
+                <CardActionArea>
+                    <CardContent>
+                        <Typography className="reservation-service" variant="h6" color="textPrimary">{ime_ponudbe}
 
-                            }} ><DeleteIcon color="secondary" /></IconButton>
-                        </div>
-                        :<div></div>}
 
-                    </Typography>
-                    <Typography className="reservation-date" variant="h6" color="textSecondary">{formatDate(reservation.datum) /*TODO ime storitve in ne id storitve*/}</Typography>
-                    <Typography className="reservation-name" color="textPrimary">{`${reservation.ime_stranke} ${reservation.priimek_stranke},${reservation.tel_st}`}</Typography>
-                    <TextField className="reservation-description" multiline InputProps={{ readOnly: false }} value={reservation.delo} variant="outlined" />
+                        </Typography>
+                        <Typography style={{ fontSize: '14px' }} className="reservation-date" variant="h6" color="textSecondary">{formatDate(reservation.datum) /*TODO ime storitve in ne id storitve*/}</Typography>
+                        <Typography className="reservation-name" variant="body2" color="textPrimary">{`${reservation.ime_stranke} ${reservation.priimek_stranke} • ${reservation.tel_st}`}</Typography>
+                        <Typography>
+                            {reservation.delo}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                {isOnline ?
+                    <CardActions>
+                        <IconButton className="complete-reservation" aria-label="complete" onClick={() => {
+                            props.openConfirmReservationDialog(reservation);
+                        }}>
+                            <DoneAllIcon className="complete-reservation-icon" />
+                        </IconButton>
+                        <IconButton className="edit-reservation" aria-label="edit" onClick={() => {
+                            props.changeEditReservationData(reservation)
+                        }
+                        } >
+                            <EditIcon color="primary" /></IconButton>
+                        <IconButton className="delete-reservation" aria-label="delete" onClick={() => {
+                            ReservationService.delete_rezervacija(reservation._id).then((response) => {
+                                props.refreshReservations();
+                                props.changeSnackbarState("Successfully deleted one reservation.");
+                            }).catch(error => {
+                                console.log(error)
+                            })
 
-                </CardContent>
+                        }} ><DeleteIcon color="secondary" /></IconButton>
+                    </CardActions>
+                    : ('')
+                }
             </Card>
         </div>
     );
