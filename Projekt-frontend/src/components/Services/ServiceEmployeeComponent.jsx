@@ -117,17 +117,13 @@ function ServiceEmployeeComponent({ }) {
     }, [])
 
     const handleRowUpdate = (newData, oldData, resolve) => {
-        //validation
         let errorList = []
-        // if (newData.first_name === "") {
-        //     errorList.push("Please enter first name")
-        // }
-        // if (newData.last_name === "") {
-        //     errorList.push("Please enter last name")
-        // }
-        // if (newData.email === "" || validateEmail(newData.email) === false) {
-        //     errorList.push("Please enter a valid email")
-        // }
+        if (newData.naziv === "") {
+            errorList.push(t("services.serviceDetails.nameError"))
+        }
+        if (newData.telefon === "") {
+            errorList.push(t("services.serviceDetails.phoneError"))
+        }
 
         if (errorList.length < 1) {
             var podjetjeId = Auth.user.company_id;
@@ -157,19 +153,15 @@ function ServiceEmployeeComponent({ }) {
     }
 
     const handleRowAdd = (newData, resolve) => {
-        //validation
         let errorList = []
-        // if (newData.first_name === undefined) {
-        //     errorList.push("Please enter first name")
-        // }
-        // if (newData.last_name === undefined) {
-        //     errorList.push("Please enter last name")
-        // }
-        // if (newData.email === undefined || validateEmail(newData.email) === false) {
-        //     errorList.push("Please enter a valid email")
-        // }
+        if (newData.naziv === "") {
+            errorList.push(t("services.serviceDetails.nameError"))
+        }
+        if (newData.telefon === "") {
+            errorList.push(t("services.serviceDetails.phoneError"))
+        }
 
-        if (errorList.length < 1) { //no error
+        if (errorList.length < 1) {
             var podjetjeId = Auth.user.company_id;
             ServicesService.addEmployee(podjetjeId, newData)
                 .then((res) => {

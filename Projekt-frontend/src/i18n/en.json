@@ -96,7 +96,11 @@
             "displayedRows":"{from}-{to} of {count}",
             "rows":"rows",
             "search":"Search",
-            "actions":"Actions"
+            "actions":"Actions",
+            "nameError":"Name is required",
+            "phoneError":"Phone number is required",
+            "offerNameError":"Name is required",
+            "descriptionError":"Description is required"
         }
     },
     "unauthorizedPage": {

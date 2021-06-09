@@ -92,7 +92,7 @@ class ServicesService {
                     resolve(res);
                 })
                 .catch(error => {
-                    console.log(error);
+                    reject(error);
                 })
         });
     }
@@ -104,7 +104,7 @@ class ServicesService {
                     resolve(res)
                 })
                 .catch(error => {
-                    console.log(error);
+                    reject(error);
                 })
         });
     }
@@ -116,7 +116,7 @@ class ServicesService {
                     resolve(res);
                 })
                 .catch(error => {
-                    console.log(error);
+                    reject(error);
                 })
         });
     }
@@ -128,7 +128,7 @@ class ServicesService {
                     resolve(res);
                 })
                 .catch(error => {
-                    console.log(error);
+                    reject(error);
                 })
         });
     }
@@ -140,7 +140,7 @@ class ServicesService {
                     resolve(res);
                 })
                 .catch(error => {
-                    console.log(error);
+                    reject(error);
                 })
         });
     }
@@ -152,7 +152,7 @@ class ServicesService {
                     resolve(res);
                 })
                 .catch(error => {
-                    console.log(error);
+                    reject(error);
                 })
         });
     }

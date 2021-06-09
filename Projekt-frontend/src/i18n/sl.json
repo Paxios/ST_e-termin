@@ -99,7 +99,11 @@
             "displayedRows":"{from}-{to} od {count}",
             "rows":"vrstic",
             "search":"Išči",
-            "actions":"Akcije"
+            "actions":"Akcije",
+            "nameError":"Vnesite naziv",
+            "phoneError":"Vnesite telefon",
+            "offerNameError":"Vnesite ime",
+            "descriptionError":"Vnesite opis"
         }
     },
     "unauthorizedPage": {
