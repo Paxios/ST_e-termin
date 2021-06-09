@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import ServicesService from '../services/ServicesService'
+import ServicesService from '../../services/ServicesService'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import ServicesListComponent from './ServicesListComponent';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import { REFRESH_TIME } from '../Constants'
+import { REFRESH_TIME } from '../../Constants'
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { Button, Grid } from '@material-ui/core';

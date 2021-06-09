@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom'
-import LoginDialogComponent from './LoginDialogComponent'
+import LoginDialogComponent from '../UserManagement/LoginDialogComponent'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -61,7 +61,7 @@ class HeaderComponent extends Component {
 
   render() {
     const { loggedIn } = this.state;
-    var logo = require('../images/etermin3.PNG')
+    var logo = require('../../images/etermin3.PNG')
 
     return (
       <div className="header-root">

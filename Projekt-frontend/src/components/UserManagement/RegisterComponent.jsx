@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField';
 import Collapse from '@material-ui/core/Collapse';
 import Alert from '@material-ui/lab/Alert';
-import UserService from '../services/UserService'
+import UserService from '../../services/UserService'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AlertTitle from '@material-ui/lab/AlertTitle';

@@ -7,7 +7,7 @@ var logger = require('morgan');
 const database_models = require("./database/models")
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.exvcj.mongodb.net/${process.env.DB}?retryWrites=true&w=majority`, {useNewUrlParser: true, useUnifiedTopology: true});
 
-var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/reservations');
 var usersRouter = require('./routes/user');
 var servicesRouter = require('./routes/services');
 var receiptsRouter = require('./routes/receipts');

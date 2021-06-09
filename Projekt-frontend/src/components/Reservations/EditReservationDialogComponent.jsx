@@ -13,8 +13,8 @@ import {
     Typography,
 } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
-import ReservationService from '../services/ReservationService';
-import { formatDateForDatePicker } from '../Utils'
+import ReservationService from '../../services/ReservationService';
+import { formatDateForDatePicker } from '../../Utils'
 import { withTranslation } from 'react-i18next';
 
 class EditReservationDialogComponent extends Component {

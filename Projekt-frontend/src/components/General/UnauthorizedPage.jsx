@@ -1,8 +1,8 @@
 import { Typography } from "@material-ui/core";
 import React, {useContext} from "react";
 import { useTranslation } from "react-i18next";
-import UnauthorizedPerson from "../asssets/img/unauthorized-person.svg";
-import AuthContext from "../context/AuthContext";
+import UnauthorizedPerson from "../../asssets/img/unauthorized-person.svg";
+import AuthContext from "../../context/AuthContext";
 import { Redirect } from 'react-router-dom'
 
 function UnauthorizedPage(){

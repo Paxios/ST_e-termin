@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import UserService from '../services/UserService'
+import UserService from '../../services/UserService'
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import Dialog from '@material-ui/core/Dialog';

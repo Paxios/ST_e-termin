@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import ReservationService from '../services/ReservationService'
+import ReservationService from '../../services/ReservationService'
 
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
@@ -10,10 +10,10 @@ import ReservationsListComponent from './ReservationsListComponent';
 import EditReservationDialogComponent from './EditReservationDialogComponent';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import { REFRESH_TIME } from '../Constants'
-import AddReservationReceiptDialog from './Receipts/AddReservationReceiptDialog';
-import ServicesService from '../services/ServicesService';
-import AuthContext from "../context/AuthContext";
+import { REFRESH_TIME } from '../../Constants'
+import AddReservationReceiptDialog from '../Receipts/AddReservationReceiptDialog';
+import ServicesService from '../../services/ServicesService';
+import AuthContext from "../../context/AuthContext";
 import { Grid } from "@material-ui/core";
 
 class ReservationsOverviewComponent extends Component {

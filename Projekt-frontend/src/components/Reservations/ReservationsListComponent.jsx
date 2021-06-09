@@ -8,8 +8,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import ReservationService from '../services/ReservationService';
-import { formatDate } from '../Utils'
+import ReservationService from '../../services/ReservationService';
+import { formatDate } from '../../Utils'
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import { useTranslation } from 'react-i18next';
 import { CardActionArea, CardActions } from '@material-ui/core';

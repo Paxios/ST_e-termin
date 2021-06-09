@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import ReservationService from '../services/ReservationService';
-import { formatTime } from '../Utils';
+import ReservationService from '../../services/ReservationService';
+import { formatTime } from '../../Utils';
 import Timeline from '@material-ui/lab/Timeline';
 import TimelineItem from '@material-ui/lab/TimelineItem';
 import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
@@ -16,9 +16,9 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { REFRESH_TIME } from '../Constants'
-import ServicesService from '../services/ServicesService';
-import AuthContext from '../context/AuthContext';
+import { REFRESH_TIME } from '../../Constants'
+import ServicesService from '../../services/ServicesService';
+import AuthContext from '../../context/AuthContext';
 import { useTranslation, withTranslation } from 'react-i18next';
 
 class TimelineComponent extends Component {

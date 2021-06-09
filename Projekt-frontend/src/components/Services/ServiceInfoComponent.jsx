@@ -13,10 +13,10 @@ import L from 'leaflet';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import ServicesService from '../services/ServicesService';
+import ServicesService from '../../services/ServicesService';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import Table from '@material-ui/core/Table';

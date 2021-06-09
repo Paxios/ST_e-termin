@@ -11,7 +11,7 @@ class HomepageComponent extends Component {
     }
 
     render() {
-        var logo = require('../images/etermin1.PNG')
+        var logo = require('../../images/etermin1.PNG')
         return (
             <div style={{textAlign:"center"}}>
               <img src={logo} style={{ width:"60%", alignSelf: 'center' }} />

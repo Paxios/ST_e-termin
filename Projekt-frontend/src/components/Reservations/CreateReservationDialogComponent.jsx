@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReservationService from '../services/ReservationService';
+import ReservationService from '../../services/ReservationService';
 import {
     Dialog,
     TextField,
@@ -14,7 +14,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
-import AuthContext from '../context/AuthContext';
+import AuthContext from '../../context/AuthContext';
 import { withTranslation } from 'react-i18next';
 
 class CreateReservationDialogComponent extends Component {

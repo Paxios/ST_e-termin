@@ -34,7 +34,7 @@ function HeaderDrawerComponent(props) {
         props.history.push(`/${destination}`);
     }
 
-    var logo = require('../images/etermin3.PNG')
+    var logo = require('../../images/etermin3.PNG')
     return (
 
         <div>
