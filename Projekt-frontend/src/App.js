@@ -103,7 +103,6 @@ function App() {
                 <Route path="/" render={() => <HomepageComponent />}></Route>
               </Switch>
             </Grid>
-            <FooterComponent />
           </ConnectionContext.Provider>
         </AuthContext.Provider>
       </Router>

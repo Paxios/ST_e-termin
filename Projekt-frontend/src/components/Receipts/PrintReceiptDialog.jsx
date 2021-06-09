@@ -88,9 +88,6 @@ function PrintReceiptDialog({ isOpen, closeDialog, receiptId }) {
                         <Typography variant="h6" className={classes.title}>
                             {t("receipts.printDialog.title")}
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={addReceipt}>
-                            {t("receipts.printDialog.print")}
-                        </Button>
                     </Toolbar>
                 </AppBar>
                 <div style={{textALign: 'center'}}>
