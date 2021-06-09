@@ -96,10 +96,10 @@ function ServiceOfferComponent({ }) {
 
     var columns = [
         { title: "id", field: "id", hidden: true },
-        { title: "Ime", field: "ime" },
-        { title: "Opis", field: "opis" },
-        { title: "Cena", field: "cena" },
-        { title: "Trajanje", field: "trajanje" }
+        { title:  t("services.serviceDetails.offerName"), field: "ime" },
+        { title:  t("services.serviceDetails.description"), field: "opis" },
+        { title:  t("services.serviceDetails.price"), field: "cena" },
+        { title:  t("services.serviceDetails.duration"), field: "trajanje" }
     ]
     const [data, setData] = useState([]);
 
@@ -134,7 +134,7 @@ function ServiceOfferComponent({ }) {
         if (errorList.length < 1) {
             var podjetjeId = Auth.user.company_id;
             ServicesService.updateOffer(podjetjeId, newData)
-                .then((result) => {
+                .then((res) => {
                     const dataUpdate = [...data];
                     const index = oldData.tableData.id;
                     dataUpdate[index] = newData;
@@ -148,22 +148,6 @@ function ServiceOfferComponent({ }) {
                     setIserror(true)
                     resolve()
                 });
-            // api.patch("/users/" + newData.id, newData)
-            //     .then(res => {
-            //         const dataUpdate = [...data];
-            //         const index = oldData.tableData.id;
-            //         dataUpdate[index] = newData;
-            //         setData([...dataUpdate]);
-            //         resolve()
-            //         setIserror(false)
-            //         setErrorMessages([])
-            //     })
-            //     .catch(error => {
-            //         setErrorMessages(["Update failed! Server error"])
-            //         setIserror(true)
-            //         resolve()
-
-            //     })
         } else {
             setErrorMessages(errorList)
             setIserror(true)
@@ -189,7 +173,7 @@ function ServiceOfferComponent({ }) {
         if (errorList.length < 1) { //no error
             var podjetjeId = Auth.user.company_id;
             ServicesService.addOffer(podjetjeId, newData)
-                .then((result) => {
+                .then((res) => {
                     let dataToAdd = [...data];
                     dataToAdd.push(newData);
                     setData(dataToAdd);
@@ -202,20 +186,6 @@ function ServiceOfferComponent({ }) {
                     setIserror(true)
                     resolve()
                 });
-            // api.post("/users", newData)
-            //     .then(res => {
-            //         let dataToAdd = [...data];
-            //         dataToAdd.push(newData);
-            //         setData(dataToAdd);
-            //         resolve()
-            //         setErrorMessages([])
-            //         setIserror(false)
-            //     })
-            //     .catch(error => {
-            //         setErrorMessages(["Cannot add data. Server error!"])
-            //         setIserror(true)
-            //         resolve()
-            //     })
         } else {
             setErrorMessages(errorList)
             setIserror(true)
@@ -228,7 +198,7 @@ function ServiceOfferComponent({ }) {
     const handleRowDelete = (oldData, resolve) => {
         var podjetjeId = Auth.user.company_id;
         ServicesService.removeOffer(podjetjeId, oldData._id)
-            .then((result) => {
+            .then((res) => {
                 const dataDelete = [...data];
                 const index = oldData.tableData.id;
                 dataDelete.splice(index, 1);
@@ -240,60 +210,65 @@ function ServiceOfferComponent({ }) {
                 setIserror(true)
                 resolve()
             });
-        // api.delete("/users/" + oldData.id)
-        //     .then(res => {
-        //         const dataDelete = [...data];
-        //         const index = oldData.tableData.id;
-        //         dataDelete.splice(index, 1);
-        //         setData([...dataDelete]);
-        //         resolve()
-        //     })
-        //     .catch(error => {
-        //         setErrorMessages(["Delete failed! Server error"])
-        //         setIserror(true)
-        //         resolve()
-        //     })
     }
 
 
     return (
-        <div style={{ backgroundColor: '#F4F5F7', width: '100%', paddingLeft: '20px', paddingRight: '20px' }}>
-            <Grid container spacing={1}>
-                <Grid item xs={3}></Grid>
-                <Grid item xs={6}>
-                    <div>
-                        {iserror &&
-                            <Alert severity="error">
-                                {errorMessages.map((msg, i) => {
-                                    return <div key={i}>{msg}</div>
-                                })}
-                            </Alert>
+        <div>
+            <div>
+                {iserror &&
+                    <Alert severity="error">
+                        {errorMessages.map((msg, i) => {
+                            return <div key={i}>{msg}</div>
+                        })}
+                    </Alert>
+                }
+            </div>
+            <MaterialTable
+                title={t("services.serviceDetails.offerList")}
+                columns={columns}
+                data={data}
+                icons={tableIcons}
+                localization={{
+                    body: {
+                        addTooltip: t("services.serviceDetails.add"),
+                        deleteTooltip: t("services.serviceDetails.delete"),
+                        editTooltip: t("services.serviceDetails.edit"),
+                        emptyDataSourceMessage: t("services.serviceDetails.empty"),
+                        editRow: {
+                            deleteText: t("services.serviceDetails.deleteText"),
+                            cancelTooltip: t("services.serviceDetails.cancelTooltip"),
+                            saveTooltip: t("services.serviceDetails.saveTooltip")
                         }
-                    </div>
-                    <MaterialTable
-                        title="Ponudba"
-                        columns={columns}
-                        data={data}
-                        icons={tableIcons}
-                        editable={{
-                            onRowUpdate: (newData, oldData) =>
-                                new Promise((resolve) => {
-                                    handleRowUpdate(newData, oldData, resolve);
+                    },
+                    pagination: {
+                        labelDisplayedRows: t("services.serviceDetails.displayedRows"),
+                        labelRowsSelect: t("services.serviceDetails.rows")
+                    },
+                    toolbar: {
+                        searchTooltip: t("services.serviceDetails.search"),
+                        searchPlaceholder: t("services.serviceDetails.search")
+                    },
+                    header: {
+                        actions: t("services.serviceDetails.actions")
+                    },
+                }}
+                editable={{
+                    onRowUpdate: (newData, oldData) =>
+                        new Promise((resolve) => {
+                            handleRowUpdate(newData, oldData, resolve);
 
-                                }),
-                            onRowAdd: (newData) =>
-                                new Promise((resolve) => {
-                                    handleRowAdd(newData, resolve)
-                                }),
-                            onRowDelete: (oldData) =>
-                                new Promise((resolve) => {
-                                    handleRowDelete(oldData, resolve)
-                                }),
-                        }}
-                    />
-                </Grid>
-                <Grid item xs={3}></Grid>
-            </Grid>
+                        }),
+                    onRowAdd: (newData) =>
+                        new Promise((resolve) => {
+                            handleRowAdd(newData, resolve)
+                        }),
+                    onRowDelete: (oldData) =>
+                        new Promise((resolve) => {
+                            handleRowDelete(oldData, resolve)
+                        }),
+                }}
+            />
         </div>
     );
 }

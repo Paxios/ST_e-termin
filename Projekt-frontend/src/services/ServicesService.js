@@ -86,65 +86,75 @@ class ServicesService {
     }
 
     addEmployee(company_id, newData) {
-        client.post(BACKEND_URL + STORITEV_PREFIX + company_id + ZAPOSLENI_SUFFIX, newData)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        return new Promise(function (resolve, reject) {
+            client.post(BACKEND_URL + STORITEV_PREFIX + company_id + ZAPOSLENI_SUFFIX, newData)
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        });
     }
 
     updateEmployee(company_id, newData) {
-        console.log(newData)
-        client.put(BACKEND_URL + STORITEV_PREFIX + company_id + ZAPOSLENI_PREFIX + newData._id, newData)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        return new Promise(function (resolve, reject) {
+            client.put(BACKEND_URL + STORITEV_PREFIX + company_id + ZAPOSLENI_PREFIX + newData._id, newData)
+                .then(res => {
+                    resolve(res)
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        });
     }
 
     removeEmployee(company_id, employeeId) {
-        client.delete(BACKEND_URL + STORITEV_PREFIX + company_id + ZAPOSLENI_PREFIX + employeeId)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        return new Promise(function (resolve, reject) {
+            client.delete(BACKEND_URL + STORITEV_PREFIX + company_id + ZAPOSLENI_PREFIX + employeeId)
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        });
     }
 
     addOffer(company_id, newData) {
-        client.post(BACKEND_URL + STORITEV_PREFIX + company_id + PONUDBA_SUFFIX, newData)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        return new Promise(function (resolve, reject) {
+            client.post(BACKEND_URL + STORITEV_PREFIX + company_id + PONUDBA_SUFFIX, newData)
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        });
     }
 
     updateOffer(company_id, newData) {
-        console.log(newData)
-        client.put(BACKEND_URL + STORITEV_PREFIX + company_id + PONUDBA_PREFIX + newData._id, newData)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        return new Promise(function (resolve, reject) {
+            client.put(BACKEND_URL + STORITEV_PREFIX + company_id + PONUDBA_PREFIX + newData._id, newData)
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        });
     }
 
     removeOffer(company_id, offerId) {
-        client.delete(BACKEND_URL + STORITEV_PREFIX + company_id + PONUDBA_PREFIX + offerId)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        return new Promise(function (resolve, reject) {
+            client.delete(BACKEND_URL + STORITEV_PREFIX + company_id + PONUDBA_PREFIX + offerId)
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        });
     }
 
     setIsOnline = (state) => {

@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom'
 import TimelineIcon from '@material-ui/icons/Timeline';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import { useTranslation } from "react-i18next";
+import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 
 function HeaderDrawerComponent(props) {
     const { t } = useTranslation();
@@ -83,7 +84,7 @@ function HeaderDrawerComponent(props) {
                                 navigateReservartions("serviceDetails")
                             }
                             }>
-                                <ListItemIcon><InfoIcon color="primary" /></ListItemIcon>
+                                <ListItemIcon><SettingsApplicationsIcon color="primary" /></ListItemIcon>
                                 <ListItemText primary={t("drawerMenuItems.serviceDetails")} />
                             </ListItem><Divider />
 

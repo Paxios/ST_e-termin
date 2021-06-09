@@ -47,7 +47,8 @@ const storitev_model = {
         id: mongoose.Schema.ObjectId,
         cena: String,
         ime: String,
-        opis: String
+        opis: String,
+        trajanje: Number
     }],
     zaposleni: [{
         naziv: String,

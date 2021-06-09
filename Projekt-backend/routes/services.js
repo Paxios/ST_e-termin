@@ -205,6 +205,7 @@ router.put("/:id/zaposleni/:id_zaposleni", async (req, res) => {
 //POST add new ponudba
 router.post("/:id/ponudba", async (req, res) => {
     try {
+        console.log(req.body)
         const { error } = verifikacija.ponudba_scheme.validate(req.body)
         if (error != null) {
             res.status(400).json({ status: "error", reason: error })
