@@ -360,6 +360,32 @@ const updateZaposleni = async (zaposleni, id_podjetje, id_zaposleni) => {
     return await database.Storitev.findByIdAndUpdate(storitev._id, storitev, { useFindAndModify: false })
 }
 
+const insertNewPonudba = async (ponudba, id_podjetje) => {
+    var storitev = await database.Storitev.findOne({ '_id': id_podjetje });
+    storitev.ponudba.push(ponudba)
+    return await database.Storitev.findByIdAndUpdate(storitev._id, storitev, { useFindAndModify: false })
+}
+
+const deletePonudba = async (id_ponudba, id_podjetje) => {
+    var storitev = await database.Storitev.findOne({ '_id': id_podjetje });
+    storitev.ponudba.forEach(element => {
+        if(element._id==id_ponudba){
+            storitev.ponudba.splice(storitev.ponudba.indexOf(element), 1);
+        }
+    });
+    return await database.Storitev.findByIdAndUpdate(storitev._id, storitev, { useFindAndModify: false })
+}
+
+const updatePonudba = async (ponudba, id_podjetje, id_ponudba) => {
+    var storitev = await database.Storitev.findOne({ '_id': id_podjetje });
+    storitev.ponudba.forEach(element => {
+        if(element._id==id_ponudba){
+            Object.assign(element, ponudba);
+        }
+    });
+    return await database.Storitev.findByIdAndUpdate(storitev._id, storitev, { useFindAndModify: false })
+}
+
 exports.updateStoritev = updateStoritev;
 exports.getSeznamStoritev = getSeznamStoritev;
 exports.getCustomerList = getCustomerList;
@@ -385,3 +411,6 @@ exports.updateDelovniCas = updateDelovniCas;
 exports.insertNewZaposleni = insertNewZaposleni;
 exports.deleteZaposleni = deleteZaposleni;
 exports.updateZaposleni = updateZaposleni;
+exports.insertNewPonudba = insertNewPonudba;
+exports.deletePonudba = deletePonudba;
+exports.updatePonudba = updatePonudba;

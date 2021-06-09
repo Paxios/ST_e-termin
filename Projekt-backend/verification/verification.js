@@ -50,7 +50,8 @@ const ponudba_scheme = joi.object({
     opis: joi.string().required(),
     trajanje: joi.number(),
     cena: joi.number(),
-    id: joi.string().required()
+    id: joi.string(),
+    _id: joi.string()
 });
 
 const delovni_cas_scheme = joi.object({
