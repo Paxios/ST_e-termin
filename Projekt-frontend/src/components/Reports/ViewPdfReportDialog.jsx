@@ -16,7 +16,7 @@ import AuthContext from "../../context/AuthContext";
 import ReceiptsService from '../../services/ReceiptsService';
 import { Document, Page, pdfjs } from "react-pdf";
 import { useWindowWidth } from '@wojtekmaj/react-hooks';
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+//pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 
 const useStyles = makeStyles(theme => ({

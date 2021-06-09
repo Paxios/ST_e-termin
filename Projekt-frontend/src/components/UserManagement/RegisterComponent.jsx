@@ -43,7 +43,7 @@ class RegisterComponent extends Component {
                     }}
                 >
                     <Grid container xs={12} style={{marginBottom: '25px', textAlign: 'center'}}>
-                        <Typography>
+                        <Typography variant="h6">
                             Registracija
                         </Typography>
                     </Grid>
