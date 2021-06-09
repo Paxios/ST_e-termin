@@ -1,4 +1,4 @@
-export const BACKEND_URL = "http://192.168.0.12:3000"
+export const BACKEND_URL = `http://${process.env.REACT_APP_IP}:3000`
 export const LOGIN_URL = `${BACKEND_URL}/user/login`
 export const REGISTER_URL = `${BACKEND_URL}/user/register`
 export const STORITEV_PREFIX = "/storitev/"
