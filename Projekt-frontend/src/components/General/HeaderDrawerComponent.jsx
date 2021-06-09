@@ -155,7 +155,7 @@ function HeaderDrawerComponent(props) {
                                 <ListItemText primary={t("drawerMenuItems.services")} />
                             </ListItem><Divider />
                             <ListItem className="drawer-list-element" button key="not_loggedin_first_page" onClick={() => { navigateReservartions("") }
-                            }><ListItemIcon><HomeIcon /></ListItemIcon><ListItemText primary="First page" /></ListItem>
+                            }><ListItemIcon><HomeIcon /></ListItemIcon><ListItemText primary={t("drawerMenuItems.firstPage")} /></ListItem>
                             <Divider />
                         </List>
                         <div style={{ textAlign: 'center' }}>
