@@ -4,6 +4,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 // import ListCustomerComponent from './components/ListCustomerComponent';
 // import ListCouponComponent from './components/ListCouponComponent';
 import HeaderComponent from './components/General/HeaderComponent';
+import FooterComponent from './components/General/FooterComponent';
 // import FooterComponent from './components/FooterComponent';
 // import CreateCustomerComponent from './components/CreateCustomerComponent';
 // import CreateCouponComponent from './components/CreateCouponComponent';
@@ -102,7 +103,7 @@ function App() {
                 <Route path="/" render={() => <HomepageComponent />}></Route>
               </Switch>
             </Grid>
-            {/* <FooterComponent /> */}
+            <FooterComponent />
           </ConnectionContext.Provider>
         </AuthContext.Provider>
       </Router>
