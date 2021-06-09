@@ -15,13 +15,14 @@ import TimelineIcon from '@material-ui/icons/Timeline';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import { useTranslation } from "react-i18next";
 import { Button, IconButton, Typography } from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
 
 function HeaderDrawerComponent(props) {
     const { t } = useTranslation();
     const { i18n } = useTranslation();
     const currentLanguage = i18n.language;
     var nextLanguage = "sl";
-    if(currentLanguage === nextLanguage){
+    if (currentLanguage === nextLanguage) {
         nextLanguage = "en";
     }
     // constructor(props) {
@@ -112,7 +113,7 @@ function HeaderDrawerComponent(props) {
                                 navigateReservartions("")
                             }
                             }>
-                                <ListItemIcon><AccessibleForwardIcon color="primary" /></ListItemIcon>
+                                <ListItemIcon><HomeIcon color="primary" /></ListItemIcon>
                                 <ListItemText primary={t("drawerMenuItems.firstPage")} />
                             </ListItem><Divider />
                         </List>
@@ -153,9 +154,23 @@ function HeaderDrawerComponent(props) {
                                 <ListItemText primary={t("drawerMenuItems.services")} />
                             </ListItem><Divider />
                             <ListItem className="drawer-list-element" button key="not_loggedin_first_page" onClick={() => { navigateReservartions("") }
-                            }><ListItemIcon><AccessibleForwardIcon /></ListItemIcon><ListItemText primary="First page" /></ListItem>
+                            }><ListItemIcon><HomeIcon /></ListItemIcon><ListItemText primary="First page" /></ListItem>
                             <Divider />
                         </List>
+                        <div style={{ textAlign: 'center' }}>
+                            <Button
+                                onClick={() => changeLanguage(nextLanguage)}
+                            >
+                                {currentLanguage === "en" ? (
+                                    <img src="https://lipis.github.io/flag-icon-css/flags/4x3/si.svg" width="24px" />
+                                ) : (
+                                    <img src="https://lipis.github.io/flag-icon-css/flags/4x3/gb.svg" width="24px" />
+                                )}
+                                <Typography style={{ marginLeft: '10px' }}>
+                                    {currentLanguage === "en" ? "Slovenski jezik" : "English"}
+                                </Typography>
+                            </Button>
+                        </div>
                     </SwipeableDrawer>
                 </div>
             }
