@@ -14,10 +14,18 @@ import { withRouter } from 'react-router-dom'
 import TimelineIcon from '@material-ui/icons/Timeline';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import { useTranslation } from "react-i18next";
+import { Button, IconButton, Typography } from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
 import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 
 function HeaderDrawerComponent(props) {
     const { t } = useTranslation();
+    const { i18n } = useTranslation();
+    const currentLanguage = i18n.language;
+    var nextLanguage = "sl";
+    if (currentLanguage === nextLanguage) {
+        nextLanguage = "en";
+    }
     // constructor(props) {
     //     super(props)
 
@@ -25,6 +33,7 @@ function HeaderDrawerComponent(props) {
 
     //     // }
     // }
+    console.log(currentLanguage);
     const navigateReservartions = (destination) => {
         props.changeDrawerStatus(false);
         props.history.push(`/${destination}`);
@@ -34,8 +43,13 @@ function HeaderDrawerComponent(props) {
         props.changeDrawerStatus(false);
         props.history.push(`/${destination}`);
     }
+    const changeLanguage = (lang) => {
+        console.log(lang);
+        i18n.changeLanguage(lang);
+    }
 
-    var logo = require('../../images/etermin3.PNG')
+
+    var logo = require('../../images/etermin3.PNG');
     return (
 
         <div>
@@ -47,7 +61,7 @@ function HeaderDrawerComponent(props) {
                         onClose={props.toggleDrawer(false)}
                         onOpen={props.toggleDrawer(true)}
                     >
-                        <img src={logo} style={{ alignSelf: 'center', height: '120px', width: '120px' }} />
+                        <img src={logo} style={{ alignSelf: 'center', height: '120px', width: '120px', marginTop: '25px' }} />
                         <List className="drawer-list">
                             <ListItem className="drawer-list-element" button key="receipts" onClick={() => {
                                 navigateServices("receipts")
@@ -100,10 +114,25 @@ function HeaderDrawerComponent(props) {
                                 navigateReservartions("")
                             }
                             }>
-                                <ListItemIcon><AccessibleForwardIcon color="primary" /></ListItemIcon>
+                                <ListItemIcon><HomeIcon color="primary" /></ListItemIcon>
                                 <ListItemText primary={t("drawerMenuItems.firstPage")} />
                             </ListItem><Divider />
                         </List>
+                        <div style={{ textAlign: 'center' }}>
+                            <Button
+                                onClick={() => changeLanguage(nextLanguage)}
+                            >
+                                {currentLanguage === "en" ? (
+                                    <img src="https://lipis.github.io/flag-icon-css/flags/4x3/si.svg" width="24px" />
+                                ) : (
+                                    <img src="https://lipis.github.io/flag-icon-css/flags/4x3/gb.svg" width="24px" />
+                                )}
+                                <Typography style={{ marginLeft: '10px' }}>
+                                    {currentLanguage === "en" ? "Slovenski jezik" : "English"}
+                                </Typography>
+                            </Button>
+                        </div>
+
                     </SwipeableDrawer>
                 </div>
 
@@ -116,7 +145,7 @@ function HeaderDrawerComponent(props) {
                         onClose={props.toggleDrawer(false)}
                         onOpen={props.toggleDrawer(true)}
                     >
-                        <img src={logo} style={{ alignSelf: 'center', height: '120px', width: '120px' }} />
+                        <img src={logo} style={{ alignSelf: 'center', height: '120px', width: '120px', marginTop: '25px' }} />
                         <List className="drawer-list">
                             <ListItem className="drawer-list-element" button key="services" onClick={() => {
                                 navigateServices("services")
@@ -126,9 +155,23 @@ function HeaderDrawerComponent(props) {
                                 <ListItemText primary={t("drawerMenuItems.services")} />
                             </ListItem><Divider />
                             <ListItem className="drawer-list-element" button key="not_loggedin_first_page" onClick={() => { navigateReservartions("") }
-                            }><ListItemIcon><AccessibleForwardIcon /></ListItemIcon><ListItemText primary={t("pages.firstPage")} /></ListItem>
+                            }><ListItemIcon><HomeIcon /></ListItemIcon><ListItemText primary="First page" /></ListItem>
                             <Divider />
                         </List>
+                        <div style={{ textAlign: 'center' }}>
+                            <Button
+                                onClick={() => changeLanguage(nextLanguage)}
+                            >
+                                {currentLanguage === "en" ? (
+                                    <img src="https://lipis.github.io/flag-icon-css/flags/4x3/si.svg" width="24px" />
+                                ) : (
+                                    <img src="https://lipis.github.io/flag-icon-css/flags/4x3/gb.svg" width="24px" />
+                                )}
+                                <Typography style={{ marginLeft: '10px' }}>
+                                    {currentLanguage === "en" ? "Slovenski jezik" : "English"}
+                                </Typography>
+                            </Button>
+                        </div>
                     </SwipeableDrawer>
                 </div>
             }

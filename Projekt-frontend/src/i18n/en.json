@@ -133,7 +133,7 @@
     },
     "drawerMenuItems": {
         "services": "Service companies",
-        "receipts": "receipts",
+        "receipts": "Receipts",
         "reports": "Reports",
         "reservations": "Reservatins",
         "serviceInfo": "Company info",
@@ -149,6 +149,9 @@
         "password":"Password",
         "inviteCode":"Invite code",
         "inviteCodeHint":"To join an existing company profile you must insert your co-worker's invite code here"
+    },
+    "languages": {
+        "nextLanguage": "Change language"
     },
     "pages":{
         "firstPage":"First page"
