@@ -51,7 +51,8 @@ const storitev_model = {
     }],
     zaposleni: [{
         naziv: String,
-        telefon: String
+        telefon: String,
+        _id: mongoose.Schema.ObjectId
     }],
     inviteCode: String,
     delovniCas: {
