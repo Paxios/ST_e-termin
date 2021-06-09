@@ -32,7 +32,6 @@ router.get("/", async (req, res) => {
 
 //GET service by id
 router.get("/:storitevId", async (req, res) => {
-    console.log(req.params.storitevId);
     var storitevId = new mongo.ObjectID(req.params.storitevId);
     const rezultat = await database.getStoritevById(storitevId)
     res.json(rezultat);
@@ -86,7 +85,6 @@ router.get("/ponudba/:id", async (req, res) => {
 //UPDATE service working hours
 router.put("/:storitevId/delovnicas", async (req, res) => {
     var storitevId = new mongo.ObjectID(req.params.storitevId);
-    console.log(req.body);
     try {
         const { error } = verifikacija.delovni_cas_scheme.validate(req.body);
         if (error != null) {
@@ -150,5 +148,58 @@ router.delete('/delovnicas/:storitevId', async function (req, res, next) {
         console.error(error);
     }
 });
+
+//POST add new employee
+router.post("/:id/zaposleni", async (req, res) => {
+    try {
+      const { error } = verifikacija.zaposleni_scheme.validate(req.body)
+      if (error != null) {
+        res.status(400).json({ status: "error", reason: error })
+        return
+      }
+      const new_zaposleni = await database.insertNewZaposleni(req.body,req.params.id);
+      res.json(new_zaposleni);
+    }
+    catch (exception) {
+      res.status(500).json({ status: "error", reason: exception })
+    }
+  });
+  
+  //DELETE remove zaposleni from database by id
+  router.delete("/:id/zaposleni/:id_zaposleni", async (req, res) => {
+    try {
+      const rezultat = await database.deleteZaposleni(req.params.id_zaposleni,req.params.id)
+      if (rezultat == null) {
+        res.status(404).json({ status: "ERROR", reason: "Zaposleni with this id does not exist." });
+      }
+      else {
+        res.json(rezultat);
+      }
+    }
+    catch (exception) {
+      res.status(400).json({ status: "ERROR", reason: exception })
+    }
+  });
+  
+  //PUT update zaposleni by ID
+  router.put("/:id/zaposleni/:id_zaposleni", async (req, res) => {
+    try {
+      const { error } = verifikacija.zaposleni_scheme.validate(req.body)
+      if (error != null) {
+        res.status(400).json({ status: "error", reason: error })
+        return
+      }
+      const rezultat = await database.updateZaposleni(req.body, req.params.id, req.params.id_zaposleni)
+      if (rezultat === null) {
+        res.status(404).json({ status: "error", reason: "Zaposleni with this id does not exist." })
+      }
+      else {
+        res.json(rezultat)
+      }
+    }
+    catch (exception) {
+      res.status(500).json({ status: "error", reason: exception })
+    }
+  });
 
 module.exports = router;

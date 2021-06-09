@@ -23,6 +23,7 @@ import ServicesService from "./services/ServicesService";
 import ReceiptsService from "./services/ReceiptsService";
 import { Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import ServiceDetailsComponent from './components/Services/ServiceDetailsComponent';
 
 function App() {
   const {t} = useTranslation();
@@ -88,6 +89,9 @@ function App() {
                 </ProtectedRoute>
                 <ProtectedRoute path="/serviceInfo">
                   <ServiceInfoComponent user={user} />
+                </ProtectedRoute>
+                <ProtectedRoute path="/serviceDetails">
+                  <ServiceDetailsComponent user={user} />
                 </ProtectedRoute>
                 <Route path="/unauthorized" component={UnauthorizedPage}></Route>
                 {/* <Route path = "/customers" component = {ListCustomerComponent}></Route>

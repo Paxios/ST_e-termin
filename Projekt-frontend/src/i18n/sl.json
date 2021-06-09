@@ -113,7 +113,8 @@
         "reservations": "Rezervacije",
         "serviceInfo": "Podatki o podjetju",
         "timeline": "Časovnica",
-        "firstPage": "Začetna stran"
+        "firstPage": "Začetna stran",
+        "serviceDetails":"Podrobnosti podjetja"
     },
     "userManagement": {
         "logIn": "Prijava",

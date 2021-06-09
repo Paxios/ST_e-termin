@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BACKEND_URL, STORITEV_PREFIX, DELOVNICAS_PREFIX } from '../Constants'
+import { BACKEND_URL, STORITEV_PREFIX, DELOVNICAS_PREFIX, ZAPOSLENI_SUFFIX, PONUDBA_SUFFIX, ZAPOSLENI_PREFIX, PONUDBA_PREFIX } from '../Constants'
 
 const user = JSON.parse(window.sessionStorage.getItem("user"));
 if (user != null) {
@@ -22,11 +22,11 @@ class ServicesService {
         return response;
     }
 
-    update_storitev(company_id,storitev) {
+    update_storitev(company_id, storitev) {
         return client.put(BACKEND_URL + STORITEV_PREFIX + company_id, storitev)
     }
 
-    update_delovni_cas(company_id,delovni_cas) {
+    update_delovni_cas(company_id, delovni_cas) {
         return client.put(BACKEND_URL + STORITEV_PREFIX + company_id + DELOVNICAS_PREFIX, delovni_cas)
     }
 
@@ -83,6 +83,37 @@ class ServicesService {
                 })
 
         }
+    }
+
+    addEmployee(company_id, newData) {
+        client.post(BACKEND_URL + STORITEV_PREFIX + company_id + ZAPOSLENI_SUFFIX, newData)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    updateEmployee(company_id, newData) {
+        console.log(newData)
+        client.put(BACKEND_URL + STORITEV_PREFIX + company_id + ZAPOSLENI_PREFIX + newData._id, newData)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    removeEmployee(company_id, employeeId) {
+        client.delete(BACKEND_URL + STORITEV_PREFIX + company_id + ZAPOSLENI_PREFIX + employeeId)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     setIsOnline = (state) => {

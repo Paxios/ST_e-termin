@@ -77,7 +77,7 @@ const getSeznamZasedenihTerminov = async (companyId) => {
 }
 
 const deleteUser = async (user_name) => {
-    return await database.User.deleteOne({uporabnisko_ime:user_name})
+    return await database.User.deleteOne({ uporabnisko_ime: user_name })
 }
 
 const register = async (user_details) => {
@@ -117,7 +117,7 @@ const register = async (user_details) => {
     return user;
 }
 
-async function generateNewCompany(){
+async function generateNewCompany() {
     const new_company = database.Storitev({
         ime: "",
         naslov: "",
@@ -130,33 +130,33 @@ async function generateNewCompany(){
         ponudba: [],
         zaposleni: [],
         delovniCas: {
-            pon:{
-                zacetek:"00:00",
-                konec:"00:00"
+            pon: {
+                zacetek: "00:00",
+                konec: "00:00"
             },
-            tor:{
-                zacetek:"00:00",
-                konec:"00:00"
+            tor: {
+                zacetek: "00:00",
+                konec: "00:00"
             },
-            sre:{
-                zacetek:"00:00",
-                konec:"00:00"
+            sre: {
+                zacetek: "00:00",
+                konec: "00:00"
             },
-            cet:{
-                zacetek:"00:00",
-                konec:"00:00"
+            cet: {
+                zacetek: "00:00",
+                konec: "00:00"
             },
-            pet:{
-                zacetek:"00:00",
-                konec:"00:00"
+            pet: {
+                zacetek: "00:00",
+                konec: "00:00"
             },
-            sob:{
-                zacetek:"00:00",
-                konec:"00:00"
+            sob: {
+                zacetek: "00:00",
+                konec: "00:00"
             },
-            ned:{
-                zacetek:"00:00",
-                konec:"00:00"
+            ned: {
+                zacetek: "00:00",
+                konec: "00:00"
             }
         },
         inviteCode: getRandomString(),
@@ -176,7 +176,7 @@ async function generateNewCompany(){
 function getRandomString() {
     var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var result = '';
-    for ( var i = 0; i < 32; i++ ) {
+    for (var i = 0; i < 32; i++) {
         result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
     }
     return result;
@@ -308,7 +308,7 @@ const countServicesInReceipts = async (id) => {
 }
 
 const countReservations = async (id) => {
-    console.log("DB"+id);
+    console.log("DB" + id);
     return await database.Rezervacija.aggregate([
         {
             $match: { id_podjetje: id }
@@ -334,6 +334,32 @@ const countReservations = async (id) => {
     ]);
 }
 
+const insertNewZaposleni = async (zaposleni, id_podjetje) => {
+    var storitev = await database.Storitev.findOne({ '_id': id_podjetje });
+    storitev.zaposleni.push(zaposleni)
+    return await database.Storitev.findByIdAndUpdate(storitev._id, storitev, { useFindAndModify: false })
+}
+
+const deleteZaposleni = async (id_zaposleni, id_podjetje) => {
+    var storitev = await database.Storitev.findOne({ '_id': id_podjetje });
+    storitev.zaposleni.forEach(element => {
+        if(element._id==id_zaposleni){
+            storitev.zaposleni.splice(storitev.zaposleni.indexOf(element), 1);
+        }
+    });
+    return await database.Storitev.findByIdAndUpdate(storitev._id, storitev, { useFindAndModify: false })
+}
+
+const updateZaposleni = async (zaposleni, id_podjetje, id_zaposleni) => {
+    var storitev = await database.Storitev.findOne({ '_id': id_podjetje });
+    storitev.zaposleni.forEach(element => {
+        if(element._id==id_zaposleni){
+            Object.assign(element, zaposleni);
+        }
+    });
+    return await database.Storitev.findByIdAndUpdate(storitev._id, storitev, { useFindAndModify: false })
+}
+
 exports.updateStoritev = updateStoritev;
 exports.getSeznamStoritev = getSeznamStoritev;
 exports.getCustomerList = getCustomerList;
@@ -356,3 +382,6 @@ exports.deleteReceiptById = deleteReceiptById;
 exports.countServicesInReceipts = countServicesInReceipts;
 exports.countReservations = countReservations;
 exports.updateDelovniCas = updateDelovniCas;
+exports.insertNewZaposleni = insertNewZaposleni;
+exports.deleteZaposleni = deleteZaposleni;
+exports.updateZaposleni = updateZaposleni;

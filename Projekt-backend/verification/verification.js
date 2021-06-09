@@ -10,7 +10,7 @@ const stranka_scheme = joi.object({
 const zaposleni_scheme = joi.object({
     naziv: joi.string().min(1).max(50).required(),
     telefon: joi.string().min(9).max(12).required(),
-    _id: joi.string().required()
+    _id: joi.string()
 })
 
 const uporabnik_scheme = joi.object({
@@ -101,3 +101,5 @@ exports.uporabnik_scheme = uporabnik_scheme;
 exports.rezervacija_scheme = rezervacija_scheme;
 exports.stranka_scheme = stranka_scheme;
 exports.racun_scheme = racun_scheme;
+exports.zaposleni_scheme = zaposleni_scheme;
+exports.ponudba_scheme = ponudba_scheme;
