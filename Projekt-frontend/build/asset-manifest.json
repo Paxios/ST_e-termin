@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "./static/css/main.10c28ecc.chunk.css",
+    "main.js": "./static/js/main.ea69d176.chunk.js",
+    "main.js.map": "./static/js/main.ea69d176.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.cb1cef4f.js",
+    "runtime-main.js.map": "./static/js/runtime-main.cb1cef4f.js.map",
+    "static/css/2.9fdeb9e7.chunk.css": "./static/css/2.9fdeb9e7.chunk.css",
+    "static/js/2.bab5bbd2.chunk.js": "./static/js/2.bab5bbd2.chunk.js",
+    "static/js/2.bab5bbd2.chunk.js.map": "./static/js/2.bab5bbd2.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.63aaf1dee6a00e40566384cdb7b73227.js": "./precache-manifest.63aaf1dee6a00e40566384cdb7b73227.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/2.9fdeb9e7.chunk.css.map": "./static/css/2.9fdeb9e7.chunk.css.map",
+    "static/css/main.10c28ecc.chunk.css.map": "./static/css/main.10c28ecc.chunk.css.map",
+    "static/js/2.bab5bbd2.chunk.js.LICENSE.txt": "./static/js/2.bab5bbd2.chunk.js.LICENSE.txt",
+    "static/media/etermin1.PNG": "./static/media/etermin1.65f118ca.PNG",
+    "static/media/etermin3.PNG": "./static/media/etermin3.fd95f9a8.PNG",
+    "static/media/unauthorized-person.svg": "./static/media/unauthorized-person.178a880d.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cb1cef4f.js",
+    "static/css/2.9fdeb9e7.chunk.css",
+    "static/js/2.bab5bbd2.chunk.js",
+    "static/css/main.10c28ecc.chunk.css",
+    "static/js/main.ea69d176.chunk.js"
+  ]
+}

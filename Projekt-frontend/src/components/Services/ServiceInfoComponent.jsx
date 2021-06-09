@@ -196,7 +196,7 @@ class ServiceInfoComponent extends Component {
                             <Grid container>
                                 <Grid item xs={12} lg={8}>
                                     <CopyToClipboard
-                                        text={window.location.origin+"/register?inviteCode="+service.inviteCode}
+                                        text={window.location.origin+"/#/register?inviteCode="+service.inviteCode}
                                         onCopy={() => {console.log(window.location);this.state.copiedText = service.inviteCode;}}
                                     >
                                         <Tooltip
