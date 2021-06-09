@@ -60,6 +60,22 @@ router.put("/:storitevId", async (req, res) => {
     }
 });
 
+//DELETE remove storitev from database by id
+router.delete("/:id", async (req, res) => {
+    try {
+      const rezultat = await database.deleteStoritev(req.params.id)
+      if (rezultat == null) {
+        res.status(404).json({ status: "ERROR", reason: "Service with this id does not exist." });
+      }
+      else {
+        res.json(rezultat);
+      }
+    }
+    catch (exception) {
+      res.status(400).json({ status: "ERROR", reason: exception })
+    }
+  });
+
 //GET ponudba by id
 router.get("/ponudba/:id", async (req, res) => {
   var ponudbaId = new mongo.ObjectID(req.params.id);
