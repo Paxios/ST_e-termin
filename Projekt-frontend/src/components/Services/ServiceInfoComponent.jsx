@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -34,15 +33,9 @@ import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import Input from '@material-ui/core/Input';
 import { withTranslation, useTranslation } from "react-i18next";
-import { Card, Grid } from '@material-ui/core';
+import { Card, CardHeader, CardMedia, Divider, Grid, TextField } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        '& .MuiTextField-root': {
-            margin: theme.spacing(1),
-            width: '50ch',
-        },
-    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
@@ -56,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
     extendedIcon: {
         marginRight: theme.spacing(1),
     },
+    textInput: {
+        marginBottom: '20px',
+        width: '100%'
+    }
 }));
 
 const styles = theme => ({
@@ -132,31 +129,31 @@ class ServiceInfoComponent extends Component {
     updateWorkingHours = (e) => {
         e.preventDefault();
         var ure = {
-            pon:{
+            pon: {
                 zacetek: e.target.ponZacetek.value,
                 konec: e.target.ponKonec.value
             },
-            tor:{
+            tor: {
                 zacetek: e.target.torZacetek.value,
                 konec: e.target.torKonec.value
             },
-            sre:{
+            sre: {
                 zacetek: e.target.sreZacetek.value,
                 konec: e.target.sreKonec.value
             },
-            cet:{
+            cet: {
                 zacetek: e.target.cetZacetek.value,
                 konec: e.target.cetKonec.value
             },
-            pet:{
+            pet: {
                 zacetek: e.target.petZacetek.value,
                 konec: e.target.petKonec.value
             },
-            sob:{
+            sob: {
                 zacetek: e.target.sobZacetek.value,
                 konec: e.target.sobKonec.value
             },
-            ned:{
+            ned: {
                 zacetek: e.target.nedZacetek.value,
                 konec: e.target.nedKonec.value
             },
@@ -177,36 +174,40 @@ class ServiceInfoComponent extends Component {
         const { classes } = this.props;
         return (
             <Grid container>
-                <Grid item xs={12} lg={8} className="timeline-datepicker">
-                    <br />
-                    <Typography variant="h5">{t("services.serviceInfo.title")}</Typography>
-                    <br />
-                    <MapContainer center={[46.5604847, 15.6346753]} zoom={14} scrollWheelZoom={true} style={{ "height": "400px", "width": "100%" }}>
-                        <TileLayer
-                            attribution={t("services.serviceInfo.mapInfo")}
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <MyMarker saveMarkers={this.saveMarkers} initialPosition={this.state.initialPosition} currentPosition={this.state.currentPosition} selectedPosition={this.state.selectedPosition} />
-                    </MapContainer>
-                    <br />
+                <Grid item xs={12} className="timeline-datepicker" style={{ padding: '15px', backgroundColor: '#F4F5F7' }}>
                     <Card>
+                        <CardHeader
+                            title={t("services.serviceInfo.title")}
+                        />
+                        <CardMedia>
+                            <MapContainer center={[46.5604847, 15.6346753]} zoom={14} scrollWheelZoom={true} style={{ "height": "400px", "width": "100%" }}>
+                                <TileLayer
+                                    attribution={t("services.serviceInfo.mapInfo")}
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
+                                <MyMarker saveMarkers={this.saveMarkers} initialPosition={this.state.initialPosition} currentPosition={this.state.currentPosition} selectedPosition={this.state.selectedPosition} />
+                            </MapContainer>
+                        </CardMedia>
                         <CardContent>
-                            <Typography variant="h5" className={classes.heading}>{t("services.serviceInfo.inviteCode")}</Typography>
-                            {service.inviteCode}
+                            <Grid container>
+                                <Grid item xs={12} lg={8}>
+                                    <Typography variant="h5" className={classes.heading}>{t("services.serviceInfo.inviteCode")}</Typography>
+                                    {service.inviteCode}
+                                </Grid>
+                                <Grid item xs={12} style={{marginTop: '25px', marginBottom: '30px'}}>
+                                    <Divider />
+                                </Grid>
+                                <Grid item xs={12} lg={8}>
+                                    <InfoForm storitev={this.state.storitev} pos={this.state.selectedPosition} changeSnackbarState={this.changeStateSnackbar} />
+                                </Grid>
+                            </Grid>
                         </CardContent>
                     </Card>
-                    <InfoForm storitev={this.state.storitev} pos={this.state.selectedPosition} changeSnackbarState={this.changeStateSnackbar} />
-                    <Accordion>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                        >
-                            <Typography className={classes.heading}>{t("services.serviceOverview.workingHours")}</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <div>
-                                <form onSubmit={this.updateWorkingHours}>
+                    <br />
+                    <Grid container justify="center">
+                        <Grid item>
+                            <form onSubmit={this.updateWorkingHours}>
+                                <Card>
                                     <TableContainer component={Paper}>
                                         <Table className={classes.table} aria-label="simple table">
                                             <TableHead>
@@ -239,7 +240,7 @@ class ServiceInfoComponent extends Component {
                                                         {/* {service.delovniCas?.pon?.zacetek} - {service.delovniCas?.pon?.konec} */}
                                                     </TableCell>
                                                     <TableCell component="th" scope="row">
-                                                        <Input id="torKonec" inputComponent={TextMaskHour} key={`torKonec:${service.delovniCas?.tor?.konec || ''}`} defaultValue={service.delovniCas?.tor?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
+                                                        <Input variant="outlined" id="torKonec" inputComponent={TextMaskHour} key={`torKonec:${service.delovniCas?.tor?.konec || ''}`} defaultValue={service.delovniCas?.tor?.konec || ''} onChange={(e) => { console.log(e.target.value) }} />
                                                     </TableCell>
                                                 </TableRow>
                                                 <TableRow key={service._id}>
@@ -305,29 +306,30 @@ class ServiceInfoComponent extends Component {
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
-                                    <br />
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        size="large"
-                                        className={classes.formControl}
-                                        startIcon={<SaveIcon />}
-                                    >
-                                        {t("services.serviceInfo.saveWorkingHoursButton")}
-                                    </Button>
-                                </form>
-                            </div>
-                        </AccordionDetails>
-                    </Accordion>
-                    <br />
-                </Grid>
+                                </Card>
+                                <br />
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    className={classes.formControl}
+                                    startIcon={<SaveIcon />}
+                                >
+                                    {t("services.serviceInfo.saveWorkingHoursButton")}
+                                </Button>
+                            </form>
+                        </Grid>
 
-                <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
-                    <Alert onClose={this.changeStateSnackbar} severity="success">
-                        {this.state.snackbarMessage}
-                    </Alert>
-                </Snackbar>
+                        <br />
+                    </Grid>
+
+                    <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
+                        <Alert onClose={this.changeStateSnackbar} severity="success">
+                            {this.state.snackbarMessage}
+                        </Alert>
+                    </Snackbar>
+                </Grid>
             </Grid>
         )
     }
@@ -357,57 +359,66 @@ function InfoForm(props) {
     const classes = useStyles();
 
     const { t } = useTranslation();
-    return (<form className={classes.root} noValidate autoComplete="off">
-        <br />
-        <TextField id="ime" label={t("services.serviceInfo.serviceName")} variant="outlined" key={`imeStoritve:${props.storitev.ime || ''}`} defaultValue={props.storitev.ime || ''} onChange={(e) => { props.storitev.ime = e.target.value }} />
-        <TextField id="naslov" label={t("services.serviceInfo.serviceAddress")} variant="outlined" key={`naslovStoritve:${props.storitev.naslov || ''}`} defaultValue={props.storitev.naslov || ''} onChange={(e) => { props.storitev.naslov = e.target.value }} />
-        <br />
-        <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel htmlFor="outlined-type-native-simple">{t("services.serviceInfo.serviceType")}</InputLabel>
-            <Select
-                label="Tip storitve" key={`tipStoritve:${props.storitev.tip || ''}`} defaultValue={props.storitev.tip || ''}
-                onChange={(e) => { props.storitev.tip = e.target.value }}
-                inputProps={{
-                    name: 'tip',
-                    id: 'outlined-type-native-simple',
-                }}
-            >
-                <MenuItem value={'Frizerstvo'}>{t("services.serviceInfo.serviceTypeHairdressing")}</MenuItem>
-                <MenuItem value={'Maserstvo'}>{t("services.serviceInfo.serviceTypeMasseuse")}</MenuItem>
-                <MenuItem value={'Avtomehanika'}>{t("services.serviceInfo.serviceTypeMechanic")}</MenuItem>
-                <MenuItem value={'Vulkanizerstvo'}>{t("services.serviceInfo.serviceTypeVulcanizer")}</MenuItem>
-            </Select>
-            <FormHelperText>{t("services.serviceInfo.serviceTypeHelper")}</FormHelperText>
-        </FormControl>
-        <br />
-        <TextField id="opis" key={`opisStoritve:${props.storitev.opis || ''}`} defaultValue={props.storitev.opis || ''} onChange={(e) => { props.storitev.opis = e.target.value }} label={t("services.serviceInfo.serviceDescription")} variant="outlined" multiline fullWidth style={{ margin: 8 }} rows="6" />
-
-        <br />
-        <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={() => {
-                console.log(props.storitev)
-                console.log(props.pos)
-                ServicesService.update_storitev(props.storitev._id, {
-                    ime: props.storitev.ime,
-                    naslov: props.storitev.naslov,
-                    tip: props.storitev.tip,
-                    opis: props.storitev.opis,
-                    lokacija: {
-                        x: props.pos[0],
-                        y: props.pos[1]
-                    }
-                });
-                props.changeSnackbarState("Successfully updated service information.");
-            }}
-            className={classes.formControl}
-            startIcon={<SaveIcon />}
-        >
-            {t("services.serviceInfo.saveButton")}
-        </Button>
-    </form>)
+    return (
+        <form className={classes.root} noValidate autoComplete="off">
+            <Grid container justify="center" style={{textAlign: 'center'}}>
+                <Grid item xs={12}>
+                    <TextField className={classes.textInput} id="ime" label={t("services.serviceInfo.serviceName")} variant="outlined" key={`imeStoritve:${props.storitev.ime || ''}`} defaultValue={props.storitev.ime || ''} onChange={(e) => { props.storitev.ime = e.target.value }} />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField className={classes.textInput} id="naslov" label={t("services.serviceInfo.serviceAddress")} variant="outlined" key={`naslovStoritve:${props.storitev.naslov || ''}`} defaultValue={props.storitev.naslov || ''} onChange={(e) => { props.storitev.naslov = e.target.value }} />
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl variant="outlined" className={classes.formControl} className={classes.textInput}>
+                        <InputLabel htmlFor="outlined-type-native-simple">{t("services.serviceInfo.serviceType")}</InputLabel>
+                        <Select
+                            label="Tip storitve" key={`tipStoritve:${props.storitev.tip || ''}`} defaultValue={props.storitev.tip || ''}
+                            onChange={(e) => { props.storitev.tip = e.target.value }}
+                            inputProps={{
+                                name: 'tip',
+                                id: 'outlined-type-native-simple',
+                            }}
+                        >
+                            <MenuItem value={'Frizerstvo'}>{t("services.serviceInfo.serviceTypeHairdressing")}</MenuItem>
+                            <MenuItem value={'Maserstvo'}>{t("services.serviceInfo.serviceTypeMasseuse")}</MenuItem>
+                            <MenuItem value={'Avtomehanika'}>{t("services.serviceInfo.serviceTypeMechanic")}</MenuItem>
+                            <MenuItem value={'Vulkanizerstvo'}>{t("services.serviceInfo.serviceTypeVulcanizer")}</MenuItem>
+                        </Select>
+                        <FormHelperText>{t("services.serviceInfo.serviceTypeHelper")}</FormHelperText>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField className={classes.textInput} id="opis" key={`opisStoritve:${props.storitev.opis || ''}`} defaultValue={props.storitev.opis || ''} onChange={(e) => { props.storitev.opis = e.target.value }} label={t("services.serviceInfo.serviceDescription")} variant="outlined" multiline fullWidth rows="6" />
+                </Grid>
+                <Grid item xs={12}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        onClick={() => {
+                            console.log(props.storitev)
+                            console.log(props.pos)
+                            ServicesService.update_storitev(props.storitev._id, {
+                                ime: props.storitev.ime,
+                                naslov: props.storitev.naslov,
+                                tip: props.storitev.tip,
+                                opis: props.storitev.opis,
+                                lokacija: {
+                                    x: props.pos[0],
+                                    y: props.pos[1]
+                                }
+                            });
+                            props.changeSnackbarState("Successfully updated service information.");
+                        }}
+                        className={classes.formControl}
+                        startIcon={<SaveIcon />}
+                    >
+                        {t("services.serviceInfo.saveButton")}
+                    </Button>
+                </Grid>
+            </Grid>
+        </form>
+    )
 }
 
 function MyMarker(props) {
@@ -453,7 +464,7 @@ function MyMarker(props) {
             props.saveMarkers(props.currentPosition);
         }
     });
-    if(props.initialPosition[0]==0 && props.initialPosition[1]==0){
+    if (props.initialPosition[0] == 0 && props.initialPosition[1] == 0) {
         setTimeout(
             () => {
                 map.flyTo(props.initialPosition, map.getZoom());

@@ -122,7 +122,10 @@ async function generateNewCompany(){
         ime: "",
         naslov: "",
         tip: "",
-        lokacija: [0,0],
+        lokacija: {
+            x: 0,
+            y: 0
+        },
         opis: "",
         ponudba: [],
         zaposleni: [],
@@ -189,6 +192,10 @@ const getSeznamStoritev = async () => {
 
 const getStoritevById = async (id) => {
     return await database.Storitev.findOne({ _id: id });
+}
+
+const deleteStoritev = async (storitevId) => {
+    return await database.Storitev.findByIdAndDelete(storitevId);
 }
 
 const getPonudbaById = async (id) => {
@@ -340,6 +347,7 @@ exports.register = register;
 exports.deleteUser = deleteUser;
 exports.getUserByUsername = getUserByUsername;
 exports.getStoritevById = getStoritevById;
+exports.deleteStoritev = deleteStoritev;
 exports.insertNewRacun = insertNewRacun;
 exports.getReceiptsByCompanyId = getReceiptsByCompanyId;
 exports.getReceiptById = getReceiptById;

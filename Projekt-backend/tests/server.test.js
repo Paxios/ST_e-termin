@@ -9,6 +9,7 @@ const username = "jest-test";
 const password = "jest_test_pass";
 var user_details = {};
 var added_reservation = {}
+var updated_company_info = {}
 
 const new_reservation = {
   ime_stranke: "Pavla",
@@ -17,6 +18,17 @@ const new_reservation = {
   datum: "2021-06-03T20:00:00.000Z",
   trajanje: 120,
   delo: "Pranje + likanje"
+}
+
+const new_company_info = {
+  ime: "Frizeraj Metka",
+  naslov: "Frizerska ulica 77",
+  tip: "Frizerstvo",
+  lokacija: {
+    x: 46.77,
+    y: 15.89
+  },
+  opis: "Najboljši frizeraj dalč naokol.",
 }
 
 beforeAll(async () => {
@@ -109,6 +121,23 @@ it('Delete reservation - bad id', done => {
   request(app).delete(`/rezervacija/zlonameren`)
   .set('Authorization', auth_token)
   .expect(400, done)
+});
+
+it('Modify company info', done => {
+  request(app).put(`/storitev/${user_details.company_id}`)
+    .send(new_company_info)
+    .set('Authorization', auth_token)
+    .end((err, resp) => {
+      if (err) return done(err);
+      updated_company_info = resp.body;
+      done()
+    })
+});
+
+it('Delete company', done => {
+  request(app).delete(`/storitev/${updated_company_info._id}`)
+    .set('Authorization', auth_token)
+    .expect(200, done);
 });
 
 it('Delete user', done => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import LoginDialogComponent from '../UserManagement/LoginDialogComponent'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -77,8 +77,14 @@ class HeaderComponent extends Component {
               >
                 <MenuIcon/>
               </IconButton>
-              <img src={logo} style={{"height":"60px", "padding":"5px"}} />
-              <Typography className="title" variant="h4" noWrap>e-Termin</Typography>
+              <Link to="/">
+                <img src={logo} style={{"height":"60px", "padding":"5px"}} />
+              </Link>
+              <Typography className="title" variant="h4" noWrap>
+                <Link to="/">
+                  e-Termin
+                </Link>
+              </Typography>
               {!loggedIn ?
                 <div>
                   <Button color="inherit" onClick={( ) => {

@@ -23,7 +23,8 @@ import {
     ListItemAvatar,
     Avatar,
     ListItemSecondaryAction,
-    Fab
+    Fab,
+    Card
 } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
@@ -168,7 +169,7 @@ function ReportsOverviewComponent({ }) {
         </Collapse>
     );
     return (
-        <div>
+        <div style={{backgroundColor: '#F4F5F7'}}>
             <Grid container className={classes.container}>
                 <Grid item xs={6} style={{ textAlign: "center" }}>
                     <Button
@@ -177,39 +178,44 @@ function ReportsOverviewComponent({ }) {
                     >
                         <GetAppIcon />
                         <Typography>
-                            .xlsx poročilo
+                            {t("reports.xlsxButton")}
                         </Typography>
                     </Button>
                 </Grid>
                 <Grid item xs={6} style={{ textAlign: "center" }}>
-                    <Button 
+                    <Button
                         className={classes.downloadButton}
                         onClick={showPdfReport}
                     >
                         <GetAppIcon />
                         <Typography>
-                            .pdf poročilo
+                            {t("reports.pdfButton")}
                         </Typography>
                     </Button>
                 </Grid>
-                <Grid item xs={12} className={classes.graphContainer}>
-                    <Typography className={classes.graphTitle}>
-                        {t("reports.countGraph")}
-                    </Typography>
-                    <BarChartComponent data={countData} barNames={["count"]} colors={["#3f51b5", "#89BD23", "#10458C"]} />
+                <Grid item xs={12} style={{marginTop: '25px', padding: '15px'}}>
+                    <Card>
+                        <Grid item xs={12} className={classes.graphContainer}>
+                            <Typography className={classes.graphTitle}>
+                                {t("reports.countGraph")}
+                            </Typography>
+                            <BarChartComponent data={countData} barNames={["count"]} colors={["#3f51b5", "#89BD23", "#10458C"]} />
+                        </Grid>
+                        <Grid item xs={12} className={classes.graphContainer}>
+                            <Typography className={classes.graphTitle}>
+                                {t("reports.priceGraph")}
+                            </Typography>
+                            <BarChartComponent data={countData} barNames={["znesek"]} colors={["#89BD23", "#10458C"]} />
+                        </Grid>
+                        <Grid item xs={12} className={classes.graphContainer}>
+                            <Typography className={classes.graphTitle}>
+                                {t("reports.reservationsGraph")}
+                            </Typography>
+                            <LineChartComponent data={reservationsData} lineNames={["count"]} colors={["#3f51b5", "#10458C"]} />
+                        </Grid>
+                    </Card>
                 </Grid>
-                <Grid item xs={12} className={classes.graphContainer}>
-                    <Typography className={classes.graphTitle}>
-                        {t("reports.priceGraph")}
-                    </Typography>
-                    <BarChartComponent data={countData} barNames={["znesek"]} colors={["#89BD23", "#10458C"]} />
-                </Grid>
-                <Grid item xs={12} className={classes.graphContainer}>
-                    <Typography className={classes.graphTitle}>
-                        {t("reports.reservationsGraph")}
-                    </Typography>
-                    <LineChartComponent data={reservationsData} lineNames={["count"]} colors={["#3f51b5", "#10458C"]} />
-                </Grid>
+
                 <ViewPdfReportDialog
                     isOpen={reportDialogOpen}
                     closeDialog={() => setReportDialogOpen(false)}
