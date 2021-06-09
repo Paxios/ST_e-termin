@@ -116,9 +116,10 @@ class ReservationsOverviewComponent extends Component {
     render() {
         const isOnline = this.state.isOnline;
         return (
-            <Grid container style={{backgroundColor: '#F4F5F7'}}>
+            <Grid container style={{ backgroundColor: '#F4F5F7' }}>
                 <Grid item xs={12} lg={8}>
                     <ReservationsListComponent
+                        t={this.props.t}
                         service={this.state.storitev}
                         refreshReservations={this.loadRezervacije}
                         changeEditReservationData={this.changeEditReservationData}
@@ -131,13 +132,15 @@ class ReservationsOverviewComponent extends Component {
                 {/* FAB */}
                 {isOnline ?
                     <Tooltip title="Add reservation" aria-label="add_reservation">
-                        <Fab color="primary" className="fab_add_reservation" onClick={() => {
-                            this.setState({ isAddReservationShowing: true })
-                        }}>
-                            <AddIcon />
-                        </Fab>
+                        <div style={{position: 'fixed', right: '25px', bottom: '25px'}}>
+                            <Fab color="primary" className="fab_add_reservation" onClick={() => {
+                                this.setState({ isAddReservationShowing: true })
+                            }}>
+                                <AddIcon />
+                            </Fab>
+                        </div>
                     </Tooltip>
-                    : <div></div>}
+                    : ('')}
 
                 {/* DIALOGS */}
                 <CreateReservationDialogComponent storitev={this.state.storitev} changeSnackBarState={this.changeSnackBarMessage} refreshReservations={this.loadRezervacije} user={this.props.user} closeDialog={this.closeAddReservationDialog} isShowing={this.state.isAddReservationShowing} />

@@ -69,7 +69,7 @@ class TimelineComponent extends Component {
         if (this.state.reservations.length !== 0)
             isThereWork = true;
         return (
-            <div style={{flexGrow:1}}>
+            <div style={{flexGrow:1, backgroundColor: '#F4F5F7'}}>
                 <Typography align="center" variant="h5">{this.props.t("reservations.timeline.checkWorkflow")}</Typography>
                 <div className="timeline-datepicker">
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>

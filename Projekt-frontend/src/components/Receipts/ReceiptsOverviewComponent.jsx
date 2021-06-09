@@ -59,6 +59,12 @@ const useStyles = makeStyles(theme => ({
         position: 'fixed',
         bottom: '25px',
         right: '25px'
+    },
+    receiptsList: {
+        backgroundColor: 'white',
+        borderRadius: '4px',
+        border: '1px #ECECEC solid',
+        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
     }
 }));
 
@@ -147,14 +153,14 @@ function ReceiptsOverviewComponent({ }) {
 
 
     return (
-        <div className="container">
+        <div style={{backgroundColor: '#F4F5F7', width: '100%', paddingLeft: '20px', paddingRight: '20px'}}>
             <Grid container>
                 <Grid item xs={12} >
                     <Typography variant="h6" className={classes.title}>
                         {t("receipts.title")}
                     </Typography>
                     <div className={classes.demo}>
-                        <List dense={true}>
+                        <List dense={true} className={classes.receiptsList}>
                             {receipts.map((receipt) => (
                                 <ListItem button onClick={() => receiptClick(receipt._id)} key={receipt._id}>
                                     <ListItemAvatar>

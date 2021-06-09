@@ -22,8 +22,10 @@ import ConnectionContext from "./context/ConnectionContext";
 import ServicesService from "./services/ServicesService";
 import ReceiptsService from "./services/ReceiptsService";
 import { Grid } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 function App() {
+  const {t} = useTranslation();
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -79,7 +81,7 @@ function App() {
                   <ReportsOverviewComponent />
                 </ProtectedRoute>
                 <ProtectedRoute path="/overview">
-                  <ReservationsOverviewComponent user={user} />
+                  <ReservationsOverviewComponent t={t} user={user} />
                 </ProtectedRoute>
                 <ProtectedRoute path="/timeline">
                   <TimelineComponent user={user} />

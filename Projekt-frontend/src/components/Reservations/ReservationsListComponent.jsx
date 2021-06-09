@@ -48,6 +48,9 @@ class ReservationsListComponent extends Component {
     render() {
         return (
             <div style={{ paddingTop: '15px' }}>
+                <Typography variant="h6" style={{ paddingLeft: '20px' }}>
+                    {this.props.t("reservations.title")}
+                </Typography>
                 <ReservationElements service={this.props.service} refreshReservations={this.props.refreshReservations} changeEditReservationData={this.props.changeEditReservationData} reservations={this.props.reservations} changeSnackbarState={this.changeStateSnackbar} openConfirmReservationDialog={this.props.openConfirmReservationDialog} />
                 <Snackbar anchorOrigin={{ "vertical": "bottom", "horizontal": "center" }} autoHideDuration={2000} onClose={this.changeStateSnackbar} open={this.state.openSnackbar}>
                     <Alert onClose={this.changeStateSnackbar} severity="success">
@@ -84,7 +87,7 @@ function ReservationElement(props) {
     return (
         <div style={{ margin: '15px'}}>
             <Card elevation={4} >
-                <CardActionArea>
+            
                     <CardContent>
                         <Typography className="reservation-service" variant="h6" color="textPrimary">{ime_ponudbe}
 
@@ -96,7 +99,7 @@ function ReservationElement(props) {
                             {reservation.delo}
                         </Typography>
                     </CardContent>
-                </CardActionArea>
+            
                 {isOnline ?
                     <CardActions>
                         <IconButton className="complete-reservation" aria-label="complete" onClick={() => {
