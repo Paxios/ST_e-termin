@@ -15,7 +15,7 @@ var easyinvoice = require('easyinvoice');
 router.use(jwt({
     secret: process.env.SECRET,
     algorithms: ['HS256']
-}).unless({ path: [/^\/porocilo\/.*/, '/user/register', "/user/login"] }));
+}).unless({ path: [/^\/porocilo\/.*/, '/user/register', "/user/login", "/storitev/"] }));
 
 
 router.use((err, req, res, next) => {

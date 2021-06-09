@@ -79,6 +79,31 @@
             "friday": "Friday",
             "saturday": "Saturday",
             "sunday": "Sunday"
+        },
+        "serviceDetails": {
+            "name": "Name",
+            "phone": "Phone number",
+            "employeeList":"Employee list",
+            "offerList":"Offer list",
+            "offerName":"Name",
+            "price":"Price",
+            "duration":"Duration",
+            "description":"Description",
+            "add":"Add",
+            "delete":"Delete",
+            "edit":"Edit",
+            "empty":"No records to display",
+            "deleteText":"Are you sure?",
+            "cancelTooltip":"Cancel",
+            "saveTooltip":"Save",
+            "displayedRows":"{from}-{to} of {count}",
+            "rows":"rows",
+            "search":"Search",
+            "actions":"Actions",
+            "nameError":"Name is required",
+            "phoneError":"Phone number is required",
+            "offerNameError":"Name is required",
+            "descriptionError":"Description is required"
         }
     },
     "unauthorizedPage": {
@@ -127,5 +152,8 @@
     },
     "languages": {
         "nextLanguage": "Change language"
+    },
+    "pages":{
+        "firstPage":"First page"
     }
 }

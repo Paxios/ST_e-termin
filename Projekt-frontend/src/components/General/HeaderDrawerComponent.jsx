@@ -16,6 +16,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import { useTranslation } from "react-i18next";
 import { Button, IconButton, Typography } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
+import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 
 function HeaderDrawerComponent(props) {
     const { t } = useTranslation();
@@ -97,7 +98,7 @@ function HeaderDrawerComponent(props) {
                                 navigateReservartions("serviceDetails")
                             }
                             }>
-                                <ListItemIcon><InfoIcon color="primary" /></ListItemIcon>
+                                <ListItemIcon><SettingsApplicationsIcon color="primary" /></ListItemIcon>
                                 <ListItemText primary={t("drawerMenuItems.serviceDetails")} />
                             </ListItem><Divider />
 

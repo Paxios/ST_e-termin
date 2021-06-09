@@ -80,6 +80,31 @@
             "friday": "Petek",
             "saturday": "Sobota",
             "sunday": "Nedelja"
+        },
+        "serviceDetails": {
+            "name": "Naziv",
+            "phone": "Telefonska št.",
+            "employeeList":"Seznam zaposlenih",
+            "offerList":"Ponudba",
+            "offerName":"Ime",
+            "price":"Cena",
+            "duration":"Trajanje",
+            "description":"Opis",
+            "add":"Dodaj",
+            "delete":"Izbriši",
+            "edit":"Uredi",
+            "empty":"Ni podatkov za prikaz",
+            "deleteText":"Ste prepričani?",
+            "cancelTooltip":"Prekliči",
+            "saveTooltip":"Shrani",
+            "displayedRows":"{from}-{to} od {count}",
+            "rows":"vrstic",
+            "search":"Išči",
+            "actions":"Akcije",
+            "nameError":"Vnesite naziv",
+            "phoneError":"Vnesite telefon",
+            "offerNameError":"Vnesite ime",
+            "descriptionError":"Vnesite opis"
         }
     },
     "unauthorizedPage": {
@@ -128,5 +153,8 @@
     },
     "language": {
         "nextLanguage": "English"
+    },
+    "pages":{
+        "firstPage":"Prva stran"
     }
 }

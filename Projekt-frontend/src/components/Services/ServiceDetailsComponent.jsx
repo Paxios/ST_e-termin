@@ -77,14 +77,16 @@ function ServiceDetailsComponent({ }) {
     const Connection = useContext(ConnectionContext);
 
     return (
-        <div style={{ backgroundColor: '#F4F5F7', width: '100%', paddingLeft: '20px', paddingRight: '20px' }}>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <ServiceEmployeeComponent></ServiceEmployeeComponent>
-                    <ServiceOfferComponent></ServiceOfferComponent>
-                </Grid>
+        // <div style={{ backgroundColor: '#F4F5F7', width: '100%', paddingLeft: '20px', paddingRight: '20px' }}>
+        <Grid container spacing={1}>
+            <Grid item xs={12} className="timeline-datepicker" style={{ padding: '15px', backgroundColor: '#F4F5F7' }}>
+                <ServiceEmployeeComponent></ServiceEmployeeComponent>
             </Grid>
-        </div>
+            <Grid item xs={12} className="timeline-datepicker" style={{ padding: '15px', backgroundColor: '#F4F5F7' }}>
+                <ServiceOfferComponent></ServiceOfferComponent>
+            </Grid>
+        </Grid>
+        //</div>
     );
 }
 

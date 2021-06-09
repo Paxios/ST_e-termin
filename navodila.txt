@@ -1,0 +1,19 @@
+za backend:
+kreirajte si
+.env, ki vsebuje:
+DB_COLLECTION=rezervacije
+DB_USERNAME
+DB_PASSWORD
+DB
+SECRET
+NUM_SALT
+
+za backend:
+kreirajte si
+.env, ki vsebuje:
+PORT
+REACT_APP_IP
+
+Potem zbuildate frontend, poženete backend z npm start, 
+prenesete zgenerirano iz frontenda v cordova folder in
+zbuildate v cordovi in poženete na željeni napravi. 
