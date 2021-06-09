@@ -46,6 +46,7 @@ import BarChartComponent from './Graphs/BarChartComponent';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import LineChartComponent from './Graphs/LineChartComponent';
 import ViewPdfReportDialog from './ViewPdfReportDialog';
+import { BACKEND_URL, REPORT_PREFIX } from '../../Constants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -115,7 +116,7 @@ function ReportsOverviewComponent({ }) {
         console.log(Auth.user);
         axios({
             method: 'GET',
-            url: 'http://localhost:3000/porocilo/' + id,
+            url: BACKEND_URL + REPORT_PREFIX + id,
             responseType: 'blob',
             headers: {
                 Authorization: Auth.user.jwt,

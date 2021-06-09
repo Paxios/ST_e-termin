@@ -93,7 +93,8 @@ class HeaderComponent extends Component {
                   <Button color="inherit" onClick={() => {
                     window.sessionStorage.removeItem("user");
                     // this.setState({ loggedIn: !loggedIn });
-                    window.location = "/"
+                    this.props.history.push("/");
+                    window.location.reload();
                     // window.location = initialHref;
                   }}>{this.props.t("userManagement.logOut")}</Button>
                 </div>
