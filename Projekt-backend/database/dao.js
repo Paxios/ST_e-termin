@@ -76,6 +76,10 @@ const getSeznamZasedenihTerminov = async (companyId) => {
     return zasedeniTermini;
 }
 
+const deleteUser = async (user_name) => {
+    return await database.User.deleteOne({uporabnisko_ime:user_name})
+}
+
 const register = async (user_details) => {
     const userWithSameUsername = await database.User.findOne({ uporabnisko_ime: user_details.uporabnisko_ime })
     if (userWithSameUsername != null) {
@@ -333,6 +337,7 @@ exports.deleteRezervacija = deleteRezervacija;
 exports.updateRezervacija = updateRezervacija;
 exports.getSeznamZasedenihTerminov = getSeznamZasedenihTerminov;
 exports.register = register;
+exports.deleteUser = deleteUser;
 exports.getUserByUsername = getUserByUsername;
 exports.getStoritevById = getStoritevById;
 exports.insertNewRacun = insertNewRacun;

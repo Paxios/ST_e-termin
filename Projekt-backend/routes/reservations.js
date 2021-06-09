@@ -12,7 +12,6 @@ router.use(jwt({ secret: process.env.SECRET,
 
 router.use((err, req, res, next) => {
   if(err.name === 'UnauthorizedError') {
-    console.log(err.message);
     res.status(err.status).send({message:err.message});
     return;
   }
@@ -74,7 +73,7 @@ router.delete("/rezervacija/:id", async (req, res) => {
     }
   }
   catch (exception) {
-    res.json({ status: "ERROR", reason: exception })
+    res.status(400).json({ status: "ERROR", reason: exception })
   }
 });
 

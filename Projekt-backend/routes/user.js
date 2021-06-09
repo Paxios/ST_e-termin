@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
 //POST login
 router.post("/login", async (req, res) => {
 
-  if(!(("uporabnisko_ime" in req.body) || ("geslo" in req.body)) ){
+  if (!(("uporabnisko_ime" in req.body) || ("geslo" in req.body))) {
     res.status(400).json({ status: "ERROR", code: 401, reason: "missing arguments" })
     return
   }
@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
     const isCorrect = security.check_password_with_hash(req.body.geslo, user.geslo)
     if (isCorrect) {
       const token = security.createJWT(user)
-      res.set("Authorization",`Bearer ${token}`)
+      res.set("Authorization", `Bearer ${token}`)
       res.json({ authenticated: isCorrect });
     }
     else {
@@ -44,6 +44,21 @@ router.post("/login", async (req, res) => {
   else {
     res.status(401).json({ status: "ERROR", code: 401, reason: "Invalid username or password" })
   }
+});
+
+router.delete("/", async (req, res) => {
+
+  console.log(req.body)
+  if (!("uporabnisko_ime" in req.body)) {
+    res.status(400).json({ status: "ERROR", code: 401, reason: "missing arguments" })
+    return
+  }
+
+  database.deleteUser(req.body.uporabnisko_ime).then(resp => {
+    res.json({ status: "SUCCESS", reason: "User deleted successfully" })
+  }).catch(error => {
+    res.status(400).json({ status: "ERROR", reason: error })
+  });
 });
 
 
