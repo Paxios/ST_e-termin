@@ -1,5 +1,6 @@
 {
     "reservations": {
+        "title": "Rezervacije",
         "confirmReservationDialog": {
             "title": "Izdaj račun za rezervacijo",
             "confirm": "Potrdi",
@@ -98,7 +99,9 @@
         "reservationsGraph": "Število rezervacij po dnevih",
         "pdfReportDialog": {
             "title": "Pregled poslovanja"
-        }
+        },
+        "pdfButton": ".pdf poročilo",
+        "xlsxButton": ".xlsx poročilo"
     },
     "drawerMenuItems": {
         "services": "Ponudniki storitev",

@@ -28,7 +28,7 @@ function BarChartComponent({ data, barNames, colors }) {
                 data={data}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="name" width={10}/>
                 <YAxis />
                 <Tooltip />
                 {bars}

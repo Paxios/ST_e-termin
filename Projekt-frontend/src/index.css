@@ -5,6 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+}
+html {
+  height: 100%;
+  background-color: #F4F5F7;
 }
 
 code {
@@ -33,6 +38,7 @@ code {
 .header-root{
   flex-grow: 10;
   padding-bottom: 5em;
+  background-color: #F4F5F7;
 }
 .menuButton{
   margin-right: 1em;
@@ -76,4 +82,16 @@ float: right;
 .complete-reservation-icon{
   color: #4caf50;
 
+}
+
+a {
+  text-decoration: none;
+  color: inherit !important;
+}
+a:hover {
+  text-decoration: none !important;
+}
+
+.MuiPaper-elevation4, .MuiPaper-elevation3, .MuiPaper-elevation1 {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
 }
