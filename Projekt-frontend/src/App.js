@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
-// import ListCustomerComponent from './components/ListCustomerComponent';
-// import ListCouponComponent from './components/ListCouponComponent';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import HeaderComponent from './components/General/HeaderComponent';
 import FooterComponent from './components/General/FooterComponent';
-// import FooterComponent from './components/FooterComponent';
-// import CreateCustomerComponent from './components/CreateCustomerComponent';
-// import CreateCouponComponent from './components/CreateCouponComponent';
 import RegisterComponent from './components/UserManagement/RegisterComponent';
 import ReservationsOverviewComponent from './components/Reservations/ReservationsOverviewComponent';
 import TimelineComponent from './components/Timeline/TimelineComponent';
@@ -95,10 +90,6 @@ function App() {
                   <ServiceDetailsComponent user={user} />
                 </ProtectedRoute>
                 <Route path="/unauthorized" component={UnauthorizedPage}></Route>
-                {/* <Route path = "/customers" component = {ListCustomerComponent}></Route>
-                      <Route path = "/coupons" component = {ListCouponComponent}></Route>
-                      <Route path = "/add-customer/:id" component = {CreateCustomerComponent}></Route>
-                      <Route path = "/add-coupon/:id" component = {CreateCouponComponent}></Route> */}
                 <Route path="/register" component={RegisterComponent}></Route>
                 <Route path="/" render={() => <HomepageComponent />}></Route>
               </Switch>
