@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import { withTranslation } from 'react-i18next';
-import {Grid, Typography} from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 
 class LoginDialogComponent extends Component {
     constructor(props) {
@@ -29,7 +29,7 @@ class LoginDialogComponent extends Component {
         return (
             <Dialog onClose={this.props.handleLoginDialogClickClose} open={this.props.isShowing}>
                 <form >
-                    <Grid container maxWidth="lg" justify="center" style={{padding: '20px'}}>
+                    <Grid container maxWidth="lg" justify="center" style={{ padding: '20px' }}>
                         <Grid item xs={12}>
                             <Typography variant="h6">
                                 Dobrodošli nazaj na eTermin
@@ -38,7 +38,14 @@ class LoginDialogComponent extends Component {
                                 Zahvaljujemo se vam za vaše zaupanje in vam želimo uspešen dan na delu 💪.
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} style={{marginTop: '20px'}}>
+                        <Grid item xs={12} style={{marginTop: '10px'}}>
+                            <Collapse in={this.state.wrongCredentials}>
+                                <Alert severity="error">
+                                    {this.state.wrongCredentials_error}
+                                </Alert>
+                            </Collapse>
+                        </Grid>
+                        <Grid item xs={12} style={{ marginTop: '20px' }}>
                             <TextField fullWidth={true} id="outlined-basic" required label={this.props.t("userManagement.username")} variant="outlined"
                                 onChange={(e) => { this.setState({ username: e.target.value }) }} /> <br /> <br />
                         </Grid>
@@ -46,7 +53,7 @@ class LoginDialogComponent extends Component {
                             <TextField fullWidth={true} id="outlined-basic" required type="password" label={this.props.t("userManagement.password")} variant="outlined"
                                 onChange={(e) => { this.setState({ password: e.target.value }) }} /><br /> <br />
                         </Grid>
-                        <Grid item xs={12} style={{textAlign: 'center'}}>
+                        <Grid item xs={12} style={{ textAlign: 'center' }}>
                             <Button style={{ marginBottom: "20px", marginLeft: "100px", marginRight: "100px" }} variant="contained" color="primary"
                                 onClick={() => {
                                     if (this.state.username === "" || this.state.password === "") {
@@ -77,16 +84,7 @@ class LoginDialogComponent extends Component {
                             </Button>
                         </Grid>
                     </Grid>
-
-
-
                 </form>
-                <Collapse in={this.state.wrongCredentials}>
-                    <Alert severity="error" style={{ marginBottom: "20px", marginLeft: "100px", marginRight: "100px" }}>
-                        <AlertTitle>Error</AlertTitle>
-                        {this.state.wrongCredentials_error}
-                    </Alert>
-                </Collapse>
             </Dialog>
         )
     }

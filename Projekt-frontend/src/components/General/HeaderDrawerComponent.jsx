@@ -79,6 +79,14 @@ function HeaderDrawerComponent(props) {
                                 <ListItemText primary={t("drawerMenuItems.serviceInfo")} />
                             </ListItem><Divider />
 
+                            <ListItem className="drawer-list-element" button key="serviceDetails" onClick={() => {
+                                navigateReservartions("serviceDetails")
+                            }
+                            }>
+                                <ListItemIcon><InfoIcon color="primary" /></ListItemIcon>
+                                <ListItemText primary={t("drawerMenuItems.serviceDetails")} />
+                            </ListItem><Divider />
+
                             <ListItem className="drawer-list-element" button key="reservations_timeline" onClick={() => {
                                 navigateReservartions("timeline")
                             }
