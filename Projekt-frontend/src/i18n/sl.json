@@ -1,4 +1,5 @@
 {
+    "siteTitle": "e-Termin",
     "reservations": {
         "title": "Rezervacije",
         "confirmReservationDialog": {
@@ -12,10 +13,10 @@
             "customer": "Stranka",
             "employee": "Zaposleni",
             "error": "Pri izdaji računa je prišlo do napake"
-
         },
         "newReservation":{
             "title":"Dodaj rezervacijo",
+            "title-update":"Posodobi rezervacijo",
             "firstName":"Ime",
             "lastName": "Priimek",
             "phoneNumber": "Telefonska številka",
@@ -93,7 +94,7 @@
         },
         "printDialog": {
             "print": "Natisni",
-            "title": "Tiskanje računa"
+            "title": "Izdaj račun"
         }
     },
     "reports": {
