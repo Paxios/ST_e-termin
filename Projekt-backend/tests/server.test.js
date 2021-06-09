@@ -31,6 +31,20 @@ const new_company_info = {
   opis: "Najboljši frizeraj dalč naokol.",
 }
 
+const new_receipt = {
+  id_storitev: "60bf60e550875b87396bdaf2",
+  ime_stranke: "Janez",
+  priimek_stranke: "Novak",
+  zaposleni: {
+    _id: "60bf586ed99af3c37c43748a",
+    naziv: "frizerka Dragica",
+    telefon: "041999888"
+  },
+  datum: "2021-06-09T12:02:52.820Z",
+  opomba: "Striženjenje las z mašinco",
+  cena: "10.99"
+}
+
 beforeAll(async () => {
   await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.exvcj.mongodb.net/${process.env.DB}?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
 })
@@ -107,20 +121,20 @@ it('Unauthorized Add reservation', done => {
 
 it('Delete reservation', done => {
   request(app).delete(`/rezervacija/${added_reservation._id}`)
-  .set('Authorization', auth_token)
-  .expect(200, done)
+    .set('Authorization', auth_token)
+    .expect(200, done)
 });
 
 it('Delete reservation - not found', done => {
   request(app).delete(`/rezervacija/${added_reservation._id}`)
-  .set('Authorization', auth_token)
-  .expect(404, done)
+    .set('Authorization', auth_token)
+    .expect(404, done)
 });
 
 it('Delete reservation - bad id', done => {
   request(app).delete(`/rezervacija/zlonameren`)
-  .set('Authorization', auth_token)
-  .expect(400, done)
+    .set('Authorization', auth_token)
+    .expect(400, done)
 });
 
 it('Modify company info', done => {
@@ -146,7 +160,39 @@ it('Delete user', done => {
   })
     .set('Authorization', auth_token)
     .expect(200, done);
+})
+
+it('Add new receipt', done => {
+  request(app)
+    .post(`/racun/storitev/${user_details.company_id}`)
+    .send(new_receipt)
+    .set('Authorization', auth_token)
+    .end((err, res) => {
+      expect(res.statusCode).toEqual(200);
+      expect(res.body).toHaveProperty('_id');
+      expect(res.body).toHaveProperty('id_podjetje');
+      expect(res.body).toHaveProperty('id_storitev');
+      expect(res.body).toHaveProperty('ime_stranke');
+      expect(res.body).toHaveProperty('priimek_stranke');
+      expect(res.body).toHaveProperty('zaposleni');
+      expect(res.body).toHaveProperty('datum');
+      expect(res.body).toHaveProperty('cena');
+      new_receipt._id = res.body._id
+      console.log(res.body._id);
+      done();
+    })
 });
+
+it('Delete receipt', done => {
+  console.log(new_receipt._id);
+  request(app)
+    .delete(`/racun/${new_receipt._id}`)
+    .set('Authorization', auth_token)
+    .end((err, res) => {
+      expect(res.statusCode).toEqual(200);
+      done();
+    })
+})
 
 afterAll(() => {
   mongoose.connection.close()
