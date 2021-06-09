@@ -34,6 +34,9 @@ import MaskedInput from 'react-text-mask';
 import Input from '@material-ui/core/Input';
 import { withTranslation, useTranslation } from "react-i18next";
 import { Card, CardHeader, CardMedia, Divider, Grid, TextField } from '@material-ui/core';
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import Box from "@material-ui/core/Box";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -89,7 +92,8 @@ class ServiceInfoComponent extends Component {
                 fri: "",
                 sat: "",
                 sun: "",
-            }
+            },
+            copiedText: ""
         }
     }
 
@@ -191,10 +195,37 @@ class ServiceInfoComponent extends Component {
                         <CardContent>
                             <Grid container>
                                 <Grid item xs={12} lg={8}>
-                                    <Typography variant="h5" className={classes.heading}>{t("services.serviceInfo.inviteCode")}</Typography>
-                                    {service.inviteCode}
+                                    <CopyToClipboard
+                                        text={window.location.origin+"/register?inviteCode="+service.inviteCode}
+                                        onCopy={() => {console.log(window.location);this.state.copiedText = service.inviteCode;}}
+                                    >
+                                        <Tooltip
+                                            title={
+                                                this.state.copiedText === service.inviteCode
+                                                    ? t("services.serviceInfo.wasCopied")
+                                                    : t("services.serviceInfo.copy")
+                                            }
+                                            placement="top"
+                                        >
+                                            <Box
+                                                component="button"
+                                                display="inline-block"
+                                                textAlign="center"
+                                                border="0"
+                                                color="white"
+                                                bgcolor="primary.main"
+                                                type="button"
+                                            >
+                                                <div>
+                                                    <Typography variant="h5" className={classes.heading}>{t("services.serviceInfo.inviteCode")}</Typography>
+                                                    <b>{service.inviteCode}</b>
+                                                    <Typography className={classes.heading}>{t("services.serviceInfo.copyToClipboard")}</Typography>
+                                                </div>
+                                            </Box>
+                                        </Tooltip>
+                                    </CopyToClipboard>
                                 </Grid>
-                                <Grid item xs={12} style={{marginTop: '25px', marginBottom: '30px'}}>
+                                <Grid item xs={12} style={{ marginTop: '25px', marginBottom: '30px' }}>
                                     <Divider />
                                 </Grid>
                                 <Grid item xs={12} lg={8}>
@@ -361,7 +392,7 @@ function InfoForm(props) {
     const { t } = useTranslation();
     return (
         <form className={classes.root} noValidate autoComplete="off">
-            <Grid container justify="center" style={{textAlign: 'center'}}>
+            <Grid container justify="center" style={{ textAlign: 'center' }}>
                 <Grid item xs={12}>
                     <TextField className={classes.textInput} id="ime" label={t("services.serviceInfo.serviceName")} variant="outlined" key={`imeStoritve:${props.storitev.ime || ''}`} defaultValue={props.storitev.ime || ''} onChange={(e) => { props.storitev.ime = e.target.value }} />
                 </Grid>

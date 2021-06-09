@@ -7,9 +7,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
+import PersonIcon from '@material-ui/icons/Person';
+import Fade from '@material-ui/core/Fade';
 
 import HeaderDrawerComponent from './HeaderDrawerComponent';
-import { withTranslation } from 'react-i18next';  
+import { withTranslation } from 'react-i18next';
+import { Menu, MenuItem } from '@material-ui/core';
 
 class HeaderComponent extends Component {
 
@@ -18,24 +21,26 @@ class HeaderComponent extends Component {
     this.state = {
       loginShowing: false,
       loggedIn: window.sessionStorage.getItem("user"),
-      isDrawerOpen:false
+      isDrawerOpen: false,
+      isRegisterAndLoginShowing: false,
+      regLogAnchorEl: null
     };
   }
 
   handleLoginDialogClickOpen = () => {
-      this.setState({ loginShowing: true });
+    this.setState({ loginShowing: true });
   };
 
   handleLoginDialogClickClose = () => {
-      this.setState({ loginShowing: false });
+    this.setState({ loginShowing: false });
   };
 
   log_in_successful = () => {
-      this.setState({
-          loggedIn: window.sessionStorage.getItem("user"),
-          loginShowing: false
-      });
-      this.navigatePageAfterLogIn();
+    this.setState({
+      loggedIn: window.sessionStorage.getItem("user"),
+      loginShowing: false
+    });
+    this.navigatePageAfterLogIn();
   };
 
   navigateRegister() {
@@ -43,20 +48,25 @@ class HeaderComponent extends Component {
   }
 
   navigatePageAfterLogIn() {
-      this.props.history.push("/overview");
-      window.location.reload()
+    this.props.history.push("/overview");
+    window.location.reload()
   }
 
   changeDrawerStatus = (status) => {
-    this.setState({isDrawerOpen: status})
-    
+    this.setState({ isDrawerOpen: status })
+
   }
 
   toggleDrawer = status => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-    this.setState({isDrawerOpen: status})
+    this.setState({ isDrawerOpen: status })
+  }
+
+  toggleRegisterAndLogin = (event) => {
+    this.setState({isRegisterAndLoginShowing: !this.state.isRegisterAndLoginShowing,
+      regLogAnchorEl: event.currentTarget})
   }
 
   render() {
@@ -75,10 +85,10 @@ class HeaderComponent extends Component {
                 aria-label="open drawer"
                 onClick={this.toggleDrawer(true)}
               >
-                <MenuIcon/>
+                <MenuIcon />
               </IconButton>
               <Link to="/">
-                <img src={logo} style={{"height":"60px", "padding":"5px"}} />
+                <img src={logo} style={{ "height": "60px", "padding": "5px" }} />
               </Link>
               <Typography className="title" variant="h4" noWrap>
                 <Link to="/">
@@ -87,19 +97,31 @@ class HeaderComponent extends Component {
               </Typography>
               {!loggedIn ?
                 <div>
-                  <Button color="inherit" onClick={( ) => {
-                    this.handleLoginDialogClickOpen()
-                  }}>{this.props.t("userManagement.logIn")}</Button>
-                  <Button color="inherit" onClick={() => {
-                    this.navigateRegister();
-                  }}>{this.props.t("userManagement.register")}</Button>
+                  <IconButton aria-label="user-data" color="primary" onClick={(e) => {
+                    this.toggleRegisterAndLogin(e)
+                  }}>
+                    <PersonIcon style={{ color: "#ffffff", fontSize: 30 }} />
+                  </IconButton>
+                  <Menu open={this.state.isRegisterAndLoginShowing} onClose={this.toggleRegisterAndLogin} TransitionComponent={Fade}
+                  anchorEl={this.state.regLogAnchorEl}
+                  keepMounted>
+                    <MenuItem color="inherit" onClick={(e) => {
+                      this.handleLoginDialogClickOpen();
+                      this.toggleRegisterAndLogin(e);
+                    }}>{this.props.t("userManagement.logIn")}</MenuItem>
+                    <MenuItem color="inherit" onClick={(e) => {
+                      this.navigateRegister();
+                      this.toggleRegisterAndLogin(e);
+                    }}>{this.props.t("userManagement.register")}</MenuItem>
+                  </Menu>
                 </div>
                 :
                 <div>
                   <Button color="inherit" onClick={() => {
                     window.sessionStorage.removeItem("user");
                     // this.setState({ loggedIn: !loggedIn });
-                    window.location = "/"
+                    this.props.history.push("/");
+                    window.location.reload();
                     // window.location = initialHref;
                   }}>{this.props.t("userManagement.logOut")}</Button>
                 </div>
@@ -107,7 +129,7 @@ class HeaderComponent extends Component {
             </Toolbar>
           </AppBar>
         </header>
-        <HeaderDrawerComponent loggedIn={this.state.loggedIn} changeDrawerStatus={this.changeDrawerStatus} toggleDrawer={this.toggleDrawer} isDrawerOpen={this.state.isDrawerOpen}/>
+        <HeaderDrawerComponent loggedIn={this.state.loggedIn} changeDrawerStatus={this.changeDrawerStatus} toggleDrawer={this.toggleDrawer} isDrawerOpen={this.state.isDrawerOpen} />
 
         <LoginDialogComponent handleLoginDialogClickClose={this.handleLoginDialogClickClose} isShowing={this.state.loginShowing} logInSuccessful={this.log_in_successful} />
       </div>

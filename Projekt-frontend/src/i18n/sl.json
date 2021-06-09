@@ -63,7 +63,10 @@
             "saveButton": "Shrani informacije",
             "saveWorkingHoursButton": "Shrani delovni čas",
             "inviteCode": "Koda za povabilo sodelavcev",
-            "mapInfo": "S pritiskom na desni klik lahko vnesete vašo trenutno lokacijo"
+            "mapInfo": "S pritiskom na desni klik lahko vnesete vašo trenutno lokacijo",
+            "copyToClipboard": "Kliknite sem, za kreiranje povezave za povabilo",
+            "wasCopied": "Kopirano!",
+            "copy": "Kopiraj v odložišče"
         },
         "serviceOverview": {
             "name": "Naziv",

@@ -60,7 +60,10 @@
             "saveButton": "Save info",
             "saveWorkingHoursButton": "Save working hours",
             "inviteCode": "Invite code for co-workers",
-            "mapInfo": "By pressing right-click you can insert your current location"
+            "mapInfo": "By pressing right-click you can insert your current location",
+            "copyToClipboard": "Press here to copy invite link",
+            "wasCopied": "Copied!",
+            "copy": "Copy to clipboard"
         },
         "serviceOverview": {
             "name": "Name",

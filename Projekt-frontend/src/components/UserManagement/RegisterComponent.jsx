@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import queryString from 'query-string';
 
 class RegisterComponent extends Component {
     constructor(props) {
@@ -27,6 +28,9 @@ class RegisterComponent extends Component {
     }
 
     render() {
+        let codeInvited = "";
+        if(queryString.parse(this.props.location.search)['inviteCode'])
+            codeInvited += queryString.parse(this.props.location.search)['inviteCode'];
         return (
             <div>
                 <TextField id="register_username" required label={this.props.t("userManagement.username")} onChange={(e) => {
@@ -35,7 +39,7 @@ class RegisterComponent extends Component {
                 <TextField id="register_password" required label={this.props.t("userManagement.password")} type="password" onChange={(e) => {
                     this.setState({ password: e.target.value });
                 }} /> <br /> <br />
-                <TextField id="register_inviteCode" label={this.props.t("userManagement.inviteCode")} onChange={(e) => {
+                <TextField id="register_inviteCode" defaultValue={codeInvited} label={this.props.t("userManagement.inviteCode")} onChange={(e) => {
                     this.setState({ inviteCode: e.target.value });
                 }} /> <br />
                 <Typography variant="caption">{this.props.t("userManagement.inviteCodeHint")}</Typography>
