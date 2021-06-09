@@ -27,7 +27,7 @@ const createJWT = (user) => {
 const validateJWT = (token) => {
     try {
         const decoded = jwt.verify(token, process.env.SECRET);
-        print(decoded)
+        return decoded;
     }
     catch (err){
         if(err.name === "TokenExpiredError"){
