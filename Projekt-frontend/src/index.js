@@ -6,11 +6,21 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./i18n/i18n";
 
-ReactDOM.render(
+const renderReactDom = () => {
+  ReactDOM.render(
     <App />,
-  document.getElementById('root')
-);
+    document.getElementById('root')
+  );
+}
 
+
+if (window.cordova) {
+  document.addEventListener('deviceready', () => {
+    renderReactDom();
+  }, false);
+} else {
+  renderReactDom();
+}
 // ReactDOM.render(
 //   <React.StrictMode>
 //     <App />

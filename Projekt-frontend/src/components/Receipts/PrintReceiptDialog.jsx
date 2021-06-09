@@ -14,10 +14,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
 import AuthContext from "../../context/AuthContext";
 import ReceiptsService from '../../services/ReceiptsService';
-import { Document, Page, pdfjs } from "react-pdf";
 import { useWindowWidth } from '@wojtekmaj/react-hooks';
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
+import { Document, Page, pdfjs } from 'react-pdf';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -65,6 +63,7 @@ function PrintReceiptDialog({ isOpen, closeDialog, receiptId }) {
     };
 
     useEffect(() => {
+        pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
         ReceiptsService.get_receipt_pdf(receiptId)
             .then((result) => {
                 setPdfString(result.data);
@@ -96,7 +95,10 @@ function PrintReceiptDialog({ isOpen, closeDialog, receiptId }) {
                 </AppBar>
                 <div style={{textALign: 'center'}}>
                     {pdfString ? (
-                        <Document file={`data:application/pdf;base64,${pdfString}`} className={classes.pdfFile} >
+                        <Document 
+                            file={`data:application/pdf;base64,${pdfString}`} 
+                            className={classes.pdfFile} 
+                        >
                             <Page pageNumber={1} className={classes.pdfPage} width={Math.min(width * 0.95, 700)}/>
                         </Document>
                     ) : (

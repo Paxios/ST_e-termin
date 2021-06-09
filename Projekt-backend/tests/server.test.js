@@ -31,6 +31,20 @@ const new_company_info = {
   opis: "Najboljši frizeraj dalč naokol.",
 }
 
+const new_employee = {
+  naziv: "Jest Test",
+  telefon: "030123123",
+  _id: mongoose.Types.ObjectId()
+}
+
+const new_ponudba = {
+  ime: "Grillanje",
+  opis: "Za vas zgrillamo vse",
+  trajanje: 120,
+  cena: 40,
+  id: mongoose.Types.ObjectId()
+}
+
 const new_receipt = {
   id_storitev: "60bf60e550875b87396bdaf2",
   ime_stranke: "Janez",
@@ -146,6 +160,59 @@ it('Modify company info', done => {
       updated_company_info = resp.body;
       done()
     })
+});
+
+it("Add new employee", done => {
+  request(app)
+    .post(`/storitev/${updated_company_info._id}/zaposleni`)
+    .send(new_employee)
+    .set('Authorization', auth_token)
+    .end((err, resp) => {
+      if (err) return done(err);
+      expect(resp.statusCode).toEqual(200);
+      expect(resp.body).toHaveProperty("zaposleni")
+      console.log(resp.body)
+      done()
+    });
+});
+
+it("Add new ponudba", done => {
+  request(app)
+    .post(`/storitev/${updated_company_info._id}/ponudba`)
+    .set('Authorization', auth_token)
+    .send(new_ponudba)
+    .expect(200)
+    .end((err, resp) => {
+      if (err) return done(err)
+      updated_company_info = resp.body;
+      done();
+    })
+});
+
+
+it("Delete new employee", done => {
+  request(app)
+    .delete(`/storitev/${updated_company_info._id}/zaposleni/${new_employee._id}`)
+    .set('Authorization', auth_token)
+    .expect(200)
+    .end((err, resp) => {
+      if (err) return done(err);
+      updated_company_info = resp.body;
+      done();
+    });
+});
+
+it("Delete new ponudba", done => {
+  request(app)
+  .delete(`/storitev/${updated_company_info._id}/ponudba/${updated_company_info.zaposleni[0]._id}`)
+  .set('Authorization', auth_token)
+  .expect(200,done)
+});
+
+it("Delete new ponudba without auth", done => {
+  request(app)
+  .delete(`/storitev/${updated_company_info._id}/ponudba/${updated_company_info.zaposleni[0]._id}`)
+  .expect(401,done)
 });
 
 it('Delete company', done => {

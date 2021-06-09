@@ -1,4 +1,5 @@
 {
+    "siteTitle": "e-Termin",
     "reservations": {
         "confirmReservationDialog": {
             "title": "Create receipt from reservation",
@@ -8,7 +9,9 @@
             "lastName": "last name",
             "note": "opomba",
             "price": "price",
-            "customer": "Customer"
+            "customer": "Customer",
+            "employee": "Employee",
+            "error": "There has been an error while creating the invoice"
         },
         "newReservation":{
             "title":"Add reservation",
@@ -18,8 +21,8 @@
             "phoneNumber": "Phone number",
             "duration": "Duration",
             "description": "Description",
-            "time": "Time",
             "service":"service",
+            "time": "Time",
             "addNewReservationSuccess":"Successfully added new reservation",
             "addNewReservationError":"Error when adding new reservation, please fill out all required fields",
             "updateReservationSuccess":"Successfully updated reservation",
@@ -106,6 +109,38 @@
     "unauthorizedPage": {
         "text": "You must be logged in to acces this webpage."
     },
+    "receipts": {
+        "title": "Receipts",
+        "detailsDialog": {
+            "title": "Receipt overview",
+            "delete": "Delete",
+            "add": "add"
+        },
+        "printDialog": {
+            "print": "Print",
+            "title": "Create invoice"
+        }
+    },
+    "reports": {
+        "countGraph": "Number of completed services",
+        "priceGraph": "Earnings per service category",
+        "reservationsGraph": "Number of reservations by day",
+        "pdfReportDialog": {
+            "title": "Overview of the bussiness"
+        },
+        "pdfButton": ".pdf report",
+        "xlsxButton": ".xlsx report"
+    },
+    "drawerMenuItems": {
+        "services": "Service companies",
+        "receipts": "receipts",
+        "reports": "Reports",
+        "reservations": "Reservatins",
+        "serviceInfo": "Company info",
+        "timeline": "Timeline",
+        "firstPage": "Homepage",
+        "serviceDetails":"Company details"
+    },
     "userManagement": {
         "logIn": "Log in",
         "register": "Register",
@@ -114,5 +149,8 @@
         "password":"Password",
         "inviteCode":"Invite code",
         "inviteCodeHint":"To join an existing company profile you must insert your co-worker's invite code here"
+    },
+    "pages":{
+        "firstPage":"First page"
     }
 }

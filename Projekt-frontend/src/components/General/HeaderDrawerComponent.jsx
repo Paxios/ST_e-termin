@@ -126,7 +126,7 @@ function HeaderDrawerComponent(props) {
                                 <ListItemText primary={t("drawerMenuItems.services")} />
                             </ListItem><Divider />
                             <ListItem className="drawer-list-element" button key="not_loggedin_first_page" onClick={() => { navigateReservartions("") }
-                            }><ListItemIcon><AccessibleForwardIcon /></ListItemIcon><ListItemText primary="First page" /></ListItem>
+                            }><ListItemIcon><AccessibleForwardIcon /></ListItemIcon><ListItemText primary={t("pages.firstPage")} /></ListItem>
                             <Divider />
                         </List>
                     </SwipeableDrawer>

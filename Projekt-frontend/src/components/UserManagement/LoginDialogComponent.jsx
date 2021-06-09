@@ -80,7 +80,7 @@ class LoginDialogComponent extends Component {
                                             }
                                         });
                                 }}>
-                                Log in
+                                {this.props.t("userManagement.logIn")}
                             </Button>
                         </Grid>
                     </Grid>

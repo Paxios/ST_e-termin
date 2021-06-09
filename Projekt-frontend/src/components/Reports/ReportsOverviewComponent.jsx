@@ -114,8 +114,8 @@ function ReportsOverviewComponent({ }) {
 
     const downloadReport = () => {
         var id = Auth.user.company_id;
-        console.log(Auth.user);
-        axios({
+        window.open(BACKEND_URL + REPORT_PREFIX + id, '_self');
+        /*axios({
             method: 'GET',
             url: BACKEND_URL + REPORT_PREFIX + id,
             responseType: 'blob',
@@ -126,11 +126,10 @@ function ReportsOverviewComponent({ }) {
             }
         })
             .then((result) => {
+                
                 console.log(result);
                 const blob = new Blob([result.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-                console.log(blob);
-                saveAs(blob, "report.xlsx")
-            })
+            })*/
     }
 
     const showPdfReport = () => {
@@ -169,7 +168,7 @@ function ReportsOverviewComponent({ }) {
         </Collapse>
     );
     return (
-        <div style={{backgroundColor: '#F4F5F7'}}>
+        <div style={{ backgroundColor: '#F4F5F7' }}>
             <Grid container className={classes.container}>
                 <Grid item xs={6} style={{ textAlign: "center" }}>
                     <Button
@@ -193,7 +192,7 @@ function ReportsOverviewComponent({ }) {
                         </Typography>
                     </Button>
                 </Grid>
-                <Grid item xs={12} style={{marginTop: '25px', padding: '15px'}}>
+                <Grid item xs={12} style={{ marginTop: '25px', padding: '15px' }}>
                     <Card>
                         <Grid item xs={12} className={classes.graphContainer}>
                             <Typography className={classes.graphTitle}>

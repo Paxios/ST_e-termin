@@ -15,7 +15,8 @@ var easyinvoice = require('easyinvoice');
 router.use(jwt({
     secret: process.env.SECRET,
     algorithms: ['HS256']
-}).unless({ path: ['/user/register', "/user/login", "/storitev/"] }));
+}).unless({ path: [/^\/porocilo\/.*/, '/user/register', "/user/login", "/storitev/"] }));
+
 
 router.use((err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {
