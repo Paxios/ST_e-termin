@@ -124,5 +124,8 @@
         "password":"Password",
         "inviteCode":"Invite code",
         "inviteCodeHint":"To join an existing company profile you must insert your co-worker's invite code here"
+    },
+    "pages":{
+        "firstPage":"First page"
     }
 }

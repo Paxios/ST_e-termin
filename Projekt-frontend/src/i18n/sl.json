@@ -125,5 +125,8 @@
         "password":"Geslo",
         "inviteCode":"Koda za povabilo",
         "inviteCodeHint":"Za pridružitev obstoječemu profilu podjetja, morate tu vnesti kodo za povabilo od vašega sodelavca"
+    },
+    "pages":{
+        "firstPage":"Prva stran"
     }
 }
